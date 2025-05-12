@@ -1,6 +1,7 @@
 package odyssey.backend.roadmap.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,5 +22,16 @@ public class Roadmap {
 
     @Column(nullable = false, length = 150)
     private String description;
+
+    @Builder
+    public Roadmap(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public void update(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 
 }
