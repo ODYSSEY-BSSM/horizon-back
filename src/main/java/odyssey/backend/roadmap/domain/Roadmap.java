@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "Roadmap_tbl")
+@Table(name = "roadmap_tbl")
 @NoArgsConstructor
 @Getter
 public class Roadmap {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Roadmap_id")
+    @Column(name = "roadmap_id")
     private Long id;
 
     @Column(nullable = false, length = 64)
