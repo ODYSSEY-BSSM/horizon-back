@@ -1,5 +1,6 @@
 package odyssey.backend.roadmap.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
@@ -22,12 +23,12 @@ public class RoadmapController {
     }
 
     @PostMapping("/create")
-    public RoadmapResponse createRoadmap(@RequestBody RoadmapRequest request) {
+    public RoadmapResponse createRoadmap( @Valid RoadmapRequest request) {
         return roadmapService.save(request);
     }
 
     @PutMapping("/update/{id}")
-    public RoadmapResponse updateRoadmap(@PathVariable Long id, @RequestBody RoadmapRequest request) {
+    public RoadmapResponse updateRoadmap(@PathVariable Long id, @RequestBody @Valid RoadmapRequest request) {
         return roadmapService.update(id, request);
     }
 
