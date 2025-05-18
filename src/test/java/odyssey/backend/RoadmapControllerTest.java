@@ -97,4 +97,32 @@ class RoadmapControllerTest extends ControllerTest {
 
         System.out.println("삭제 요청: id=" + roadmapId);
     }
+
+    @WithMockUser
+    @Test
+    void 글자수_제한을_넘은_입력을_입력한다() throws Exception{
+
+        RoadmapRequest request = new RoadmapRequest("자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바자바", "조아요");
+
+        RoadmapResponse fakeResponse = new RoadmapResponse(
+                1L,
+                request.getTitle(),
+                request.getDescription()
+        );
+
+        given(roadmapService.save(any(RoadmapRequest.class)))
+                .willReturn(fakeResponse);
+
+        String responseBody = mvc.perform(post("/roadmap/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        System.out.println("요청 값: " + objectMapper.writeValueAsString(request));
+        System.out.println("응답 결과: " + responseBody);
+    }
 }
