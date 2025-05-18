@@ -40,7 +40,7 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.update(request.getTitle(), request.getDescription());
+        roadmap.update(request);
 
         return new RoadmapResponse(roadmap);
     }

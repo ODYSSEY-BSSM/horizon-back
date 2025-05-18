@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.roadmap.dto.RoadmapRequest;
 
 
 @Entity
@@ -29,9 +30,9 @@ public class Roadmap {
         this.description = description;
     }
 
-    public void update(String title, String description) {
-        this.title = title;
-        this.description = description;
+    public void update(RoadmapRequest request) {
+        this.title = request.getTitle();
+        this.description = request.getDescription();
     }
 
 }
