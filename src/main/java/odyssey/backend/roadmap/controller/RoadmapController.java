@@ -23,7 +23,7 @@ public class RoadmapController {
     }
 
     @PostMapping("/create")
-    public RoadmapResponse createRoadmap( @Valid RoadmapRequest request) {
+    public RoadmapResponse createRoadmap( @RequestBody @Valid RoadmapRequest request) {
         return roadmapService.save(request);
     }
 
