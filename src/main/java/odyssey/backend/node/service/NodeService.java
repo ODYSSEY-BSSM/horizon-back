@@ -24,7 +24,7 @@ public class NodeService {
 
         Roadmap roadmap = roadmapRepository.findById(roadmapId).get();
 
-        Node parentNode = nodeRepository.findById(request.getParentId()).get();
+        Node parentNode = nodeRepository.findById(request.getParentNodeId()).get();
 
         Node node = nodeRepository.save(
                 Node.builder()
