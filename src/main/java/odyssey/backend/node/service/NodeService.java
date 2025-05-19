@@ -24,7 +24,11 @@ public class NodeService {
 
         Roadmap roadmap = roadmapRepository.findById(roadmapId).get();
 
-        Node parentNode = nodeRepository.findById(request.getParentNodeId()).get();
+        Node parentNode = null;
+        if (request.getParentNodeId() != null) {
+            parentNode = nodeRepository.findById(request.getParentNodeId())
+                    .orElseThrow(() -> new IllegalArgumentException("부모노드 아이디 잘못됨: " + request.getParentNodeId()));
+        }
 
         Node node = nodeRepository.save(
                 Node.builder()
