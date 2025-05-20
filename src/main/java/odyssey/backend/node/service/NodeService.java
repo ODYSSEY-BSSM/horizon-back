@@ -58,14 +58,14 @@ public class NodeService {
     }
 
     public NodeResponse getNodeByIdAndRoadmapId(Long roadmapId, Long nodeId) {
-        Node node = nodeRepository.findByIdAndRoadmapId(roadmapId, nodeId)
+        Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("에에엥"));
         return new NodeResponse(node);
     }
 
     @Transactional
     public NodeResponse updateNode(Long roadmapId, Long nodeId, NodeRequest request) {
-        Node node = nodeRepository.findByIdAndRoadmapId(roadmapId, nodeId)
+        Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("비상비상"));
 
         node.update(request);
