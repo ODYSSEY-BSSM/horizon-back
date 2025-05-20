@@ -50,8 +50,7 @@ public class Node {
     @JoinColumn(name = "parent_node_id")
     private Node parent;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "children_node")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Node> children;
 
     @Builder
