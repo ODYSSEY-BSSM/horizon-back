@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class NodeService {
         Node parentNode = null;
         if (request.getParentNodeId() != null) {
             parentNode = nodeRepository.findById(request.getParentNodeId())
-                    .orElseThrow(() -> new IllegalArgumentException("부모노드 아이디 잘못됨: " + request.getParentNodeId()));
+                    .orElseThrow(() -> new IllegalArgumentException("잘못된 부모노드 아이디입니다.: " + request.getParentNodeId()));
         }
 
         Node node = nodeRepository.save(
@@ -39,6 +38,7 @@ public class NodeService {
                         .type(request.getType())
                         .height(request.getHeight())
                         .width(request.getWidth())
+                        .category(request.getCategory())
                         .roadmap(roadmap)
                         .parent(parentNode)
                         .build()
@@ -50,23 +50,23 @@ public class NodeService {
     public List<NodeResponse> getNodesByRoadmapId(Long roadmapId) {
 
         List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("오류오류"));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다"));
 
         return nodes.stream()
                 .map(NodeResponse::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public NodeResponse getNodeByIdAndRoadmapId(Long roadmapId, Long nodeId) {
+    public NodeResponse getNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("에에엥"));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));
         return new NodeResponse(node);
     }
 
     @Transactional
-    public NodeResponse updateNode(Long roadmapId, Long nodeId, NodeRequest request) {
+    public NodeResponse updateNode(Long nodeId, Long roadmapId, NodeRequest request) {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("비상비상"));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));
 
         node.update(request);
 
@@ -74,7 +74,10 @@ public class NodeService {
     }
 
     @Transactional
-    public void deleteNodeByIdAndRoadmapId(Long roadmapId, Long nodeId) {
-        nodeRepository.deleteByRoadmapIdAndId(roadmapId, nodeId);
+    public void deleteNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
+        Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));
+
+        nodeRepository.delete(node);
     }
 }

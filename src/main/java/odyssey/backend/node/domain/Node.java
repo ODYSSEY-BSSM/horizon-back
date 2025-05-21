@@ -42,6 +42,9 @@ public class Node {
     @Column(nullable = false)
     private int y;
 
+    @Column(nullable = false)
+    private String category;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roadmap_id")
     private Roadmap roadmap;
@@ -55,7 +58,7 @@ public class Node {
 
     @Builder
     public Node(
-            String title, String description, int height, int width, NodeType type, int x, int y, Roadmap roadmap, Node parent) {
+            String title, String description, int height, int width, NodeType type, int x, int y, String category, Roadmap roadmap, Node parent) {
         this.title = title;
         this.description = description;
         this.height = height;
@@ -63,6 +66,7 @@ public class Node {
         this.type = type;
         this.x = x;
         this.y = y;
+        this.category = category;
         this.roadmap = roadmap;
         this.parent = parent;
     }
@@ -75,5 +79,6 @@ public class Node {
         this.type = request.getType();
         this.x = request.getX();
         this.y = request.getY();
+        this.category = request.getCategory();
     }
 }

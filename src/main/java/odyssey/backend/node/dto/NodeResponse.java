@@ -6,33 +6,34 @@ import odyssey.backend.node.domain.Node;
 import odyssey.backend.node.domain.NodeType;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
 public class NodeResponse {
 
-    private Long id;
+    private final Long id;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private int height;
+    private final int height;
 
-    private int width;
+    private final int width;
 
-    private NodeType type;
+    private final NodeType type;
 
-    private int x;
+    private final int x;
 
-    private int y;
+    private final int y;
 
-    private Long roadmapId;
+    private final String category;
 
-    private Long parentNodeId;
+    private final Long roadmapId;
 
-    private List<NodeResponse> childNode;
+    private final Long parentNodeId;
+
+    private final List<NodeResponse> childNode;
 
     public NodeResponse(Node node){
         this.id = node.getId();
@@ -43,12 +44,13 @@ public class NodeResponse {
         this.type = node.getType();
         this.x = node.getX();
         this.y = node.getY();
+        this.category = node.getCategory();
         this.roadmapId = node.getRoadmap().getId();
         this.parentNodeId = node.getParent() != null ? node.getParent().getId() : null;
         this.childNode = node.getChildren() != null
                 ? node.getChildren().stream()
                 .map(NodeResponse::new)
-                .collect(Collectors.toList())
+                .toList()
                 : List.of();
     }
 }
