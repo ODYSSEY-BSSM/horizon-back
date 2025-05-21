@@ -9,6 +9,5 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
     Optional<List<Node>> findByRoadmapId(Long roadmapId);
     Optional<Node> findByParentId(Long nodeId);
     Optional<Node> findByIdAndRoadmapId(Long id, Long roadmapId);
-    void deleteByRoadmapIdAndId(Long roadmapId, Long nodeId);
 }
 

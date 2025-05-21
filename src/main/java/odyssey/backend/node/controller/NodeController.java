@@ -28,20 +28,20 @@ public class NodeController {
     }
 
     @GetMapping("/{nodeId}")
-    public NodeResponse getNode(@PathVariable Long roadmapId ,@PathVariable Long nodeId) {
-        return nodeService.getNodeByIdAndRoadmapId(roadmapId, nodeId);
+    public NodeResponse getNode(@PathVariable Long nodeId ,@PathVariable Long roadmapId) {
+        return nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId);
     }
 
     @PutMapping("/{nodeId}")
     public NodeResponse updateNode(
-            @PathVariable Long roadmapId, @PathVariable Long nodeId, @Valid @RequestBody NodeRequest request
+            @PathVariable Long nodeId, @PathVariable Long roadmapId, @Valid @RequestBody NodeRequest request
     ){
-        return nodeService.updateNode(roadmapId, nodeId, request);
+        return nodeService.updateNode(nodeId, roadmapId, request);
     }
 
     @DeleteMapping("/{nodeId}")
-    public void deleteNode(@PathVariable Long roadmapId, @PathVariable Long nodeId) {
-        nodeService.deleteNodeByIdAndRoadmapId(roadmapId, nodeId);
+    public void deleteNode(@PathVariable Long nodeId, @PathVariable Long roadmapId) {
+        nodeService.deleteNodeByIdAndRoadmapId(nodeId, roadmapId);
     }
 
 }
