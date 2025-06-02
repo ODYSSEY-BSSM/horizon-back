@@ -1,7 +1,6 @@
-package odyssey.backend;
+package odyssey.backend.Node;
 
 import odyssey.backend.global.ControllerTest;
-import odyssey.backend.node.domain.Node;
 import odyssey.backend.node.domain.NodeType;
 import odyssey.backend.node.dto.NodeRequest;
 import odyssey.backend.node.dto.NodeResponse;
