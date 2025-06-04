@@ -27,4 +27,6 @@ public class RoadmapResponse {
         this.categories = roadmap.getCategories();
         this.thumbnailUrl = thumbnailUrl;
     }
+
+
 }
