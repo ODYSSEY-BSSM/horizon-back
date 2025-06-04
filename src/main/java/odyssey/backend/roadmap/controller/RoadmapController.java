@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
 import odyssey.backend.roadmap.service.RoadmapService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -22,9 +24,12 @@ public class RoadmapController {
         return roadmapService.findAllRoadmaps();
     }
 
-    @PostMapping("/create")
-    public RoadmapResponse createRoadmap( @RequestBody @Valid RoadmapRequest request) {
-        return roadmapService.save(request);
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public RoadmapResponse createRoadmap(
+            @RequestPart("roadmap") @Valid RoadmapRequest request,
+            @RequestPart("thumbnail") MultipartFile thumbnail) {
+
+        return roadmapService.save(request, thumbnail);
     }
 
     @PutMapping("/update/{id}")
