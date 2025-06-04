@@ -18,10 +18,13 @@ public class RoadmapResponse {
 
     private List<String> categories;
 
-    public RoadmapResponse(Roadmap roadmap) {
+    private String thumbnailUrl;
+
+    public RoadmapResponse(Roadmap roadmap, String thumbnailUrl) {
         this.id = roadmap.getId();
         this.title = roadmap.getTitle();
         this.description = roadmap.getDescription();
         this.categories = roadmap.getCategories();
+        this.thumbnailUrl = thumbnailUrl;
     }
 }
