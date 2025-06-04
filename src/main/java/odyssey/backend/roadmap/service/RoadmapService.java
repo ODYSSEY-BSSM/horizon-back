@@ -26,6 +26,7 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.save(Roadmap.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
+                .categories(request.getCategories())
                 .build());
 
         return new RoadmapResponse(roadmap);

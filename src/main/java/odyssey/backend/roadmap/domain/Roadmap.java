@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "roadmap_tbl")
@@ -24,15 +26,22 @@ public class Roadmap {
     @Column(nullable = false, length = 150)
     private String description;
 
+    @ElementCollection
+    @CollectionTable(name = "roadmap_category", joinColumns = @JoinColumn(name = "roadmap_id"))
+    @Column(name = "category")
+    private List<String> categories;
+
     @Builder
-    public Roadmap(String title, String description) {
+    public Roadmap(String title, String description, List<String> categories) {
         this.title = title;
         this.description = description;
+        this.categories = categories;
     }
 
     public void update(RoadmapRequest request) {
         this.title = request.getTitle();
         this.description = request.getDescription();
+        this.categories = request.getCategories();
     }
 
 }
