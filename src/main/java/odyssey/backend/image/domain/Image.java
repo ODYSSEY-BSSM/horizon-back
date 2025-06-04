@@ -1,4 +1,4 @@
-package odyssey.backend.images.domain;
+package odyssey.backend.image.domain;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
