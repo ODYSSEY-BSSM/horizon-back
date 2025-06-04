@@ -21,4 +21,8 @@ public class Image {
     @JoinColumn(name = "roadmap_id", unique = true)
     private Roadmap roadmap;
 
+    public String getUrl(){
+        return this.url;
+    }
+
 }
