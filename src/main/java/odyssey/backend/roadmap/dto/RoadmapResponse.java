@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import odyssey.backend.roadmap.domain.Roadmap;
 
+
 @Getter
 @AllArgsConstructor
 public class RoadmapResponse {
@@ -14,12 +15,9 @@ public class RoadmapResponse {
 
     private String description;
 
-    private String thumbnailUrl;
-
     public RoadmapResponse(Roadmap roadmap) {
         this.id = roadmap.getId();
         this.title = roadmap.getTitle();
         this.description = roadmap.getDescription();
-        this.thumbnailUrl = thumbnailUrl;
     }
 }
