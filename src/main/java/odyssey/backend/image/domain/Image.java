@@ -1,12 +1,11 @@
 package odyssey.backend.image.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import odyssey.backend.roadmap.domain.Roadmap;
 
 @Entity
-@Setter
 @NoArgsConstructor
 public class Image {
 
@@ -23,6 +22,12 @@ public class Image {
 
     public String getUrl(){
         return this.url;
+    }
+
+    @Builder
+    public Image(String url, Roadmap roadmap) {
+        this.url = url;
+        this.roadmap = roadmap;
     }
 
 }
