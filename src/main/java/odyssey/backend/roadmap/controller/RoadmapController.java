@@ -48,4 +48,9 @@ public class RoadmapController {
         return roadmapService.toggleFavorite(id);
     }
 
+    @GetMapping("/last-accessed")
+    public RoadmapResponse getLastAccessedRoadmap() {
+        return roadmapService.getLastAccessedRoadmap();
+    }
+
 }
