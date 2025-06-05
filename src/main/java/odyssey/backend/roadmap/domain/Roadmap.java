@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -39,7 +40,7 @@ public class Roadmap {
     private LocalDate lastModifiedAt;
 
     @Column(name = "last_accessed_at")
-    private LocalDate lastAccessedAt;
+    private LocalDateTime lastAccessedAt;
 
     @Builder
     public Roadmap(String title, String description, List<String> categories) {
@@ -47,6 +48,7 @@ public class Roadmap {
         this.description = description;
         this.categories = categories;
         this.isFavorite = false;
+        this.lastAccessedAt = LocalDateTime.now();
         this.lastModifiedAt = LocalDate.now();
     }
 
@@ -62,7 +64,7 @@ public class Roadmap {
     }
 
     public void setLastAccessedAt() {
-        this.lastAccessedAt = LocalDate.now();
+        this.lastAccessedAt = LocalDateTime.now();
     }
 
     public void setLastModifiedAt() {
