@@ -64,4 +64,17 @@ public class RoadmapService {
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
         return new RoadmapResponse(roadmap, image.getUrl());
     }
+
+    public RoadmapResponse toggleFavorite(Long id){
+        Roadmap roadmap = roadmapRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
+
+        roadmap.toggleFavorite();
+
+        roadmapRepository.save(roadmap);
+
+        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+
+        return new RoadmapResponse(roadmap, image.getUrl());
+    }
 }
