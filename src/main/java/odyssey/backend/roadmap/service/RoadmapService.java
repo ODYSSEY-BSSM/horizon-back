@@ -77,4 +77,13 @@ public class RoadmapService {
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
+
+    public RoadmapResponse getLastAccessedRoadmap() {
+
+        Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc();
+
+        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+
+        return new RoadmapResponse(roadmap, image.getUrl());
+    }
 }
