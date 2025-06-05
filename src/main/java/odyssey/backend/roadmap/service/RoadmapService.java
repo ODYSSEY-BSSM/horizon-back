@@ -60,6 +60,7 @@ public class RoadmapService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
         roadmap.update(request);
+        roadmap.setLastModifiedAt();
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
         return new RoadmapResponse(roadmap, image.getUrl());
@@ -83,6 +84,8 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc();
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
+
+        System.out.println("마지막 접속시간 : " + roadmap.getLastAccessedAt());
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
