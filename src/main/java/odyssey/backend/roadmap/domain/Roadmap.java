@@ -31,17 +31,26 @@ public class Roadmap {
     @Column(name = "category")
     private List<String> categories;
 
+    @Column(name = "is_favorite", nullable = false)
+    private Boolean isFavorite = false;
+
+
     @Builder
     public Roadmap(String title, String description, List<String> categories) {
         this.title = title;
         this.description = description;
         this.categories = categories;
+        this.isFavorite = false;
     }
 
     public void update(RoadmapRequest request) {
         this.title = request.getTitle();
         this.description = request.getDescription();
         this.categories = request.getCategories();
+    }
+
+    public void toggleFavorite() {
+        this.isFavorite = !this.isFavorite;
     }
 
 }
