@@ -35,11 +35,12 @@ public class ImageService {
             Path targetPath = uploadPath.resolve(uniqueFilename);
             file.transferTo(targetPath.toFile());
 
-            Image image = new Image();
-            image.setUrl(thumbnailUrlPrefix + uniqueFilename);
-            image.setRoadmap(roadmap);
-
-            return imageRepository.save(image);
+            return imageRepository.save(
+                    Image.builder()
+                            .url(thumbnailUrlPrefix + uniqueFilename)
+                            .roadmap(roadmap)
+                            .build()
+            );
 
         } catch (IOException e) {
             throw new RuntimeException("이미지 저장 실패", e);
