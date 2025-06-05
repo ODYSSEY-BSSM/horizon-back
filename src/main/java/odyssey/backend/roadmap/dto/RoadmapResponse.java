@@ -5,6 +5,7 @@ import lombok.Getter;
 import odyssey.backend.roadmap.domain.Roadmap;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -23,6 +24,8 @@ public class RoadmapResponse {
 
     private LocalDate lastModifiedAt;
 
+    private LocalDateTime lastAccessedAt;
+
     private Boolean isFavorite;
 
     public RoadmapResponse(Roadmap roadmap, String thumbnailUrl) {
@@ -31,6 +34,7 @@ public class RoadmapResponse {
         this.description = roadmap.getDescription();
         this.categories = roadmap.getCategories();
         this.lastModifiedAt = roadmap.getLastModifiedAt();
+        this.lastAccessedAt = roadmap.getLastAccessedAt();
         this.isFavorite = roadmap.getIsFavorite();
         this.thumbnailUrl = thumbnailUrl;
     }
