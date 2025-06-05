@@ -43,4 +43,9 @@ public class RoadmapController {
         roadmapService.deleteRoadmapById(id);
     }
 
+    @PostMapping("/favorite/{id}")
+    public RoadmapResponse toggleFavorite(@PathVariable Long id) {
+        return roadmapService.toggleFavorite(id);
+    }
+
 }
