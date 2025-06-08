@@ -28,6 +28,8 @@ public class RoadmapResponse {
 
     private Boolean isFavorite;
 
+    private String location;
+
     public RoadmapResponse(Roadmap roadmap, String thumbnailUrl) {
         this.id = roadmap.getId();
         this.title = roadmap.getTitle();
@@ -36,6 +38,7 @@ public class RoadmapResponse {
         this.lastModifiedAt = roadmap.getLastModifiedAt();
         this.lastAccessedAt = roadmap.getLastAccessedAt();
         this.isFavorite = roadmap.getIsFavorite();
+        this.location = "내 로드맵";
         this.thumbnailUrl = thumbnailUrl;
     }
 
