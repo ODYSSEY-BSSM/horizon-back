@@ -71,11 +71,11 @@ public class Roadmap {
         this.isFavorite = !this.isFavorite;
     }
 
-    public void setLastAccessedAt() {
+    public void updateLastAccessedAt() {
         this.lastAccessedAt = LocalDateTime.now();
     }
 
-    public void setLastModifiedAt() {
+    public void updateLastModifiedAt() {
         this.lastModifiedAt = LocalDate.now();
     }
 
