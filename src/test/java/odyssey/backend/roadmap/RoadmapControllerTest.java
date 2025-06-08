@@ -210,4 +210,20 @@ class RoadmapControllerTest extends ControllerTest {
                 .getContentAsString();
     }
 
+    @WithMockUser
+    @Test
+    void 로드맵_개수를_조회한다() throws Exception {
+        long expectedCount = 5L;
+        given(roadmapService.getRoadmapCount()).willReturn(expectedCount);
+
+        String responseBody = mvc.perform(get("/roadmap/count")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        System.out.println("로드맵 개수" + responseBody);
+    }
+
 }
