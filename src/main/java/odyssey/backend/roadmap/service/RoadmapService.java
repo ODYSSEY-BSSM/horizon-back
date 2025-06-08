@@ -87,4 +87,9 @@ public class RoadmapService {
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
+
+    public Long getRoadmapCount(){
+        return roadmapRepository.count();
+    }
+
 }

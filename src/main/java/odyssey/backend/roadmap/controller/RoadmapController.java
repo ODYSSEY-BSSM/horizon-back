@@ -6,11 +6,12 @@ import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
 import odyssey.backend.roadmap.service.RoadmapService;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,6 +52,13 @@ public class RoadmapController {
     @GetMapping("/last-accessed")
     public RoadmapResponse getLastAccessedRoadmap() {
         return roadmapService.getLastAccessedRoadmap();
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Map<String, Long>> getRoadmapCount() {
+        long count = roadmapService.getRoadmapCount();
+        Map<String, Long> counts = Map.of("count", count);
+        return ResponseEntity.ok(counts);
     }
 
 }
