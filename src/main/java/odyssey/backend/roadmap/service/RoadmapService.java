@@ -49,8 +49,6 @@ public class RoadmapService {
 
     @Transactional
     public void deleteRoadmapById(Long id) {
-        imageRepository.deleteByRoadmapId(id);
-        nodeRepository.deleteByRoadmapId(id);
         roadmapRepository.deleteById(id);
     }
 
