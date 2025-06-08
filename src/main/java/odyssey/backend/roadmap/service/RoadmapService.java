@@ -33,6 +33,7 @@ public class RoadmapService {
                 .toList();
     }
 
+    @Transactional
     public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail) {
         Roadmap roadmap = roadmapRepository.save(
                 Roadmap.builder()
@@ -64,13 +65,12 @@ public class RoadmapService {
         return new RoadmapResponse(roadmap, image.getUrl());
     }
 
+    @Transactional
     public RoadmapResponse toggleFavorite(Long id){
         Roadmap roadmap = roadmapRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
         roadmap.toggleFavorite();
-
-        roadmapRepository.save(roadmap);
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
 
