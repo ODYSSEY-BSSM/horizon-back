@@ -79,7 +79,8 @@ public class RoadmapService {
 
     public RoadmapResponse getLastAccessedRoadmap() {
 
-        Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc();
+        Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc()
+                .orElseThrow(() -> new IllegalArgumentException("로드맵을 찾을 수 없습니다."));
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
 
