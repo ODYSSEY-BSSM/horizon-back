@@ -24,7 +24,7 @@ public class NodeService {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.setLastModifiedAt();
+        roadmap.updateLastModifiedAt();
 
         roadmapRepository.save(roadmap);
 
@@ -57,7 +57,7 @@ public class NodeService {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.setLastAccessedAt();
+        roadmap.updateLastAccessedAt();
 
         roadmapRepository.save(roadmap);
 
@@ -80,7 +80,7 @@ public class NodeService {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.setLastModifiedAt();
+        roadmap.updateLastModifiedAt();
 
         roadmapRepository.save(roadmap);
 
