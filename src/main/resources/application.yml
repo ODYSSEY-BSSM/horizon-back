@@ -26,3 +26,7 @@ jwt :
     level:
       org:
         springframework: security = DEBUG
+
+upload:
+  thumbnail-dir: src/main/resources/static/uploads/thumbnails/
+  thumbnail-url-prefix: /uploads/thumbnails/
