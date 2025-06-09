@@ -27,20 +27,20 @@ public class Node {
     private String description;
 
     @Column(nullable = false)
-    private int height;
+    private Integer height;
 
     @Column(nullable = false)
-    private int width;
+    private Integer width;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NodeType type;
 
     @Column(nullable = false)
-    private int x;
+    private Integer x;
 
     @Column(nullable = false)
-    private int y;
+    private Integer y;
 
     @Column(nullable = false)
     private String category;
