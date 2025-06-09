@@ -6,6 +6,7 @@ import odyssey.backend.image.domain.ImageRepository;
 import odyssey.backend.image.service.ImageService;
 import odyssey.backend.node.domain.NodeRepository;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
+import odyssey.backend.roadmap.dto.RoadmapCountResponse;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
 import org.springframework.stereotype.Service;
@@ -88,8 +89,10 @@ public class RoadmapService {
         return new RoadmapResponse(roadmap, image.getUrl());
     }
 
-    public Long getRoadmapCount(){
-        return roadmapRepository.count();
+    public RoadmapCountResponse getRoadmapCount(){
+        Long count = roadmapRepository.count();
+
+        return new RoadmapCountResponse(count);
     }
 
 }
