@@ -34,18 +34,15 @@ class NodeControllerTest extends ControllerTest {
         given(nodeService.createNode(eq(roadmapId), any(NodeRequest.class)))
                 .willReturn(response);
 
-        String responseBody = mvc.perform(post("/roadmap/{roadmapId}/nodes", roadmapId)
+        mvc.perform(post("/roadmap/{roadmapId}/nodes", roadmapId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andExpect(status().isOk());
     }
 
-    @Test
     @WithMockUser
+    @Test
     void 부모가_있는_노드를_조회한다() throws Exception {
         Long roadmapId = 1L;
         Long nodeId = 2L;
@@ -55,11 +52,10 @@ class NodeControllerTest extends ControllerTest {
         );
 
         NodeResponse childNode = new NodeResponse(
-                2L, "자식 노드 제목", "설명", 1, 2, NodeType.Top, 50, 60, "java",roadmapId, 1L, null
+                2L, "자식 노드 제목", "설명", 1, 2, NodeType.Top, 50, 60, "java", roadmapId, 1L, null
         );
 
-
-        given(nodeService.getNodeByIdAndRoadmapId(roadmapId, nodeId)).willReturn(childNode);
+        given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(childNode);
 
         mvc.perform(get("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId))
                 .andExpect(status().isOk())
@@ -68,18 +64,17 @@ class NodeControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$.parentNodeId").value(1L));
     }
 
-
     @WithMockUser
     @Test
     void 노드를_전체조회한다() throws Exception {
         Long roadmapId = 1L;
 
         NodeResponse parentNode = new NodeResponse(
-                1L, "부모 노드", "부모 설명", 100, 200, NodeType.Top, 50, 60, "java",roadmapId, null, List.of()
+                1L, "부모 노드", "부모 설명", 100, 200, NodeType.Top, 50, 60, "java", roadmapId, null, List.of()
         );
 
         NodeResponse childNode = new NodeResponse(
-                2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java" ,roadmapId, 1L, null
+                2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java", roadmapId, 1L, null
         );
 
         given(nodeService.getNodesByRoadmapId(roadmapId))
@@ -90,7 +85,7 @@ class NodeControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].title").value("부모 노드"))
-                .andExpect(jsonPath("$[0].parentNodeId").doesNotExist()) // 부모 노드는 parentId 없음
+                .andExpect(jsonPath("$[0].parentNodeId").doesNotExist())
                 .andExpect(jsonPath("$[1].id").value(2L))
                 .andExpect(jsonPath("$[1].title").value("자식 노드"))
                 .andExpect(jsonPath("$[1].parentNodeId").value(1L));
@@ -103,10 +98,10 @@ class NodeControllerTest extends ControllerTest {
         Long nodeId = 2L;
 
         NodeResponse node = new NodeResponse(
-                nodeId, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java",roadmapId, 1L, null
+                2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java", roadmapId, 1L, null
         );
 
-        given(nodeService.getNodeByIdAndRoadmapId(roadmapId, nodeId)).willReturn(node);
+        given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(node);
 
         mvc.perform(get("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId))
                 .andExpect(status().isOk())
@@ -114,7 +109,6 @@ class NodeControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$.title").value("자식 노드"))
                 .andExpect(jsonPath("$.parentNodeId").value(1L));
     }
-
 
     @WithMockUser
     @Test
@@ -125,13 +119,21 @@ class NodeControllerTest extends ControllerTest {
         NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.Top, 70, 80, "java", 1L);
 
         NodeResponse response = new NodeResponse(
-                nodeId, request.getTitle(), request.getDescription(),
-                request.getX(), request.getY(), request.getType(),
-                request.getHeight(), request.getWidth(), request.getCategory(), roadmapId,
-                request.getParentNodeId(), null
+                nodeId,
+                request.getTitle(),
+                request.getDescription(),
+                request.getHeight(),
+                request.getWidth(),
+                request.getType(),
+                request.getX(),
+                request.getY(),
+                request.getCategory(),
+                roadmapId,
+                request.getParentNodeId(),
+                null
         );
 
-        given(nodeService.updateNode(eq(roadmapId), eq(nodeId), any(NodeRequest.class)))
+        given(nodeService.updateNode(eq(nodeId), eq(roadmapId), any(NodeRequest.class)))
                 .willReturn(response);
 
         mvc.perform(put("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId)
@@ -153,6 +155,5 @@ class NodeControllerTest extends ControllerTest {
         mvc.perform(delete("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId)
                         .with(csrf()))
                 .andExpect(status().isOk());
-
     }
 }
