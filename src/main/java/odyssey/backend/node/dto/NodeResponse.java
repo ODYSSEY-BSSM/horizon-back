@@ -17,15 +17,15 @@ public class NodeResponse {
 
     private final String description;
 
-    private final int height;
+    private final Integer height;
 
-    private final int width;
+    private final Integer width;
 
     private final NodeType type;
 
-    private final int x;
+    private final Integer x;
 
-    private final int y;
+    private final Integer y;
 
     private final String category;
 
