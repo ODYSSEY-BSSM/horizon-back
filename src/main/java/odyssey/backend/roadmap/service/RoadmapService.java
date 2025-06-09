@@ -33,6 +33,7 @@ public class RoadmapService {
                 .toList();
     }
 
+    @Transactional
     public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail) {
         Roadmap roadmap = roadmapRepository.save(
                 Roadmap.builder()
@@ -58,19 +59,18 @@ public class RoadmapService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
         roadmap.update(request);
-        roadmap.setLastModifiedAt();
+        roadmap.updateLastModifiedAt();
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
         return new RoadmapResponse(roadmap, image.getUrl());
     }
 
+    @Transactional
     public RoadmapResponse toggleFavorite(Long id){
         Roadmap roadmap = roadmapRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
         roadmap.toggleFavorite();
-
-        roadmapRepository.save(roadmap);
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
 
@@ -79,7 +79,8 @@ public class RoadmapService {
 
     public RoadmapResponse getLastAccessedRoadmap() {
 
-        Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc();
+        Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc()
+                .orElseThrow(() -> new IllegalArgumentException("로드맵을 찾을 수 없습니다."));
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
 

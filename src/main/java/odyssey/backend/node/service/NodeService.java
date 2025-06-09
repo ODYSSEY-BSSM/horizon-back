@@ -19,14 +19,13 @@ public class NodeService {
     private final RoadmapRepository roadmapRepository;
     private final NodeRepository nodeRepository;
 
+    @Transactional
     public NodeResponse createNode(Long roadmapId ,NodeRequest request) {
 
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.setLastModifiedAt();
-
-        roadmapRepository.save(roadmap);
+        roadmap.updateLastModifiedAt();
 
         Node parentNode = null;
 
@@ -53,13 +52,12 @@ public class NodeService {
         return new NodeResponse(node);
     }
 
+    @Transactional
     public List<NodeResponse> getNodesByRoadmapId(Long roadmapId) {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.setLastAccessedAt();
-
-        roadmapRepository.save(roadmap);
+        roadmap.updateLastAccessedAt();
 
         List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다"));
@@ -80,9 +78,7 @@ public class NodeService {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
-        roadmap.setLastModifiedAt();
-
-        roadmapRepository.save(roadmap);
+        roadmap.updateLastModifiedAt();
 
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));

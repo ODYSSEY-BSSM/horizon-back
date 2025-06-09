@@ -20,19 +20,19 @@ public class NodeRequest {
     private String description;
 
     @NotNull(message = "필수값입니다.")
-    private int height;
+    private Integer height;
 
     @NotNull(message = "필수값입니다.")
-    private int width;
+    private Integer width;
 
     @NotNull(message = "필수값입니다.")
     private NodeType type;
 
     @NotNull(message = "필수값입니다.")
-    private int x;
+    private Integer x;
 
     @NotNull(message = "필수값입니다.")
-    private int y;
+    private Integer y;
 
     @NotBlank(message = "필수값입니다.")
     private String category;
