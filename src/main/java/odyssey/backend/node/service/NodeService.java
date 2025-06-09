@@ -52,13 +52,12 @@ public class NodeService {
         return new NodeResponse(node);
     }
 
+    @Transactional
     public List<NodeResponse> getNodesByRoadmapId(Long roadmapId) {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
 
         roadmap.updateLastAccessedAt();
-
-        roadmapRepository.save(roadmap);
 
         List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다"));
