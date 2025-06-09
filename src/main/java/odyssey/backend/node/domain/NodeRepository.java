@@ -11,7 +11,7 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
 
     Optional<Node> findByParentId(Long nodeId);
 
-    @EntityGraph(attributePaths = {"children"})
+    @EntityGraph(attributePaths = {"children", "parent"})
     Optional<Node> findByIdAndRoadmapId(Long id, Long roadmapId);
 
     void deleteByRoadmapId(Long roadmapId);
