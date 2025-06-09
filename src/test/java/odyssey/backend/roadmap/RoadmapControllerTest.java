@@ -1,6 +1,7 @@
 package odyssey.backend.roadmap;
 
 import odyssey.backend.global.ControllerTest;
+import odyssey.backend.roadmap.dto.RoadmapCountResponse;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class RoadmapControllerTest extends ControllerTest {
@@ -214,16 +216,16 @@ class RoadmapControllerTest extends ControllerTest {
     @Test
     void 로드맵_개수를_조회한다() throws Exception {
         long expectedCount = 5L;
-        given(roadmapService.getRoadmapCount()).willReturn(expectedCount);
+        RoadmapCountResponse response = new RoadmapCountResponse(expectedCount);
+        given(roadmapService.getRoadmapCount()).willReturn(response);
 
         String responseBody = mvc.perform(get("/roadmap/count")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count").value(expectedCount))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-
-        System.out.println("로드맵 개수" + responseBody);
     }
 
 }
