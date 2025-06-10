@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ExceptionResponse> buildResponse(HttpStatus status, String message) {
-        ExceptionResponse response = new ExceptionResponse(status.value(), message);
-        return new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(new ExceptionResponse(status.value(), message), status);
     }
 }
