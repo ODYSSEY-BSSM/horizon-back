@@ -1,6 +1,7 @@
 package odyssey.backend.node.service;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.global.exception.NodeNotFoundException;
 import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.node.domain.NodeRepository;
@@ -32,7 +33,7 @@ public class NodeService {
 
         if (request.getParentNodeId() != null) {
             parentNode = nodeRepository.findById(request.getParentNodeId())
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 부모노드 아이디입니다.: " + request.getParentNodeId()));
+                    .orElseThrow(NodeNotFoundException::new);
         }
 
         Node node = nodeRepository.save(
@@ -61,7 +62,7 @@ public class NodeService {
         roadmap.updateLastAccessedAt();
 
         List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다"));
+                .orElseThrow(NodeNotFoundException::new);
 
         return nodes.stream()
                 .map(NodeResponse::new)
@@ -70,7 +71,7 @@ public class NodeService {
 
     public NodeResponse getNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));
+                .orElseThrow(NodeNotFoundException::new);
         return new NodeResponse(node);
     }
 
@@ -82,7 +83,7 @@ public class NodeService {
         roadmap.updateLastModifiedAt();
 
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));
+                .orElseThrow(NodeNotFoundException::new);
 
         node.update(request);
 
@@ -92,7 +93,7 @@ public class NodeService {
     @Transactional
     public void deleteNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 노드입니다."));
+                .orElseThrow(NodeNotFoundException::new);
 
         nodeRepository.delete(node);
     }
