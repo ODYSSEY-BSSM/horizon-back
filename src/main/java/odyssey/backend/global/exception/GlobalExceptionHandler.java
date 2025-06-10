@@ -10,15 +10,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RoadmapNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleRoadmapNotFoundException(RoadmapNotFoundException e) {
-        ExceptionResponse response = new ExceptionResponse(HttpStatus.NOT_FOUND, "존재하지 않는 로드맵입니다.");
-
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return buildResponse(HttpStatus.NOT_FOUND, "존재하지 않는 로드맵입니다.");
     }
 
     @ExceptionHandler(NodeNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNodeNotFoundException(NodeNotFoundException e) {
-        ExceptionResponse response = new ExceptionResponse(HttpStatus.NOT_FOUND, "존재하지 않는 노드입니다.");
+        return buildResponse(HttpStatus.NOT_FOUND, "존재하지 않는 노드입니다.");
+    }
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    private ResponseEntity<ExceptionResponse> buildResponse(HttpStatus status, String message) {
+        ExceptionResponse response = new ExceptionResponse(status.value(), message);
+        return new ResponseEntity<>(response, status);
     }
 }
