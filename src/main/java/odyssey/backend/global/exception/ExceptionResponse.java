@@ -1,17 +1,15 @@
 package odyssey.backend.global.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public class ExceptionResponse {
 
     private int status;
-
     private String message;
 
-    public ExceptionResponse(HttpStatus status, String message) {
-        this.status = status.value();
+    public ExceptionResponse(int status, String message) {
+        this.status = status;
         this.message = message;
     }
 }
