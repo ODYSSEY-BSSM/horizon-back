@@ -1,6 +1,7 @@
 package odyssey.backend.node.service;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.node.domain.NodeRepository;
 import odyssey.backend.node.dto.NodeRequest;
@@ -23,7 +24,7 @@ public class NodeService {
     public NodeResponse createNode(Long roadmapId ,NodeRequest request) {
 
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
+                .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.updateLastModifiedAt();
 
@@ -55,7 +56,7 @@ public class NodeService {
     @Transactional
     public List<NodeResponse> getNodesByRoadmapId(Long roadmapId) {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
+                .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.updateLastAccessedAt();
 
@@ -76,7 +77,7 @@ public class NodeService {
     @Transactional
     public NodeResponse updateNode(Long nodeId, Long roadmapId, NodeRequest request) {
         Roadmap roadmap = roadmapRepository.findById(roadmapId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
+                .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.updateLastModifiedAt();
 

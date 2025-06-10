@@ -1,6 +1,7 @@
 package odyssey.backend.roadmap.service;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.image.domain.ImageRepository;
 import odyssey.backend.image.service.ImageService;
@@ -57,7 +58,7 @@ public class RoadmapService {
     @Transactional
     public RoadmapResponse update(Long id, RoadmapRequest request) {
         Roadmap roadmap = roadmapRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
+                .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.update(request);
         roadmap.updateLastModifiedAt();
@@ -69,7 +70,7 @@ public class RoadmapService {
     @Transactional
     public RoadmapResponse toggleFavorite(Long id){
         Roadmap roadmap = roadmapRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 로드맵입니다."));
+                .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.toggleFavorite();
 
@@ -81,7 +82,7 @@ public class RoadmapService {
     public RoadmapResponse getLastAccessedRoadmap() {
 
         Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc()
-                .orElseThrow(() -> new IllegalArgumentException("로드맵을 찾을 수 없습니다."));
+                .orElseThrow(RoadmapNotFoundException::new);
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
 
