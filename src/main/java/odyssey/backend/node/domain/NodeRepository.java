@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface NodeRepository extends JpaRepository<Node, Long> {
-    Optional<List<Node>> findByRoadmapId(Long roadmapId);
+    List<Node> findByRoadmapId(Long roadmapId);
 
     Optional<Node> findByParentId(Long nodeId);
 
