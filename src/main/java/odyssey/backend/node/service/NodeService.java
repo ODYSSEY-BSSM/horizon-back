@@ -61,8 +61,7 @@ public class NodeService {
 
         roadmap.updateLastAccessedAt();
 
-        List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId)
-                .orElseThrow(NodeNotFoundException::new);
+        List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId);
 
         return nodes.stream()
                 .map(NodeResponse::new)
