@@ -68,7 +68,7 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.findById(id)
                 .orElseThrow(RoadmapNotFoundException::new);
 
-        roadmap.update(request);
+        roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
 
         roadmap.updateLastModifiedAt();
 
