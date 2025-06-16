@@ -53,7 +53,7 @@ public class ImageService {
         }
     }
     public Image getImageByRoadmap(Roadmap roadmap) {
-        return imageRepository.findById(roadmap.getId())
+        return imageRepository.findByRoadmapId(roadmap.getId())
                 .orElseThrow(RoadmapNotFoundException::new);
     }
 }
