@@ -1,7 +1,6 @@
 package odyssey.backend.image.service;
 
 import lombok.RequiredArgsConstructor;
-import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.image.domain.ImageRepository;
 import odyssey.backend.roadmap.domain.Roadmap;
@@ -54,6 +53,6 @@ public class ImageService {
     }
     public Image getImageByRoadmap(Roadmap roadmap) {
         return imageRepository.findByRoadmapId(roadmap.getId())
-                .orElseThrow(RoadmapNotFoundException::new);
+                .orElse(null);
     }
 }
