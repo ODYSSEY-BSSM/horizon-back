@@ -49,7 +49,7 @@ public class RoadmapService {
 
         Image image = imageService.save(thumbnail, roadmap);
 
-        log.info("생성된 로드맵 제목 - {}", roadmap.getTitle());
+        log.info("생성된 로드맵 Id : {}", roadmap.getId());
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
@@ -57,7 +57,7 @@ public class RoadmapService {
     @Transactional
     public void deleteRoadmapById(Long id) {
 
-        log.info("삭제된 로드맵 Id {}", id);
+        log.info("삭제된 로드맵 Id : {}", id);
 
         roadmapRepository.deleteById(id);
 
