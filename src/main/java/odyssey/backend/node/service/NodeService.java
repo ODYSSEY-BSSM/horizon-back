@@ -53,7 +53,7 @@ public class NodeService {
                         .build()
         );
 
-        log.info("만들어진 노드 제목 : {} ", node.getTitle());
+        log.info("만들어진 노드 Id : {} ", node.getId());
 
         return new NodeResponse(node);
     }
