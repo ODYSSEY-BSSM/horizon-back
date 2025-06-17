@@ -70,8 +70,6 @@ public class RoadmapService {
 
         roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
 
-        roadmap.updateLastModifiedAt();
-
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
