@@ -38,7 +38,9 @@ class NodeControllerTest extends ControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id").value(1L))
+                .andExpect(jsonPath("$.data.title").value("노드 제목"));
     }
 
     @WithMockUser
@@ -59,9 +61,9 @@ class NodeControllerTest extends ControllerTest {
 
         mvc.perform(get("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(nodeId))
-                .andExpect(jsonPath("$.title").value("자식 노드 제목"))
-                .andExpect(jsonPath("$.parentNodeId").value(1L));
+                .andExpect(jsonPath("$.data.id").value(nodeId))
+                .andExpect(jsonPath("$.data.title").value("자식 노드 제목"))
+                .andExpect(jsonPath("$.data.parentNodeId").value(1L));
     }
 
     @WithMockUser
@@ -82,13 +84,13 @@ class NodeControllerTest extends ControllerTest {
 
         mvc.perform(get("/roadmap/{roadmapId}/nodes", roadmapId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].title").value("부모 노드"))
-                .andExpect(jsonPath("$[0].parentNodeId").doesNotExist())
-                .andExpect(jsonPath("$[1].id").value(2L))
-                .andExpect(jsonPath("$[1].title").value("자식 노드"))
-                .andExpect(jsonPath("$[1].parentNodeId").value(1L));
+                .andExpect(jsonPath("$.dataList.length()").value(2))
+                .andExpect(jsonPath("$.dataList[0].id").value(1L))
+                .andExpect(jsonPath("$.dataList[0].title").value("부모 노드"))
+                .andExpect(jsonPath("$.dataList[0].parentNodeId").doesNotExist())
+                .andExpect(jsonPath("$.dataList[1].id").value(2L))
+                .andExpect(jsonPath("$.dataList[1].title").value("자식 노드"))
+                .andExpect(jsonPath("$.dataList[1].parentNodeId").value(1L));
     }
 
     @WithMockUser
@@ -105,9 +107,9 @@ class NodeControllerTest extends ControllerTest {
 
         mvc.perform(get("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(nodeId))
-                .andExpect(jsonPath("$.title").value("자식 노드"))
-                .andExpect(jsonPath("$.parentNodeId").value(1L));
+                .andExpect(jsonPath("$.data.id").value(nodeId))
+                .andExpect(jsonPath("$.data.title").value("자식 노드"))
+                .andExpect(jsonPath("$.data.parentNodeId").value(1L));
     }
 
     @WithMockUser
@@ -141,9 +143,9 @@ class NodeControllerTest extends ControllerTest {
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(nodeId))
-                .andExpect(jsonPath("$.title").value("수정된 노드"))
-                .andExpect(jsonPath("$.parentNodeId").value(1L));
+                .andExpect(jsonPath("$.data.id").value(nodeId))
+                .andExpect(jsonPath("$.data.title").value("수정된 노드"))
+                .andExpect(jsonPath("$.data.parentNodeId").value(1L));
     }
 
     @WithMockUser
