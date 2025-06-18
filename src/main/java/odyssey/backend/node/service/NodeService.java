@@ -65,6 +65,7 @@ public class NodeService {
                 .orElseThrow(NodeNotFoundException::new);
 
         return nodes.stream()
+                .filter(node -> node.getParent() == null)
                 .map(NodeResponse::new)
                 .toList();
     }
