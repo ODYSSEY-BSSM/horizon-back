@@ -52,7 +52,7 @@ public class NodeService {
                         .build()
         );
 
-        log.info("만들어진 노드 제목 : {} ", node.getTitle());
+        log.info("만들어진 노드 Id : {} ", node.getId());
 
         return new NodeResponse(node);
     }
@@ -97,6 +97,8 @@ public class NodeService {
                 request.getX(),
                 request.getY(),
                 request.getCategory());
+
+        log.info("업데이트 노드 Id : {} ", node.getId());
 
         log.info("업데이트 노드 Id : {} ", node.getId());
 
