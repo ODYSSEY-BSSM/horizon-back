@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import odyssey.backend.node.dto.NodeRequest;
 import odyssey.backend.roadmap.domain.Roadmap;
 
 import java.util.List;
@@ -71,14 +70,16 @@ public class Node {
         this.parent = parent;
     }
 
-    public void update(NodeRequest request){
-        this.title = request.getTitle();
-        this.description = request.getDescription();
-        this.height = request.getHeight();
-        this.width = request.getWidth();
-        this.type = request.getType();
-        this.x = request.getX();
-        this.y = request.getY();
-        this.category = request.getCategory();
+    public void update(
+            String title, String description, Integer height, Integer width, NodeType type, Integer x, Integer y, String category
+    ){
+        this.title = title;
+        this.description = description;
+        this.height = height;
+        this.width = width;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.category = category;
     }
 }

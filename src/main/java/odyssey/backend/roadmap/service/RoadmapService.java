@@ -54,7 +54,7 @@ public class RoadmapService {
 
     @Transactional
     public void deleteRoadmapById(Long id) {
-
+      
         log.info("삭제된 로드맵 Id : {}", id);
 
         roadmapRepository.deleteById(id);
@@ -66,9 +66,9 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.findById(id)
                 .orElseThrow(RoadmapNotFoundException::new);
 
-        roadmap.update(request);
+        roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
 
-        roadmap.updateLastModifiedAt();
+        log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 

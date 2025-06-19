@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.node.domain.Node;
-import odyssey.backend.roadmap.dto.RoadmapRequest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -60,10 +59,10 @@ public class Roadmap {
         this.lastModifiedAt = LocalDate.now();
     }
 
-    public void update(RoadmapRequest request) {
-        this.title = request.getTitle();
-        this.description = request.getDescription();
-        this.categories = request.getCategories();
+    public void update(String title, String description, List<String> categories) {
+        this.title = title;
+        this.description = description;
+        this.categories = categories;
         this.lastModifiedAt = LocalDate.now();
     }
 

@@ -88,7 +88,17 @@ public class NodeService {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(NodeNotFoundException::new);
 
-        node.update(request);
+        node.update(
+                request.getTitle(),
+                request.getDescription(),
+                request.getHeight(),
+                request.getWidth(),
+                request.getType(),
+                request.getX(),
+                request.getY(),
+                request.getCategory());
+
+        log.info("업데이트 노드 Id : {} ", node.getId());
 
         log.info("업데이트 노드 Id : {} ", node.getId());
 
