@@ -66,6 +66,7 @@ public class NodeService {
         List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId);
 
         return nodes.stream()
+                .filter(node -> node.getParent() == null)
                 .map(NodeResponse::new)
                 .toList();
     }
