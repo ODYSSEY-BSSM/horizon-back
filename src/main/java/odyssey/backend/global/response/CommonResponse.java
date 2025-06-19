@@ -1,18 +1,15 @@
 package odyssey.backend.global.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class CommonResponse {
     String code;
     String message;
-
-    public CommonResponse(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
 
     public static <T> SingleCommonResponse<T> ok(T data) {
         return new SingleCommonResponse<>(
