@@ -1,6 +1,7 @@
 package odyssey.backend.roadmap.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.image.service.ImageService;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RoadmapService {
 
@@ -45,12 +47,18 @@ public class RoadmapService {
 
         Image image = imageService.save(thumbnail, roadmap);
 
+        log.info("생성된 로드맵 Id : {}", roadmap.getId());
+
         return new RoadmapResponse(roadmap, image.getUrl());
     }
 
     @Transactional
     public void deleteRoadmapById(Long id) {
+
+        log.info("삭제된 로드맵 Id : {}", id);
+
         roadmapRepository.deleteById(id);
+
     }
 
     @Transactional
@@ -62,7 +70,9 @@ public class RoadmapService {
 
         roadmap.updateLastModifiedAt();
 
-        Image image = imageService.getImageByRoadmap(roadmap);
+        log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
+
+        Image image = imageRepository.findByRoadmapId(roadmap.getId());
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
@@ -74,7 +84,9 @@ public class RoadmapService {
 
         roadmap.toggleFavorite();
 
-        Image image = imageService.getImageByRoadmap(roadmap);
+        log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
+
+        Image image = imageRepository.findByRoadmapId(roadmap.getId());
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
@@ -86,7 +98,7 @@ public class RoadmapService {
 
         Image image = imageService.getImageByRoadmap(roadmap);
 
-        System.out.println("마지막 접속시간 : " + roadmap.getLastAccessedAt());
+        log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }

@@ -1,6 +1,7 @@
 package odyssey.backend.node.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.global.exception.NodeNotFoundException;
 import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.node.domain.Node;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class NodeService {
 
@@ -50,6 +52,8 @@ public class NodeService {
                         .build()
         );
 
+        log.info("만들어진 노드 Id : {} ", node.getId());
+
         return new NodeResponse(node);
     }
 
@@ -69,6 +73,9 @@ public class NodeService {
     public NodeResponse getNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(NodeNotFoundException::new);
+
+        log.info("조회된 노드 Id : {} ", node.getId());
+
         return new NodeResponse(node);
     }
 
@@ -83,6 +90,8 @@ public class NodeService {
 
         node.update(request);
 
+        log.info("업데이트 노드 Id : {} ", node.getId());
+
         return new NodeResponse(node);
     }
 
@@ -90,6 +99,8 @@ public class NodeService {
     public void deleteNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(NodeNotFoundException::new);
+
+        log.info("삭제된 노드 Id : {} ", node.getId());
 
         nodeRepository.delete(node);
     }
