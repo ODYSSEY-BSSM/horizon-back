@@ -57,18 +57,14 @@ class RoadmapControllerTest extends ControllerTest {
         given(roadmapService.save(any(RoadmapRequest.class), any(MultipartFile.class)))
                 .willReturn(fakeResponse);
 
-        String responseBody = mvc.perform(multipart("/roadmap/create")
+        mvc.perform(multipart("/roadmap/create")
                         .file(roadmapPart)
                         .file(thumbnail)
                         .with(csrf())
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        System.out.println("요청 값: " + objectMapper.writeValueAsString(request));
-        System.out.println("응답 결과: " + responseBody);
+                .andExpect(jsonPath("$.data.id").value(fakeResponse.getId()))
+                .andExpect(jsonPath("$.data.title").value(fakeResponse.getTitle()));
     }
 
     @WithMockUser
@@ -85,14 +81,11 @@ class RoadmapControllerTest extends ControllerTest {
 
         given(roadmapService.findAllRoadmaps()).willReturn(List.of(response1, response2));
 
-        String responseBody = mvc.perform(get("/roadmap/all")
+        mvc.perform(get("/roadmap/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        System.out.println("전체 조회 응답: " + responseBody);
+                .andExpect(jsonPath("$.dataList[0].id").value(response1.getId()))
+                .andExpect(jsonPath("$.dataList[1].id").value(response2.getId()));
     }
 
     @WithMockUser
@@ -118,17 +111,12 @@ class RoadmapControllerTest extends ControllerTest {
         given(roadmapService.update(eq(roadmapId), any(RoadmapRequest.class)))
                 .willReturn(fakeResponse);
 
-        String responseBody = mvc.perform(put("/roadmap/update/{id}", roadmapId)
+        mvc.perform(put("/roadmap/update/{id}", roadmapId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        System.out.println("수정 요청: " + objectMapper.writeValueAsString(request));
-        System.out.println("수정 응답: " + responseBody);
+                .andExpect(jsonPath("$.data.id").value(roadmapId));
     }
 
     @WithMockUser
@@ -139,8 +127,6 @@ class RoadmapControllerTest extends ControllerTest {
         mvc.perform(delete("/roadmap/delete/{id}", roadmapId)
                         .with(csrf()))
                 .andExpect(status().isOk());
-
-        System.out.println("삭제 요청: id=" + roadmapId);
     }
 
     @WithMockUser
@@ -152,14 +138,11 @@ class RoadmapControllerTest extends ControllerTest {
                 List.of("스프링")
         );
 
-        String responseBody = mvc.perform(post("/roadmap/create")
+        mvc.perform(post("/roadmap/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
-                .andExpect(status().is4xxClientError())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andExpect(status().is4xxClientError());
     }
 
     @WithMockUser
@@ -180,12 +163,10 @@ class RoadmapControllerTest extends ControllerTest {
 
         given(roadmapService.toggleFavorite(roadmapId)).willReturn(fakeResponse);
 
-        String responseBody = mvc.perform(post("/roadmap/favorite/{id}", roadmapId)
+        mvc.perform(post("/roadmap/favorite/{id}", roadmapId)
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andExpect(jsonPath("$.data.id").value(roadmapId));
     }
 
     @WithMockUser
@@ -205,11 +186,9 @@ class RoadmapControllerTest extends ControllerTest {
 
         given(roadmapService.getLastAccessedRoadmap()).willReturn(fakeResponse);
 
-        String responseBody = mvc.perform(get("/roadmap/last-accessed"))
+        mvc.perform(get("/roadmap/last-accessed"))
                 .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andExpect(jsonPath("$.data.id").value(fakeResponse.getId()));
     }
 
     @WithMockUser
@@ -219,13 +198,9 @@ class RoadmapControllerTest extends ControllerTest {
         RoadmapCountResponse response = new RoadmapCountResponse(expectedCount);
         given(roadmapService.getRoadmapCount()).willReturn(response);
 
-        String responseBody = mvc.perform(get("/roadmap/count")
+        mvc.perform(get("/roadmap/count")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.count").value(expectedCount))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andExpect(jsonPath("$.data.count").value(expectedCount));
     }
-
 }
