@@ -3,7 +3,6 @@ package odyssey.backend.roadmap.service;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.image.domain.Image;
-import odyssey.backend.image.domain.ImageRepository;
 import odyssey.backend.image.service.ImageService;
 import odyssey.backend.node.domain.NodeRepository;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
@@ -23,13 +22,12 @@ public class RoadmapService {
 
     private final RoadmapRepository roadmapRepository;
     private final ImageService imageService;
-    private final ImageRepository imageRepository;
     private final NodeRepository nodeRepository;
 
     public List<RoadmapResponse> findAllRoadmaps() {
         return roadmapRepository.findAll().stream()
                 .map(roadmap -> {
-                    Image image = imageRepository.findByRoadmapId(roadmap.getId());
+                    Image image = imageService.getImageByRoadmap(roadmap);
                     return new RoadmapResponse(roadmap, image.getUrl());
                 })
                 .toList();
@@ -61,9 +59,11 @@ public class RoadmapService {
                 .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.update(request);
+
         roadmap.updateLastModifiedAt();
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
+
         return new RoadmapResponse(roadmap, image.getUrl());
     }
 
@@ -74,7 +74,7 @@ public class RoadmapService {
 
         roadmap.toggleFavorite();
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
@@ -84,7 +84,7 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc()
                 .orElseThrow(RoadmapNotFoundException::new);
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         System.out.println("마지막 접속시간 : " + roadmap.getLastAccessedAt());
 
