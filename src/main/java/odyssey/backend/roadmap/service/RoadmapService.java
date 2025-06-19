@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.global.exception.RoadmapNotFoundException;
 import odyssey.backend.image.domain.Image;
-import odyssey.backend.image.domain.ImageRepository;
 import odyssey.backend.image.service.ImageService;
 import odyssey.backend.node.domain.NodeRepository;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
@@ -25,13 +24,12 @@ public class RoadmapService {
 
     private final RoadmapRepository roadmapRepository;
     private final ImageService imageService;
-    private final ImageRepository imageRepository;
     private final NodeRepository nodeRepository;
 
     public List<RoadmapResponse> findAllRoadmaps() {
         return roadmapRepository.findAll().stream()
                 .map(roadmap -> {
-                    Image image = imageRepository.findByRoadmapId(roadmap.getId());
+                    Image image = imageService.getImageByRoadmap(roadmap);
                     return new RoadmapResponse(roadmap, image.getUrl());
                 })
                 .toList();
@@ -75,6 +73,7 @@ public class RoadmapService {
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
         Image image = imageRepository.findByRoadmapId(roadmap.getId());
+
         return new RoadmapResponse(roadmap, image.getUrl());
     }
 
@@ -97,7 +96,7 @@ public class RoadmapService {
         Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc()
                 .orElseThrow(RoadmapNotFoundException::new);
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 

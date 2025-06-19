@@ -51,4 +51,8 @@ public class ImageService {
             throw new RuntimeException("이미지 저장 실패", e);
         }
     }
+    public Image getImageByRoadmap(Roadmap roadmap) {
+        return imageRepository.findByRoadmapId(roadmap.getId())
+                .orElse(null);
+    }
 }
