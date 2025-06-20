@@ -45,6 +45,8 @@ public class RoadmapService {
                         .build()
         );
 
+        roadmap.updateLastModifiedAt();
+
         Image image = imageService.save(thumbnail, roadmap);
 
         log.info("생성된 로드맵 Id : {}", roadmap.getId());
@@ -68,11 +70,11 @@ public class RoadmapService {
 
         roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
 
-        log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
+        roadmap.updateLastModifiedAt();
 
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
@@ -86,7 +88,7 @@ public class RoadmapService {
 
         log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }

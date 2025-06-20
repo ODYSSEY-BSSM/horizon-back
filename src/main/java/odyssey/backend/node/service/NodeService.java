@@ -111,6 +111,10 @@ public class NodeService {
         Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(NodeNotFoundException::new);
 
+        Roadmap roadmap = getRoadmapById(roadmapId);
+
+        roadmap.updateLastModifiedAt();
+
         log.info("삭제된 노드 Id : {} ", node.getId());
 
         nodeRepository.delete(node);
