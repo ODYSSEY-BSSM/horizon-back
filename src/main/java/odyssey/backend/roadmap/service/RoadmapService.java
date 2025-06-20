@@ -74,9 +74,7 @@ public class RoadmapService {
 
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
-        log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
-
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
@@ -90,7 +88,7 @@ public class RoadmapService {
 
         log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
-        Image image = imageRepository.findByRoadmapId(roadmap.getId());
+        Image image = imageService.getImageByRoadmap(roadmap);
 
         return new RoadmapResponse(roadmap, image.getUrl());
     }
