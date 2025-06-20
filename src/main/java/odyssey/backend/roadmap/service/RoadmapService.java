@@ -45,6 +45,8 @@ public class RoadmapService {
                         .build()
         );
 
+        roadmap.updateLastModifiedAt();
+
         Image image = imageService.save(thumbnail, roadmap);
 
         log.info("생성된 로드맵 Id : {}", roadmap.getId());
@@ -67,6 +69,8 @@ public class RoadmapService {
                 .orElseThrow(RoadmapNotFoundException::new);
 
         roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
+
+        roadmap.updateLastModifiedAt();
 
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
