@@ -63,7 +63,6 @@ public class Roadmap {
         this.title = title;
         this.description = description;
         this.categories = categories;
-        this.lastModifiedAt = LocalDate.now();
     }
 
     public void toggleFavorite() {
