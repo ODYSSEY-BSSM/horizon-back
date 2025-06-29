@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(RoadmapNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleRoadmapNotFoundException(RoadmapNotFoundException e) {
-        return buildResponse(ExecptionCode.ROADMAP_NOT_FOUND);
+        return buildResponse(ExceptionCode.ROADMAP_NOT_FOUND);
     }
 
     @ExceptionHandler(NodeNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNodeNotFoundException(NodeNotFoundException e) {
-        return buildResponse(ExecptionCode.NODE_NOT_FOUND);
+        return buildResponse(ExceptionCode.NODE_NOT_FOUND);
     }
 
-    private ResponseEntity<ExceptionResponse> buildResponse(ExecptionCode execptionCode) {
+    private ResponseEntity<ExceptionResponse> buildResponse(ExceptionCode exceptionCode) {
         return ResponseEntity
-                .status(execptionCode.getStatus())
-                .body(new ExceptionResponse(execptionCode.getStatus().value(), execptionCode.getMessage()));
+                .status(exceptionCode.getStatus())
+                .body(new ExceptionResponse(exceptionCode.getStatus().value(), exceptionCode.getMessage()));
     }
 }
