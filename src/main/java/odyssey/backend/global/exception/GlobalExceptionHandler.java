@@ -1,6 +1,7 @@
 package odyssey.backend.global.exception;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,10 +16,26 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionResponse> handleNodeNotFoundException(NodeNotFoundException e) {
         return buildResponse(ExceptionCode.NODE_NOT_FOUND);
     }
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        String errorMessage = e.getBindingResult()
+                .getAllErrors()
+                .get(0)
+                .getDefaultMessage();
+
+        return buildResponse(ExceptionCode.INVALID_REQUEST, errorMessage);
+    }
 
     private ResponseEntity<ExceptionResponse> buildResponse(ExceptionCode exceptionCode) {
         return ResponseEntity
                 .status(exceptionCode.getStatus())
                 .body(new ExceptionResponse(exceptionCode.getStatus().value(), exceptionCode.getMessage()));
+    }
+
+    private ResponseEntity<ExceptionResponse> buildResponse(ExceptionCode exceptionCode, String customMessage) {
+        return ResponseEntity
+                .status(exceptionCode.getStatus())
+                .body(new ExceptionResponse(exceptionCode.getStatus().value(), customMessage));
     }
 }
