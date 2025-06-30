@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
                 .get(0)
                 .getDefaultMessage();
 
-        return buildResponse(ExceptionCode.BAD_REQUEST, errorMessage);
+        return buildResponse(ExceptionCode.INVALID_REQUEST, errorMessage);
     }
 
     private ResponseEntity<ExceptionResponse> buildResponse(ExceptionCode exceptionCode) {
