@@ -40,8 +40,14 @@ public class DirectoryService {
                 .toList();
     }
 
+    public DirectoryResponse getDirectory(Long id) {
+        return new DirectoryResponse(findDirectoryById(id));
+    }
+
+
     public Directory findDirectoryById(Long id) {
         return directoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("디렉토리를 찾을 수 없습니다."));
     }
+
 }
