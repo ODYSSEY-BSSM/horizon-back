@@ -34,4 +34,10 @@ public class DirectoryController {
         return CommonResponse.ok(directoryService.getDirectory(id));
     }
 
+    @PutMapping("/{id}")
+    public SingleCommonResponse<DirectoryResponse> updateDirectory(
+            @PathVariable Long id,
+            @Valid @RequestBody DirectoryRequest request){
+        return CommonResponse.ok(directoryService.updateDirectory(id, request));
+    }
 }
