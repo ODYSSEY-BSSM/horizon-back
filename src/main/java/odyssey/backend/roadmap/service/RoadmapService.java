@@ -40,7 +40,11 @@
         @Transactional
         public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail) {
 
-            Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
+            Directory directory = null;
+
+            if(request.getDirectoryId() != null) {
+                directory = directoryService.findDirectoryById(request.getDirectoryId());
+            }
 
             Roadmap roadmap = roadmapRepository.save(
                     Roadmap.builder()
@@ -109,6 +113,11 @@
             log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 
             return new RoadmapResponse(roadmap, image.getUrl());
+        }
+
+        public List<Roadmap> findByDirectoryIsNull(){
+            return roadmapRepository.findByDirectoryIsNull();
+
         }
 
         public RoadmapCountResponse getRoadmapCount(){
