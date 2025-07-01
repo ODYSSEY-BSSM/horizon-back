@@ -6,6 +6,10 @@ import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.directory.domain.DirectoryRepository;
 import odyssey.backend.directory.dto.DirectoryRequest;
 import odyssey.backend.directory.dto.DirectoryResponse;
+import odyssey.backend.directory.dto.RootContentResponse;
+import odyssey.backend.roadmap.domain.Roadmap;
+import odyssey.backend.roadmap.domain.RoadmapRepository;
+import odyssey.backend.roadmap.dto.SimpleRoadmapResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +19,7 @@ import java.util.List;
 public class DirectoryService {
 
     private final DirectoryRepository directoryRepository;
+    private final RoadmapRepository roadmapRepository;
 
     public DirectoryResponse createDirectory(DirectoryRequest directoryRequest) {
         Directory parent = null;
@@ -34,17 +39,6 @@ public class DirectoryService {
         return new DirectoryResponse(directory);
     }
 
-    public List<DirectoryResponse> getAllDirectories() {
-        return directoryRepository.findAll().stream()
-                .filter(directory -> directory.getParent() == null)
-                .map(DirectoryResponse::new)
-                .toList();
-    }
-
-    public DirectoryResponse getDirectory(Long id) {
-        return new DirectoryResponse(findDirectoryById(id));
-    }
-
     @Transactional
     public DirectoryResponse updateDirectory(Long id, DirectoryRequest request) {
         Directory directory = findDirectoryById(id);
@@ -56,6 +50,21 @@ public class DirectoryService {
         directory.update(request.getName(), parent);
 
         return new DirectoryResponse(directory);
+    }
+
+    public RootContentResponse getRootContents() {
+        List<Directory> rootDirectories = directoryRepository.findByParentIsNull();
+        List<Roadmap> rootRoadmaps = roadmapRepository.findByDirectoryIsNull();
+
+        List<DirectoryResponse> directoryResponses = rootDirectories.stream()
+                .map(DirectoryResponse::new)
+                .toList();
+
+        List<SimpleRoadmapResponse> roadmapResponses = rootRoadmaps.stream()
+                .map(SimpleRoadmapResponse::new)
+                .toList();
+
+        return new RootContentResponse(directoryResponses, roadmapResponses);
     }
 
     public void deleteDirectory(Long id) {
