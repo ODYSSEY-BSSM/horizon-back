@@ -28,4 +28,10 @@ public class DirectoryController {
     public ListCommonResponse<DirectoryResponse> getAll() {
         return CommonResponse.ok(directoryService.getAllDirectories());
     }
+
+    @GetMapping("/{id}")
+    public SingleCommonResponse<DirectoryResponse> getDirectoryById(@PathVariable Long id) {
+        return CommonResponse.ok(directoryService.getDirectory(id));
+    }
+
 }
