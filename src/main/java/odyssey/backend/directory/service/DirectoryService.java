@@ -1,5 +1,6 @@
 package odyssey.backend.directory.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.directory.domain.DirectoryRepository;
@@ -44,6 +45,18 @@ public class DirectoryService {
         return new DirectoryResponse(findDirectoryById(id));
     }
 
+    @Transactional
+    public DirectoryResponse updateDirectory(Long id, DirectoryRequest request) {
+        Directory directory = findDirectoryById(id);
+
+        Directory parent = null;
+        if (request.getParentId() != null) {
+            parent = findDirectoryById(request.getParentId());
+        }
+        directory.update(request.getName(), parent);
+
+        return new DirectoryResponse(directory);
+    }
 
     public Directory findDirectoryById(Long id) {
         return directoryRepository.findById(id)
