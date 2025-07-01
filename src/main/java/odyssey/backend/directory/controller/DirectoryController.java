@@ -40,4 +40,9 @@ public class DirectoryController {
             @Valid @RequestBody DirectoryRequest request){
         return CommonResponse.ok(directoryService.updateDirectory(id, request));
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteDirectory(@PathVariable Long id) {
+        directoryService.deleteDirectory(id);
+    }
 }
