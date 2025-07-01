@@ -15,7 +15,7 @@ public class DirectoryResponse {
 
     private final Long parentId;
 
-    private final List<DirectoryResponse> childDirectories;
+    private final List<DirectoryResponse> directories;
 
     private final List<SimpleRoadmapResponse> roadmaps;
 
@@ -23,7 +23,7 @@ public class DirectoryResponse {
         this.id = directory.getId();
         this.name = directory.getName();
         this.parentId = directory.getParent() != null ? directory.getParent().getId() : null;
-        this.childDirectories = directory.getChildren() != null
+        this.directories = directory.getChildren() != null
                 ? directory.getChildren().stream()
                 .map(DirectoryResponse::new)
                 .toList()
@@ -34,7 +34,6 @@ public class DirectoryResponse {
                 .map(SimpleRoadmapResponse::new)
                 .toList()
                 : List.of();
-
     }
 
 }
