@@ -36,7 +36,8 @@ public class Directory {
         this.parent = parent;
     }
 
-    public void update(String name) {
+    public void update(String name, Directory parent) {
         this.name = name;
+        this.parent = parent;
     }
 }
