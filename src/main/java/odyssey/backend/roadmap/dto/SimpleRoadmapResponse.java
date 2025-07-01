@@ -1,10 +1,12 @@
 package odyssey.backend.roadmap.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import odyssey.backend.roadmap.domain.Roadmap;
 
 @Getter
+@AllArgsConstructor
 public class SimpleRoadmapResponse {
 
     private final Long id;
