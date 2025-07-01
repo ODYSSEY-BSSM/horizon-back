@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.node.domain.Node;
 
@@ -49,14 +50,19 @@ public class Roadmap {
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Node> nodes;
 
+    @ManyToOne
+    @JoinColumn(name = "directory_id")
+    private Directory directory;
+
     @Builder
-    public Roadmap(String title, String description, List<String> categories) {
+    public Roadmap(String title, String description, List<String> categories, Directory directory) {
         this.title = title;
         this.description = description;
         this.categories = categories;
         this.isFavorite = false;
         this.lastAccessedAt = LocalDateTime.now();
         this.lastModifiedAt = LocalDate.now();
+        this.directory = directory;
     }
 
     public void update(String title, String description, List<String> categories) {

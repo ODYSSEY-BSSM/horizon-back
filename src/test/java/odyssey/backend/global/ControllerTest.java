@@ -2,6 +2,8 @@ package odyssey.backend.global;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import odyssey.backend.directory.controller.DirectoryController;
+import odyssey.backend.directory.service.DirectoryService;
 import odyssey.backend.node.controller.NodeController;
 import odyssey.backend.node.service.NodeService;
 import odyssey.backend.roadmap.controller.RoadmapController;
@@ -14,7 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @Disabled
 @WebMvcTest({RoadmapController.class,
-             NodeController.class,})
+             NodeController.class,
+             DirectoryController.class,})
 public class ControllerTest {
 
     @Autowired
@@ -28,6 +31,9 @@ public class ControllerTest {
 
     @MockBean
     protected NodeService nodeService;
+
+    @MockBean
+    protected DirectoryService directoryService;
 
     protected String toJson(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);

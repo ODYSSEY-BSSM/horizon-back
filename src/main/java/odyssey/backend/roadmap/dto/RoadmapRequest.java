@@ -23,4 +23,6 @@ public class RoadmapRequest {
     @NotEmpty(message = "필수값입니다.")
     private List<String> categories;
 
+    private Long directoryId;
+
 }

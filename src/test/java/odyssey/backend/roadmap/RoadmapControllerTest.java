@@ -27,7 +27,7 @@ class RoadmapControllerTest extends ControllerTest {
     @WithMockUser
     @Test
     void 로드맵을_생성한다() throws Exception {
-        RoadmapRequest request = new RoadmapRequest("자바자바", "조아요", List.of("백엔드", "스프링"));
+        RoadmapRequest request = new RoadmapRequest("자바자바", "조아요", List.of("백엔드", "스프링"), 1L);
         RoadmapResponse fakeResponse = new RoadmapResponse(
                 1L,
                 request.getTitle(),
@@ -93,7 +93,7 @@ class RoadmapControllerTest extends ControllerTest {
     void 로드맵을_수정한다() throws Exception {
         Long roadmapId = 1L;
         RoadmapRequest request = new RoadmapRequest(
-                "수정된 타이틀", "수정된 설명", List.of("수정된 테스트1", "수정된 테스트2")
+                "수정된 타이틀", "수정된 설명", List.of("수정된 테스트1", "수정된 테스트2"), 1L
         );
 
         RoadmapResponse fakeResponse = new RoadmapResponse(
@@ -135,7 +135,8 @@ class RoadmapControllerTest extends ControllerTest {
         RoadmapRequest request = new RoadmapRequest(
                 "자바".repeat(50),
                 "조아요",
-                List.of("스프링")
+                List.of("스프링"),
+                1L
         );
 
         mvc.perform(post("/roadmap/create")
