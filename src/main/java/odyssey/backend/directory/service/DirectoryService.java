@@ -58,6 +58,10 @@ public class DirectoryService {
         return new DirectoryResponse(directory);
     }
 
+    public void deleteDirectory(Long id) {
+        directoryRepository.deleteById(id);
+    }
+
     public Directory findDirectoryById(Long id) {
         return directoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("디렉토리를 찾을 수 없습니다."));
