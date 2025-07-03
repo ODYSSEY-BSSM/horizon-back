@@ -27,6 +27,11 @@ public class GlobalExceptionHandler {
         return buildResponse(ExceptionCode.INVALID_REQUEST, errorMessage);
     }
 
+    @ExceptionHandler(DirectoryNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleDirectoryNotFoundException(DirectoryNotFoundException e) {
+        return buildResponse(ExceptionCode.DIRECTORY_NOT_FOUND);
+    }
+
     private ResponseEntity<ExceptionResponse> buildResponse(ExceptionCode exceptionCode) {
         return ResponseEntity
                 .status(exceptionCode.getStatus())
@@ -38,4 +43,5 @@ public class GlobalExceptionHandler {
                 .status(exceptionCode.getStatus())
                 .body(new ExceptionResponse(exceptionCode.getStatus().value(), customMessage));
     }
+
 }

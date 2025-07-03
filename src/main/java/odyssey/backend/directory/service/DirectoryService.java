@@ -7,6 +7,7 @@ import odyssey.backend.directory.domain.DirectoryRepository;
 import odyssey.backend.directory.dto.DirectoryRequest;
 import odyssey.backend.directory.dto.DirectoryResponse;
 import odyssey.backend.directory.dto.RootContentResponse;
+import odyssey.backend.global.exception.DirectoryNotFoundException;
 import odyssey.backend.roadmap.domain.Roadmap;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
 import odyssey.backend.roadmap.dto.SimpleRoadmapResponse;
@@ -26,7 +27,7 @@ public class DirectoryService {
 
         if (directoryRequest.getParentId() != null) {
             parent = directoryRepository.findById(directoryRequest.getParentId())
-                    .orElseThrow(() -> new IllegalArgumentException(""));
+                    .orElseThrow(DirectoryNotFoundException::new);
         }
 
         Directory directory = Directory.builder()
@@ -44,6 +45,7 @@ public class DirectoryService {
         Directory directory = findDirectoryById(id);
 
         Directory parent = null;
+
         if (request.getParentId() != null) {
             parent = findDirectoryById(request.getParentId());
         }
@@ -73,7 +75,7 @@ public class DirectoryService {
 
     public Directory findDirectoryById(Long id) {
         return directoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("디렉토리를 찾을 수 없습니다."));
+                .orElseThrow(DirectoryNotFoundException::new);
     }
 
 }
