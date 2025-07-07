@@ -70,6 +70,8 @@ public class DirectoryService {
     }
 
     public void deleteDirectory(Long id) {
+        Directory directory = findDirectoryById(id);
+
         directoryRepository.deleteById(id);
     }
 
