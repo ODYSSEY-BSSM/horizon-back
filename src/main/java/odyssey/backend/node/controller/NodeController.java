@@ -46,9 +46,11 @@ public class NodeController {
     }
 
     @DeleteMapping("/{nodeId}")
-    public void deleteNode(
+    public SingleCommonResponse<String> deleteNode(
             @PathVariable Long nodeId,
             @PathVariable Long roadmapId) {
         nodeService.deleteNodeByIdAndRoadmapId(nodeId, roadmapId);
+
+        return CommonResponse.ok("삭제되었습니다.");
     }
 }
