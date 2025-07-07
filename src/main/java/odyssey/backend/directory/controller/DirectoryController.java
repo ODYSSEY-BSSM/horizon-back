@@ -32,8 +32,10 @@ public class DirectoryController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDirectory(@PathVariable Long id) {
+    public SingleCommonResponse<String> deleteDirectory(@PathVariable Long id) {
         directoryService.deleteDirectory(id);
+
+        return CommonResponse.ok("삭제되었습니다.");
     }
 
     @GetMapping("/root-contents")
