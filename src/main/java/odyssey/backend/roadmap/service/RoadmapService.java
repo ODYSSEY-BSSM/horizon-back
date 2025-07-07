@@ -66,11 +66,12 @@
 
         @Transactional
         public void deleteRoadmapById(Long id) {
+            Roadmap roadmap = roadmapRepository.findById(id)
+                    .orElseThrow(RoadmapNotFoundException::new);
 
             log.info("삭제된 로드맵 Id : {}", id);
 
             roadmapRepository.deleteById(id);
-
         }
 
         @Transactional
