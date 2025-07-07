@@ -42,8 +42,10 @@ public class RoadmapController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteRoadmap(@PathVariable Long id) {
+    public SingleCommonResponse<String> deleteRoadmap(@PathVariable Long id) {
         roadmapService.deleteRoadmapById(id);
+
+        return CommonResponse.ok("삭제되었습니다.");
     }
 
     @PostMapping("/favorite/{id}")
