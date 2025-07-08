@@ -4,7 +4,7 @@
     import lombok.extern.slf4j.Slf4j;
     import odyssey.backend.directory.domain.Directory;
     import odyssey.backend.directory.service.DirectoryService;
-    import odyssey.backend.global.exception.RoadmapNotFoundException;
+    import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.image.domain.Image;
     import odyssey.backend.image.service.ImageService;
     import odyssey.backend.roadmap.domain.RoadmapRepository;
@@ -42,7 +42,7 @@
 
             Directory directory = null;
 
-            if(request.getDirectoryId() != null) {
+            if (request.getDirectoryId() != null) {
                 directory = directoryService.findDirectoryById(request.getDirectoryId());
             }
 
@@ -91,7 +91,7 @@
         }
 
         @Transactional
-        public RoadmapResponse toggleFavorite(Long id){
+        public RoadmapResponse toggleFavorite(Long id) {
             Roadmap roadmap = roadmapRepository.findById(id)
                     .orElseThrow(RoadmapNotFoundException::new);
 
@@ -116,12 +116,12 @@
             return new RoadmapResponse(roadmap, image.getUrl());
         }
 
-        public List<Roadmap> findByDirectoryIsNull(){
+        public List<Roadmap> findByDirectoryIsNull() {
             return roadmapRepository.findByDirectoryIsNull();
 
         }
 
-        public RoadmapCountResponse getRoadmapCount(){
+        public RoadmapCountResponse getRoadmapCount() {
             Long count = roadmapRepository.count();
 
             return new RoadmapCountResponse(count);
