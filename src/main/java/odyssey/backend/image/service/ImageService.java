@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -28,7 +27,17 @@ public class ImageService {
     private final ImageRepository imageRepository;
 
     public Image save(MultipartFile file, Roadmap roadmap) {
-        if (!Objects.requireNonNull(file.getContentType()).startsWith("image/")) {
+        if(file == null || file.isEmpty()) {
+            return imageRepository.save(
+                    Image.builder()
+                            .url("/uploads/thumbnails/썸네일.jpg")
+                            .roadmap(roadmap)
+                            .build()
+            );
+        }
+
+        String contentType = file.getContentType();
+        if(contentType == null || !contentType.startsWith("image/")) {
             throw new InvalidImageFormatException();
         }
 
