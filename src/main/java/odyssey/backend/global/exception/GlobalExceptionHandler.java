@@ -1,5 +1,10 @@
 package odyssey.backend.global.exception;
 
+import odyssey.backend.directory.exception.DirectoryNotFoundException;
+import odyssey.backend.image.exception.ImageSaveException;
+import odyssey.backend.image.exception.InvalidImageFormatException;
+import odyssey.backend.node.exception.NodeNotFoundException;
+import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +30,16 @@ public class GlobalExceptionHandler {
                 .getDefaultMessage();
 
         return buildResponse(ExceptionCode.INVALID_REQUEST, errorMessage);
+    }
+
+    @ExceptionHandler(ImageSaveException.class)
+    public ResponseEntity<ExceptionResponse> handleImageSaveException(ImageSaveException e) {
+        return buildResponse(ExceptionCode.IMAGE_SAVE_FAIL);
+    }
+
+    @ExceptionHandler(InvalidImageFormatException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidImageFormatException(InvalidImageFormatException e) {
+        return buildResponse(ExceptionCode.INVALID_IMAGE_FORMAT);
     }
 
     @ExceptionHandler(DirectoryNotFoundException.class)

@@ -7,7 +7,7 @@ import odyssey.backend.directory.domain.DirectoryRepository;
 import odyssey.backend.directory.dto.DirectoryRequest;
 import odyssey.backend.directory.dto.DirectoryResponse;
 import odyssey.backend.directory.dto.RootContentResponse;
-import odyssey.backend.global.exception.DirectoryNotFoundException;
+import odyssey.backend.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.roadmap.domain.Roadmap;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
 import odyssey.backend.roadmap.dto.SimpleRoadmapResponse;

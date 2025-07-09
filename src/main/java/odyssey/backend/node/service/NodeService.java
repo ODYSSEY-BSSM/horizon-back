@@ -2,8 +2,8 @@ package odyssey.backend.node.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odyssey.backend.global.exception.NodeNotFoundException;
-import odyssey.backend.global.exception.RoadmapNotFoundException;
+import odyssey.backend.node.exception.NodeNotFoundException;
+import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.node.domain.NodeRepository;
 import odyssey.backend.node.dto.NodeRequest;

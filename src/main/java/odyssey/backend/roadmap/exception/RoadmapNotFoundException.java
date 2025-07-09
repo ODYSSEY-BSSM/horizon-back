@@ -1,4 +1,4 @@
-package odyssey.backend.global.exception;
+package odyssey.backend.roadmap.exception;
 
 public class RoadmapNotFoundException extends RuntimeException {
 }

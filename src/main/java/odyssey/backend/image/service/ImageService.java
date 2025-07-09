@@ -3,6 +3,8 @@ package odyssey.backend.image.service;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.image.domain.ImageRepository;
+import odyssey.backend.image.exception.ImageSaveException;
+import odyssey.backend.image.exception.InvalidImageFormatException;
 import odyssey.backend.roadmap.domain.Roadmap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,7 @@ public class ImageService {
 
     public Image save(MultipartFile file, Roadmap roadmap) {
         if (!Objects.requireNonNull(file.getContentType()).startsWith("image/")) {
-            throw new IllegalArgumentException("이미지 파일만 업로드 가능합니다.");
+            throw new InvalidImageFormatException();
         }
 
         try {
@@ -48,7 +50,7 @@ public class ImageService {
             );
 
         } catch (IOException e) {
-            throw new RuntimeException("이미지 저장 실패", e);
+            throw new ImageSaveException();
         }
     }
 
