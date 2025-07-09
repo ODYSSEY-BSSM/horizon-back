@@ -66,8 +66,7 @@
 
         @Transactional
         public void deleteRoadmapById(Long id) {
-            Roadmap roadmap = roadmapRepository.findById(id)
-                    .orElseThrow(RoadmapNotFoundException::new);
+            Roadmap roadmap = findRoadmapById(id);
 
             log.info("삭제된 로드맵 Id : {}", id);
 
@@ -76,8 +75,7 @@
 
         @Transactional
         public RoadmapResponse update(Long id, RoadmapRequest request) {
-            Roadmap roadmap = roadmapRepository.findById(id)
-                    .orElseThrow(RoadmapNotFoundException::new);
+            Roadmap roadmap = findRoadmapById(id);
 
             roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
 
@@ -92,8 +90,7 @@
 
         @Transactional
         public RoadmapResponse toggleFavorite(Long id) {
-            Roadmap roadmap = roadmapRepository.findById(id)
-                    .orElseThrow(RoadmapNotFoundException::new);
+            Roadmap roadmap = findRoadmapById(id);
 
             roadmap.toggleFavorite();
 
@@ -125,6 +122,11 @@
             Long count = roadmapRepository.count();
 
             return new RoadmapCountResponse(count);
+        }
+
+        private Roadmap findRoadmapById(Long id) {
+            return roadmapRepository.findById(id)
+                    .orElseThrow(RoadmapNotFoundException::new);
         }
 
     }

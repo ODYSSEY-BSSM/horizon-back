@@ -72,8 +72,7 @@ public class NodeService {
     }
 
     public NodeResponse getNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
-        Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(NodeNotFoundException::new);
+        Node node = findByIdAndRoadmapId(nodeId, roadmapId);
 
         log.info("조회된 노드 Id : {} ", node.getId());
 
@@ -86,8 +85,7 @@ public class NodeService {
 
         roadmap.updateLastModifiedAt();
 
-        Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(NodeNotFoundException::new);
+        Node node = findByIdAndRoadmapId(nodeId, roadmapId);
 
         node.update(
                 request.getTitle(),
@@ -108,8 +106,7 @@ public class NodeService {
 
     @Transactional
     public void deleteNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
-        Node node = nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
-                .orElseThrow(NodeNotFoundException::new);
+        Node node = findByIdAndRoadmapId(nodeId, roadmapId);
 
         Roadmap roadmap = getRoadmapById(roadmapId);
 
@@ -123,6 +120,11 @@ public class NodeService {
     private Roadmap getRoadmapById(Long roadmapId) {
         return roadmapRepository.findById(roadmapId)
                         .orElseThrow(RoadmapNotFoundException::new);
+    }
+
+    private Node findByIdAndRoadmapId(Long nodeId, Long roadmapId) {
+        return nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
+                .orElseThrow(NodeNotFoundException::new);
     }
 
 }
