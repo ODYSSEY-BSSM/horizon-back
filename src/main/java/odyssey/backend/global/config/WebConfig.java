@@ -21,7 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://localhost:300*", "http://localhost:517*") // 허용할 도메인 설정
+                .allowedOriginPatterns("http://localhost:300*", "http://localhost:517*")
+                .allowedOrigins("https://horizon-studio-eight.vercel.app/")
                 .allowedMethods("*") // 허용할 HTTP 메소드 설정
                 .allowedHeaders("*") // 허용할 헤더 설정
                 .allowCredentials(true) // 인증정보 허용 여부
