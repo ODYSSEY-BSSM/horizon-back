@@ -8,6 +8,7 @@ import odyssey.backend.global.response.SingleCommonResponse;
 import odyssey.backend.node.dto.NodeRequest;
 import odyssey.backend.node.dto.NodeResponse;
 import odyssey.backend.node.service.NodeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,6 +20,7 @@ public class NodeController {
     private final NodeService nodeService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<NodeResponse> createNode(
             @PathVariable Long roadmapId,
             @Valid @RequestBody NodeRequest nodeRequest) {
@@ -26,11 +28,13 @@ public class NodeController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ListCommonResponse<NodeResponse> getNodesByRoadmap(@PathVariable Long roadmapId) {
         return CommonResponse.ok(nodeService.getNodesByRoadmapId(roadmapId));
     }
 
     @GetMapping("/{nodeId}")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<NodeResponse> getNode(
             @PathVariable Long nodeId,
             @PathVariable Long roadmapId) {
@@ -38,6 +42,7 @@ public class NodeController {
     }
 
     @PutMapping("/{nodeId}")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<NodeResponse> updateNode(
             @PathVariable Long nodeId,
             @PathVariable Long roadmapId,
@@ -46,6 +51,7 @@ public class NodeController {
     }
 
     @DeleteMapping("/{nodeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public SingleCommonResponse<String> deleteNode(
             @PathVariable Long nodeId,
             @PathVariable Long roadmapId) {
