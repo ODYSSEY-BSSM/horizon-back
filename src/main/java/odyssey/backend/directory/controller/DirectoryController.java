@@ -8,6 +8,7 @@ import odyssey.backend.directory.dto.RootContentResponse;
 import odyssey.backend.directory.service.DirectoryService;
 import odyssey.backend.global.response.CommonResponse;
 import odyssey.backend.global.response.SingleCommonResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class DirectoryController {
     private final DirectoryService directoryService;
 
     @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<DirectoryResponse> createDirectory(
             @Valid @RequestBody DirectoryRequest request
     ){
@@ -25,6 +27,7 @@ public class DirectoryController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<DirectoryResponse> updateDirectory(
             @PathVariable Long id,
             @Valid @RequestBody DirectoryRequest request){
@@ -32,6 +35,7 @@ public class DirectoryController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public SingleCommonResponse<String> deleteDirectory(@PathVariable Long id) {
         directoryService.deleteDirectory(id);
 
@@ -39,6 +43,7 @@ public class DirectoryController {
     }
 
     @GetMapping("/root-contents")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RootContentResponse> getRootContents() {
         RootContentResponse response = directoryService.getRootContents();
         return CommonResponse.ok(response);
