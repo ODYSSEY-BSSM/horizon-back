@@ -63,6 +63,21 @@ public class ImageService {
         }
     }
 
+
+    public void deleteImageByRoadmap(Roadmap roadmap) {
+        imageRepository.findByRoadmapId(roadmap.getId()).ifPresent(image -> {
+            String url = image.getUrl();
+            String fileName = Paths.get(url).getFileName().toString();
+            Path filePath = Paths.get(thumbnailDir, fileName);
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            imageRepository.delete(image);
+        });
+    }
+
     public Image getImageByRoadmap(Roadmap roadmap) {
         return imageRepository.findByRoadmapId(roadmap.getId())
                 .orElse(Image.builder()

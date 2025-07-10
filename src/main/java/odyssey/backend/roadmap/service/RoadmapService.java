@@ -70,6 +70,8 @@
 
             log.info("삭제된 로드맵 Id : {}", id);
 
+            imageService.deleteImageByRoadmap(roadmap);
+
             roadmapRepository.deleteById(id);
         }
 
