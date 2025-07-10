@@ -9,6 +9,7 @@ import odyssey.backend.roadmap.dto.RoadmapCountResponse;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
 import odyssey.backend.roadmap.service.RoadmapService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,12 +24,14 @@ public class RoadmapController {
     private final RoadmapService roadmapService;
 
     @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
     public ListCommonResponse<RoadmapResponse> getAllRoadmaps() {
         List<RoadmapResponse> roadmaps = roadmapService.findAllRoadmaps();
         return CommonResponse.ok(roadmaps);
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<RoadmapResponse> createRoadmap(
             @RequestPart("roadmap") @Valid RoadmapRequest request,
             @RequestPart("thumbnail") MultipartFile thumbnail) {
@@ -37,11 +40,13 @@ public class RoadmapController {
     }
 
     @PutMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> updateRoadmap(@PathVariable Long id, @RequestBody @Valid RoadmapRequest request) {
         return CommonResponse.ok(roadmapService.update(id, request));
     }
 
     @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public SingleCommonResponse<String> deleteRoadmap(@PathVariable Long id) {
         roadmapService.deleteRoadmapById(id);
 
@@ -49,16 +54,19 @@ public class RoadmapController {
     }
 
     @PostMapping("/favorite/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> toggleFavorite(@PathVariable Long id) {
         return CommonResponse.ok(roadmapService.toggleFavorite(id));
     }
 
     @GetMapping("/last-accessed")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> getLastAccessedRoadmap() {
         return CommonResponse.ok(roadmapService.getLastAccessedRoadmap());
     }
 
     @GetMapping("/count")
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapCountResponse> getRoadmapCount() {
         return CommonResponse.ok(roadmapService.getRoadmapCount());
     }
