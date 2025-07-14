@@ -4,6 +4,7 @@
     import lombok.extern.slf4j.Slf4j;
     import odyssey.backend.directory.domain.Directory;
     import odyssey.backend.directory.service.DirectoryService;
+    import odyssey.backend.roadmap.dto.ImageUrlResponse;
     import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.image.domain.Image;
     import odyssey.backend.image.service.ImageService;
@@ -124,6 +125,12 @@
             Long count = roadmapRepository.count();
 
             return new RoadmapCountResponse(count);
+        }
+
+        public ImageUrlResponse getUrlByRoadmapId(Long id) {
+            Image image = imageService.getImageByRoadmapId(id);
+
+            return new ImageUrlResponse(image.getUrl());
         }
 
         private Roadmap findRoadmapById(Long id) {

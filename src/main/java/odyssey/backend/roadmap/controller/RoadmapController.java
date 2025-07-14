@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.global.response.CommonResponse;
 import odyssey.backend.global.response.ListCommonResponse;
 import odyssey.backend.global.response.SingleCommonResponse;
+import odyssey.backend.roadmap.dto.ImageUrlResponse;
 import odyssey.backend.roadmap.dto.RoadmapCountResponse;
 import odyssey.backend.roadmap.dto.RoadmapRequest;
 import odyssey.backend.roadmap.dto.RoadmapResponse;
@@ -69,5 +70,11 @@ public class RoadmapController {
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapCountResponse> getRoadmapCount() {
         return CommonResponse.ok(roadmapService.getRoadmapCount());
+    }
+
+    @GetMapping("/{id}/url")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<ImageUrlResponse> getThumbnailUrl(@PathVariable Long id) {
+        return CommonResponse.ok(roadmapService.getUrlByRoadmapId(id));
     }
 }

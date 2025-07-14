@@ -85,4 +85,12 @@ public class ImageService {
                         .roadmap(null)
                         .build());
     }
+
+    public Image getImageByRoadmapId(Long id){
+        return imageRepository.findByRoadmapId(id)
+                .orElse(Image.builder()
+                        .url("/uploads/thumbnails/썸네일.jpg")
+                        .roadmap(null)
+                        .build());
+    }
 }
