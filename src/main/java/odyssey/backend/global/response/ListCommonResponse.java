@@ -6,10 +6,10 @@ import java.util.List;
 
 @Getter
 public class ListCommonResponse<T> extends CommonResponse {
-    List<T> dataList;
+    List<T> data;
 
-    public ListCommonResponse(String code, String message, List<T> dataList) {
+    public ListCommonResponse(String code, String message, List<T> data) {
         super(code, message);
-        this.dataList = dataList;
+        this.data = data;
     }
 }
