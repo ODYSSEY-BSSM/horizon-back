@@ -30,7 +30,7 @@
 
 
         public List<RoadmapResponse> findAllRoadmaps() {
-            return roadmapRepository.findAll().stream()
+            return roadmapRepository.findAllByOrderByLastAccessedAtDesc().stream()
                     .map(roadmap -> {
                         Image image = imageService.getImageByRoadmap(roadmap);
                         return new RoadmapResponse(roadmap, image.getUrl());
