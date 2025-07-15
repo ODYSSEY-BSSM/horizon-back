@@ -21,12 +21,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://localhost:300*", "http://localhost:517*")
-                .allowedOriginPatterns("http://127.0.0.1:300*", "http://127.0.0.1:517*")
-                .allowedOrigins("https://horizon-studio-eight.vercel.app")
-                .allowedMethods("*") // 허용할 HTTP 메소드 설정
-                .allowedHeaders("*") // 허용할 헤더 설정
-                .allowCredentials(true) // 인증정보 허용 여부
-                .maxAge(3600); // preflight 요청의 유효시간 설정
+                .allowedOriginPatterns("http://localhost:300*", "http://localhost:517*", "http://127.0.0.1:300*", "http://127.0.0.1:517*", "https://horizon-studio-eight.vercel.app")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
