@@ -1,4 +1,4 @@
-package odyssey.backend.directory.dto;
+package odyssey.backend.directory.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
