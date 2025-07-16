@@ -1,4 +1,4 @@
-package odyssey.backend.roadmap.dto;
+package odyssey.backend.roadmap.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

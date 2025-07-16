@@ -1,9 +1,9 @@
 package odyssey.backend.roadmap;
 
 import odyssey.backend.global.ControllerTest;
-import odyssey.backend.roadmap.dto.RoadmapCountResponse;
-import odyssey.backend.roadmap.dto.RoadmapRequest;
-import odyssey.backend.roadmap.dto.RoadmapResponse;
+import odyssey.backend.roadmap.dto.response.RoadmapCountResponse;
+import odyssey.backend.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.roadmap.dto.response.RoadmapResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;

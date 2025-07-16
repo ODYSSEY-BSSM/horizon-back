@@ -1,8 +1,8 @@
-package odyssey.backend.directory.dto;
+package odyssey.backend.directory.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import odyssey.backend.roadmap.dto.SimpleRoadmapResponse;
+import odyssey.backend.roadmap.dto.response.SimpleRoadmapResponse;
 
 import java.util.List;
 

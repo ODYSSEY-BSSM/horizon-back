@@ -4,13 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.directory.domain.DirectoryRepository;
-import odyssey.backend.directory.dto.DirectoryRequest;
-import odyssey.backend.directory.dto.DirectoryResponse;
-import odyssey.backend.directory.dto.RootContentResponse;
+import odyssey.backend.directory.dto.request.DirectoryRequest;
+import odyssey.backend.directory.dto.response.DirectoryResponse;
+import odyssey.backend.directory.dto.response.RootContentResponse;
 import odyssey.backend.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.roadmap.domain.Roadmap;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
-import odyssey.backend.roadmap.dto.SimpleRoadmapResponse;
+import odyssey.backend.roadmap.dto.response.SimpleRoadmapResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

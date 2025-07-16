@@ -1,10 +1,10 @@
 package odyssey.backend.directory;
 
-import odyssey.backend.directory.dto.DirectoryRequest;
-import odyssey.backend.directory.dto.DirectoryResponse;
-import odyssey.backend.directory.dto.RootContentResponse;
+import odyssey.backend.directory.dto.request.DirectoryRequest;
+import odyssey.backend.directory.dto.response.DirectoryResponse;
+import odyssey.backend.directory.dto.response.RootContentResponse;
 import odyssey.backend.global.ControllerTest;
-import odyssey.backend.roadmap.dto.SimpleRoadmapResponse;
+import odyssey.backend.roadmap.dto.response.SimpleRoadmapResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;

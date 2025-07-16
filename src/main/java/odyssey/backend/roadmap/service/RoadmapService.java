@@ -4,14 +4,14 @@
     import lombok.extern.slf4j.Slf4j;
     import odyssey.backend.directory.domain.Directory;
     import odyssey.backend.directory.service.DirectoryService;
-    import odyssey.backend.roadmap.dto.ImageUrlResponse;
+    import odyssey.backend.roadmap.dto.response.ImageUrlResponse;
     import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.image.domain.Image;
     import odyssey.backend.image.service.ImageService;
     import odyssey.backend.roadmap.domain.RoadmapRepository;
-    import odyssey.backend.roadmap.dto.RoadmapCountResponse;
-    import odyssey.backend.roadmap.dto.RoadmapRequest;
-    import odyssey.backend.roadmap.dto.RoadmapResponse;
+    import odyssey.backend.roadmap.dto.response.RoadmapCountResponse;
+    import odyssey.backend.roadmap.dto.request.RoadmapRequest;
+    import odyssey.backend.roadmap.dto.response.RoadmapResponse;
     import org.springframework.stereotype.Service;
     import odyssey.backend.roadmap.domain.Roadmap;
     import org.springframework.transaction.annotation.Transactional;

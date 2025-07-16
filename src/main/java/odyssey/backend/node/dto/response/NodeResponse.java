@@ -1,4 +1,4 @@
-package odyssey.backend.node.dto;
+package odyssey.backend.node.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
