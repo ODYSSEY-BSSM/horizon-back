@@ -9,8 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DirectoryRequest {
 
-    @NotBlank
-    @Size(max = 64, message = "필수입니다.")
+    @NotBlank(message = "필수입니다.")
+    @Size(max = 64)
     private String name;
 
     private Long parentId;
