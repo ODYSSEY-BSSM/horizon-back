@@ -2,8 +2,8 @@ package odyssey.backend.Node;
 
 import odyssey.backend.global.ControllerTest;
 import odyssey.backend.node.domain.NodeType;
-import odyssey.backend.node.dto.NodeRequest;
-import odyssey.backend.node.dto.NodeResponse;
+import odyssey.backend.node.dto.request.NodeRequest;
+import odyssey.backend.node.dto.response.NodeResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;

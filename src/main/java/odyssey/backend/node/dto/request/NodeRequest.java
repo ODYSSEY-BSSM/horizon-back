@@ -1,4 +1,4 @@
-package odyssey.backend.node.dto;
+package odyssey.backend.node.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

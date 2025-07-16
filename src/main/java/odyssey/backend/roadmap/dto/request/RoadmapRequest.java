@@ -1,4 +1,4 @@
-package odyssey.backend.roadmap.dto;
+package odyssey.backend.roadmap.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

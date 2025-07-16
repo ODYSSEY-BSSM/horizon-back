@@ -2,9 +2,9 @@ package odyssey.backend.directory.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import odyssey.backend.directory.dto.DirectoryRequest;
-import odyssey.backend.directory.dto.DirectoryResponse;
-import odyssey.backend.directory.dto.RootContentResponse;
+import odyssey.backend.directory.dto.request.DirectoryRequest;
+import odyssey.backend.directory.dto.response.DirectoryResponse;
+import odyssey.backend.directory.dto.response.RootContentResponse;
 import odyssey.backend.directory.service.DirectoryService;
 import odyssey.backend.global.response.CommonResponse;
 import odyssey.backend.global.response.SingleCommonResponse;
