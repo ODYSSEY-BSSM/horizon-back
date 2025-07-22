@@ -31,7 +31,7 @@ public class DirectoryResponse {
                         : List.of(),
                 directory.getRoadmaps() != null
                         ? directory.getRoadmaps().stream()
-                        .map(SimpleRoadmapResponse::new)
+                        .map(SimpleRoadmapResponse::from)
                         .toList()
                         : List.of()
         );
