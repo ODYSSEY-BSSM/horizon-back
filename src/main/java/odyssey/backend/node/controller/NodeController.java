@@ -51,7 +51,7 @@ public class NodeController {
     }
 
     @DeleteMapping("/{nodeId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<String> deleteNode(
             @PathVariable Long nodeId,
             @PathVariable Long roadmapId) {
