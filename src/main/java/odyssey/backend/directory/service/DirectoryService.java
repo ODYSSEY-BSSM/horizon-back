@@ -60,7 +60,7 @@ public class DirectoryService {
                 .toList();
 
         List<SimpleRoadmapResponse> roadmapResponses = rootRoadmaps.stream()
-                .map(SimpleRoadmapResponse::new)
+                .map(SimpleRoadmapResponse::from)
                 .toList();
 
         return RootContentResponse.from(directoryResponses, roadmapResponses);
