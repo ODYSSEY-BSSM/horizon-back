@@ -1,6 +1,5 @@
 package odyssey.backend.roadmap.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import odyssey.backend.roadmap.domain.Roadmap;
 
@@ -9,35 +8,46 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 public class RoadmapResponse {
 
-    private Long id;
+    private final Long id;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private List<String> categories;
+    private final List<String> categories;
 
-    private String thumbnailUrl;
+    private final String thumbnailUrl;
 
-    private LocalDate lastModifiedAt;
+    private final LocalDate lastModifiedAt;
 
-    private LocalDateTime lastAccessedAt;
+    private final LocalDateTime lastAccessedAt;
 
-    private Boolean isFavorite;
+    private final boolean isFavorite;
 
-    private String location;
+    private final String location;
 
-    public RoadmapResponse(Roadmap roadmap, String thumbnailUrl) {
-        this.id = roadmap.getId();
-        this.title = roadmap.getTitle();
-        this.description = roadmap.getDescription();
-        this.categories = roadmap.getCategories();
-        this.lastModifiedAt = roadmap.getLastModifiedAt();
-        this.lastAccessedAt = roadmap.getLastAccessedAt();
-        this.isFavorite = roadmap.getIsFavorite();
+    public static RoadmapResponse from(Roadmap roadmap, String thumbnailUrl) {
+        return new RoadmapResponse(
+                roadmap.getId(),
+                roadmap.getTitle(),
+                roadmap.getDescription(),
+                roadmap.getCategories(),
+                roadmap.getLastModifiedAt(),
+                roadmap.getLastAccessedAt(),
+                roadmap.getIsFavorite(),
+                thumbnailUrl);
+    }
+    RoadmapResponse(Long id, String title, String description, List<String> categories, LocalDate lastModifiedAt,
+                    LocalDateTime lastAccessedAt, Boolean isFavorite, String thumbnailUrl) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.categories = categories;
+        this.lastModifiedAt = lastModifiedAt;
+        this.lastAccessedAt = lastAccessedAt;
+        this.isFavorite = isFavorite;
         this.location = "내 로드맵";
         this.thumbnailUrl = thumbnailUrl;
     }

@@ -7,7 +7,11 @@ public class RoadmapCountResponse {
 
     private final Long count;
 
-    public RoadmapCountResponse(Long count) {
+    public static RoadmapCountResponse from(Long count) {
+        return new RoadmapCountResponse(count);
+    }
+
+    RoadmapCountResponse(Long count) {
         this.count = count;
     }
 }

@@ -1,12 +1,12 @@
 package odyssey.backend.roadmap.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.node.domain.Node;
+import odyssey.backend.roadmap.dto.request.RoadmapRequest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,8 +54,11 @@ public class Roadmap {
     @JoinColumn(name = "directory_id")
     private Directory directory;
 
-    @Builder
-    public Roadmap(String title, String description, List<String> categories, Directory directory) {
+    public static Roadmap ok(RoadmapRequest request, Directory directory) {
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), directory);
+    }
+
+    Roadmap(String title, String description, List<String> categories, Directory directory) {
         this.title = title;
         this.description = description;
         this.categories = categories;

@@ -1,12 +1,18 @@
 package odyssey.backend.roadmap.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class ImageUrlResponse {
 
-    private String url;
+    private final String url;
+
+    public static ImageUrlResponse create(String url) {
+        return new ImageUrlResponse(url);
+    }
+
+    ImageUrlResponse(String url) {
+        this.url = url;
+    }
 
 }

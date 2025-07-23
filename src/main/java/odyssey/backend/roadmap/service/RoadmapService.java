@@ -33,7 +33,7 @@
             return roadmapRepository.findAllByOrderByLastAccessedAtDesc().stream()
                     .map(roadmap -> {
                         Image image = imageService.getImageByRoadmap(roadmap);
-                        return new RoadmapResponse(roadmap, image.getUrl());
+                        return RoadmapResponse.from(roadmap, image.getUrl());
                     })
                     .toList();
         }
@@ -48,12 +48,7 @@
             }
 
             Roadmap roadmap = roadmapRepository.save(
-                    Roadmap.builder()
-                            .title(request.getTitle())
-                            .description(request.getDescription())
-                            .categories(request.getCategories())
-                            .directory(directory)
-                            .build()
+                    Roadmap.ok(request, directory)
             );
 
             roadmap.updateLastModifiedAt();
@@ -62,7 +57,7 @@
 
             log.info("생성된 로드맵 Id : {}", roadmap.getId());
 
-            return new RoadmapResponse(roadmap, image.getUrl());
+            return RoadmapResponse.from(roadmap, image.getUrl());
         }
 
         @Transactional
@@ -88,7 +83,7 @@
 
             Image image = imageService.getImageByRoadmap(roadmap);
 
-            return new RoadmapResponse(roadmap, image.getUrl());
+            return RoadmapResponse.from(roadmap, image.getUrl());
         }
 
         @Transactional
@@ -101,7 +96,7 @@
 
             Image image = imageService.getImageByRoadmap(roadmap);
 
-            return new RoadmapResponse(roadmap, image.getUrl());
+            return RoadmapResponse.from(roadmap, image.getUrl());
         }
 
         public RoadmapResponse getLastAccessedRoadmap() {
@@ -113,7 +108,7 @@
 
             log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 
-            return new RoadmapResponse(roadmap, image.getUrl());
+            return RoadmapResponse.from(roadmap, image.getUrl());
         }
 
         public List<Roadmap> findByDirectoryIsNull() {
@@ -124,13 +119,13 @@
         public RoadmapCountResponse getRoadmapCount() {
             Long count = roadmapRepository.count();
 
-            return new RoadmapCountResponse(count);
+            return RoadmapCountResponse.from(count);
         }
 
         public ImageUrlResponse getUrlByRoadmapId(Long id) {
             Image image = imageService.getImageByRoadmapId(id);
 
-            return new ImageUrlResponse(image.getUrl());
+            return ImageUrlResponse.create(image.getUrl());
         }
 
         private Roadmap findRoadmapById(Long id) {

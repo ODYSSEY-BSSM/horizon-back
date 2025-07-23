@@ -1,9 +1,9 @@
 package odyssey.backend.node.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.node.dto.request.NodeRequest;
 import odyssey.backend.roadmap.domain.Roadmap;
 
 import java.util.List;
@@ -55,8 +55,22 @@ public class Node {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Node> children;
 
-    @Builder
-    public Node(
+    public static Node ok(NodeRequest request, Roadmap roadmap, Node parent) {
+        return new Node(
+                request.getTitle(),
+                request.getDescription(),
+                request.getHeight(),
+                request.getWidth(),
+                request.getType(),
+                request.getX(),
+                request.getY(),
+                request.getCategory(),
+                roadmap,
+                parent
+        );
+    }
+
+    Node(
             String title, String description, int height, int width, NodeType type, int x, int y, String category, Roadmap roadmap, Node parent) {
         this.title = title;
         this.description = description;
