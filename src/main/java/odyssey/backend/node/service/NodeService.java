@@ -38,23 +38,12 @@ public class NodeService {
         }
 
         Node node = nodeRepository.save(
-                Node.builder()
-                        .title(request.getTitle())
-                        .description(request.getDescription())
-                        .x(request.getX())
-                        .y(request.getY())
-                        .type(request.getType())
-                        .height(request.getHeight())
-                        .width(request.getWidth())
-                        .category(request.getCategory())
-                        .roadmap(roadmap)
-                        .parent(parentNode)
-                        .build()
+                Node.ok(request, roadmap, parentNode)
         );
 
         log.info("만들어진 노드 Id : {} ", node.getId());
 
-        return new NodeResponse(node);
+        return NodeResponse.from(node);
     }
 
     @Transactional
@@ -67,7 +56,7 @@ public class NodeService {
 
         return nodes.stream()
                 .filter(node -> node.getParent() == null)
-                .map(NodeResponse::new)
+                .map(NodeResponse::from)
                 .toList();
     }
 
@@ -76,7 +65,7 @@ public class NodeService {
 
         log.info("조회된 노드 Id : {} ", node.getId());
 
-        return new NodeResponse(node);
+        return NodeResponse.from(node);
     }
 
     @Transactional
@@ -101,7 +90,7 @@ public class NodeService {
 
         log.info("업데이트 노드 Id : {} ", node.getId());
 
-        return new NodeResponse(node);
+        return NodeResponse.from(node);
     }
 
     @Transactional
