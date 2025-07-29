@@ -63,6 +63,4 @@
             return new ImageUrlResponse(image.getUrl());
         }
 
-
-
     }
