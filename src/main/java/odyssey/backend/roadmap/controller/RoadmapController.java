@@ -9,6 +9,7 @@ import odyssey.backend.roadmap.dto.response.ImageUrlResponse;
 import odyssey.backend.roadmap.dto.response.RoadmapCountResponse;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.roadmap.dto.response.RoadmapResponse;
+import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import java.util.List;
 public class RoadmapController {
 
     private final RoadmapService roadmapService;
+    private final RoadmapFacade roadmapFacade;
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
@@ -37,19 +39,19 @@ public class RoadmapController {
             @RequestPart("roadmap") @Valid RoadmapRequest request,
             @RequestPart("thumbnail") MultipartFile thumbnail) {
 
-        return CommonResponse.ok(roadmapService.save(request, thumbnail));
+        return CommonResponse.ok(roadmapFacade.save(request, thumbnail));
     }
 
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> updateRoadmap(@PathVariable Long id, @RequestBody @Valid RoadmapRequest request) {
-        return CommonResponse.ok(roadmapService.update(id, request));
+        return CommonResponse.ok(roadmapFacade.update(id, request));
     }
 
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<String> deleteRoadmap(@PathVariable Long id) {
-        roadmapService.deleteRoadmapById(id);
+        roadmapFacade.deleteRoadmapById(id);
 
         return CommonResponse.ok("삭제되었습니다.");
     }
@@ -57,7 +59,7 @@ public class RoadmapController {
     @PostMapping("/favorite/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> toggleFavorite(@PathVariable Long id) {
-        return CommonResponse.ok(roadmapService.toggleFavorite(id));
+        return CommonResponse.ok(roadmapFacade.toggleFavorite(id));
     }
 
     @GetMapping("/last-accessed")
