@@ -2,6 +2,10 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.5'
+    id 'org.owasp.dependencycheck' version '8.4.0'
+    id 'com.github.spotbugs' version '6.0.7'
+    id 'pmd'
+    id 'jacoco'
 }
 
 group = 'odyssey'
@@ -46,4 +50,65 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+    
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                '**/config/**',
+                '**/dto/**',
+                '**/domain/**',
+                '**/*Application*'
+            ])
+        }))
+    }
+}
+
+spotbugs {
+    ignoreFailures = false
+    effort = 'max'
+    reportLevel = 'low'
+}
+
+spotbugsMain {
+    reports {
+        html {
+            required = true
+        }
+    }
+}
+
+spotbugsTest {
+    reports {
+        html {
+            required = true
+        }
+    }
+}
+
+pmd {
+    ignoreFailures = false
+    ruleSets = []
+}
+
+dependencyCheck {
+    format = 'HTML'
+    failBuildOnCVSS = 7.0
 }

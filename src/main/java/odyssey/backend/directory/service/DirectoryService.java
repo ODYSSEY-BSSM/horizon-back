@@ -30,14 +30,11 @@ public class DirectoryService {
                     .orElseThrow(DirectoryNotFoundException::new);
         }
 
-        Directory directory = Directory.builder()
-                .name(directoryRequest.getName())
-                .parent(parent)
-                .build();
+        Directory directory = Directory.ok(directoryRequest.getName(), parent);
 
         directoryRepository.save(directory);
 
-        return new DirectoryResponse(directory);
+        return DirectoryResponse.from(directory);
     }
 
     @Transactional
@@ -51,7 +48,7 @@ public class DirectoryService {
         }
         directory.update(request.getName(), parent);
 
-        return new DirectoryResponse(directory);
+        return DirectoryResponse.from(directory);
     }
 
     public RootContentResponse getRootContents() {
@@ -59,14 +56,14 @@ public class DirectoryService {
         List<Roadmap> rootRoadmaps = roadmapRepository.findByDirectoryIsNull();
 
         List<DirectoryResponse> directoryResponses = rootDirectories.stream()
-                .map(DirectoryResponse::new)
+                .map(DirectoryResponse::from)
                 .toList();
 
         List<SimpleRoadmapResponse> roadmapResponses = rootRoadmaps.stream()
-                .map(SimpleRoadmapResponse::new)
+                .map(SimpleRoadmapResponse::from)
                 .toList();
 
-        return new RootContentResponse(directoryResponses, roadmapResponses);
+        return RootContentResponse.from(directoryResponses, roadmapResponses);
     }
 
     public void deleteDirectory(Long id) {

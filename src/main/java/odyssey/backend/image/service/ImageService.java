@@ -29,10 +29,7 @@ public class ImageService {
     public Image save(MultipartFile file, Roadmap roadmap) {
         if(file == null || file.isEmpty()) {
             return imageRepository.save(
-                    Image.builder()
-                            .url("/uploads/thumbnails/썸네일.jpg")
-                            .roadmap(roadmap)
-                            .build()
+                    Image.ok("/uploads/thumbnails/썸네일.jpg", roadmap)
             );
         }
 
@@ -52,10 +49,7 @@ public class ImageService {
             file.transferTo(targetPath.toFile());
 
             return imageRepository.save(
-                    Image.builder()
-                            .url(thumbnailUrlPrefix + uniqueFilename)
-                            .roadmap(roadmap)
-                            .build()
+                    Image.ok("/uploads/thumbnails/썸네일.jpg", roadmap)
             );
 
         } catch (IOException e) {
@@ -80,17 +74,11 @@ public class ImageService {
 
     public Image getImageByRoadmap(Roadmap roadmap) {
         return imageRepository.findByRoadmapId(roadmap.getId())
-                .orElse(Image.builder()
-                        .url("/uploads/thumbnails/썸네일.jpg")
-                        .roadmap(null)
-                        .build());
+                .orElse(Image.ok("/uploads/thumbnails/썸네일.jpg", roadmap));
     }
 
     public Image getImageByRoadmapId(Long id){
         return imageRepository.findByRoadmapId(id)
-                .orElse(Image.builder()
-                        .url("/uploads/thumbnails/썸네일.jpg")
-                        .roadmap(null)
-                        .build());
+                .orElse(Image.ok("/uploads/thumbnails/썸네일.jpg", null));
     }
 }

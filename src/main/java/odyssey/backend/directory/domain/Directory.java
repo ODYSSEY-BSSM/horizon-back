@@ -1,7 +1,6 @@
 package odyssey.backend.directory.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.roadmap.domain.Roadmap;
@@ -30,8 +29,11 @@ public class Directory {
     @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Roadmap> roadmaps;
 
-    @Builder
-    public Directory(String name, Directory parent) {
+    public static Directory ok(String name, Directory parent){
+        return new Directory(name, parent);
+    }
+
+    Directory(String name, Directory parent) {
         this.name = name;
         this.parent = parent;
     }
