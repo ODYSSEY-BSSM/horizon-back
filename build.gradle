@@ -83,8 +83,8 @@ jacocoTestReport {
 
 spotbugs {
     ignoreFailures = false
-    effort = 'max'
-    reportLevel = 'low'
+    effort = com.github.spotbugs.snom.Effort.valueOf('MAX')
+    reportLevel = com.github.spotbugs.snom.Confidence.valueOf('LOW')
 }
 
 spotbugsMain {
