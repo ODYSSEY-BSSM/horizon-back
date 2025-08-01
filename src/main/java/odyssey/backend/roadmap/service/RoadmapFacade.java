@@ -34,12 +34,7 @@ public class RoadmapFacade {
         }
 
         Roadmap roadmap = roadmapRepository.save(
-                Roadmap.builder()
-                        .title(request.getTitle())
-                        .description(request.getDescription())
-                        .categories(request.getCategories())
-                        .directory(directory)
-                        .build()
+                Roadmap.ok(request, directory)
         );
 
         roadmap.updateLastModifiedAt();
@@ -48,7 +43,7 @@ public class RoadmapFacade {
 
         log.info("생성된 로드맵 Id : {}", roadmap.getId());
 
-        return new RoadmapResponse(roadmap, image.getUrl());
+        return RoadmapResponse.from(roadmap, image.getUrl());
     }
 
     @Transactional
@@ -79,7 +74,7 @@ public class RoadmapFacade {
 
         Image image = imageService.getImageByRoadmap(roadmap);
 
-        return new RoadmapResponse(roadmap, image.getUrl());
+        return RoadmapResponse.from(roadmap, image.getUrl());
     }
 
     @Transactional
@@ -90,7 +85,7 @@ public class RoadmapFacade {
 
         log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
-        return new RoadmapResponse(roadmap, roadmap.getImage().getUrl());
+        return RoadmapResponse.from(roadmap, roadmap.getImage().getUrl());
     }
 
 }
