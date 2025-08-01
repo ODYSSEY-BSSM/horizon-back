@@ -30,7 +30,7 @@ public class DirectoryService {
                     .orElseThrow(DirectoryNotFoundException::new);
         }
 
-        Directory directory = Directory.ok(directoryRequest.getName(), parent);
+        Directory directory = Directory.from(directoryRequest.getName(), parent);
 
         directoryRepository.save(directory);
 
