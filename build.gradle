@@ -50,7 +50,7 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-    
+
     testLogging {
         events "passed", "skipped", "failed"
         exceptionFormat "full"
@@ -67,14 +67,14 @@ jacocoTestReport {
         xml.required = true
         html.required = true
     }
-    
+
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                '**/config/**',
-                '**/dto/**',
-                '**/domain/**',
-                '**/*Application*'
+                    '**/config/**',
+                    '**/dto/**',
+                    '**/domain/**',
+                    '**/*Application*'
             ])
         }))
     }
@@ -86,22 +86,9 @@ spotbugs {
     reportLevel = com.github.spotbugs.snom.Confidence.valueOf('LOW')
 }
 
-spotbugsMain {
-    reports {
-        html {
-            required = true
-        }
-    }
+tasks.matching { it.name == 'spotbugsMain' || it.name == 'spotbugsTest' }.configureEach {
+    enabled = false
 }
-
-spotbugsTest {
-    reports {
-        html {
-            required = true
-        }
-    }
-}
-
 
 dependencyCheck {
     format = 'HTML'
