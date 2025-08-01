@@ -54,7 +54,7 @@ class RoadmapControllerTest extends ControllerTest {
                 "<<fake image content>>".getBytes()
         );
 
-        given(roadmapService.save(any(RoadmapRequest.class), any(MultipartFile.class)))
+        given(roadmapFacade.save(any(RoadmapRequest.class), any(MultipartFile.class)))
                 .willReturn(fakeResponse);
 
         mvc.perform(multipart("/roadmap/create")
@@ -63,8 +63,8 @@ class RoadmapControllerTest extends ControllerTest {
                         .with(csrf())
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.id").value(fakeResponse.getId()))
-                .andExpect(jsonPath("$.data.title").value(fakeResponse.getTitle()));
+                .andExpect(jsonPath("$.data.id").value(fakeResponse.id()))
+                .andExpect(jsonPath("$.data.title").value(fakeResponse.title()));
     }
 
     @WithMockUser
@@ -84,8 +84,8 @@ class RoadmapControllerTest extends ControllerTest {
         mvc.perform(get("/roadmap/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.dataList[0].id").value(response1.getId()))
-                .andExpect(jsonPath("$.dataList[1].id").value(response2.getId()));
+                .andExpect(jsonPath("$.dataList[0].id").value(response1.id()))
+                .andExpect(jsonPath("$.dataList[1].id").value(response2.id()));
     }
 
     @WithMockUser
@@ -108,7 +108,7 @@ class RoadmapControllerTest extends ControllerTest {
                 "내 로드맵"
         );
 
-        given(roadmapService.update(eq(roadmapId), any(RoadmapRequest.class)))
+        given(roadmapFacade.update(eq(roadmapId), any(RoadmapRequest.class)))
                 .willReturn(fakeResponse);
 
         mvc.perform(put("/roadmap/update/{id}", roadmapId)
@@ -162,7 +162,7 @@ class RoadmapControllerTest extends ControllerTest {
                 "내 로드맵"
         );
 
-        given(roadmapService.toggleFavorite(roadmapId)).willReturn(fakeResponse);
+        given(roadmapFacade.toggleFavorite(roadmapId)).willReturn(fakeResponse);
 
         mvc.perform(post("/roadmap/favorite/{id}", roadmapId)
                         .with(csrf()))
@@ -189,7 +189,7 @@ class RoadmapControllerTest extends ControllerTest {
 
         mvc.perform(get("/roadmap/last-accessed"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.id").value(fakeResponse.getId()));
+                .andExpect(jsonPath("$.data.id").value(fakeResponse.id()));
     }
 
     @WithMockUser

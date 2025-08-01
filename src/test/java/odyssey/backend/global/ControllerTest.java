@@ -7,6 +7,7 @@ import odyssey.backend.directory.service.DirectoryService;
 import odyssey.backend.node.controller.NodeController;
 import odyssey.backend.node.service.NodeService;
 import odyssey.backend.roadmap.controller.RoadmapController;
+import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class ControllerTest {
 
     @MockBean
     protected RoadmapService roadmapService;
+
+    @MockBean
+    protected RoadmapFacade roadmapFacade;
 
     @MockBean
     protected NodeService nodeService;
