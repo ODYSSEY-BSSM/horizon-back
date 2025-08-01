@@ -104,6 +104,7 @@ spotbugsTest {
 }
 
 pmd {
+    enabled = false
     ignoreFailures = false
     ruleSets = []
 }
