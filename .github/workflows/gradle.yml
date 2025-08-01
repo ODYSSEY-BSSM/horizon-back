@@ -10,6 +10,21 @@ jobs:
     permissions:
       contents: read
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: 1234
+          POSTGRES_DB: horizon
+        ports:
+          - 5432:5432
+
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/horizon
+      DB_USERNAME: root
+      DB_PASSWORD: 1234
+      
     steps:
     - uses: actions/checkout@v4
     
@@ -105,8 +120,4 @@ jobs:
         distribution: 'temurin'
         
     - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582
-    env:
-      DB_URL: jdbc:postgresql://localhost:5432/horizon
-      DB_USERNAME: root
-      DB_PASSWORD: 1234
+      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582'
