@@ -71,10 +71,10 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    '**/config/**',
-                    '**/dto/**',
-                    '**/domain/**',
-                    '**/*Application*'
+                '**/config/**',
+                '**/dto/**',
+                '**/domain/**',
+                '**/*Application*'
             ])
         }))
     }
@@ -86,9 +86,22 @@ spotbugs {
     reportLevel = com.github.spotbugs.snom.Confidence.valueOf('LOW')
 }
 
-tasks.matching { it.name == 'spotbugsMain' || it.name == 'spotbugsTest' }.configureEach {
-    enabled = false
+spotbugsMain {
+    reports {
+        html {
+            required = true
+        }
+    }
 }
+
+spotbugsTest {
+    reports {
+        html {
+            required = true
+        }
+    }
+}
+
 
 dependencyCheck {
     format = 'HTML'
