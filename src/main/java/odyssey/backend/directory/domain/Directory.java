@@ -29,7 +29,7 @@ public class Directory {
     @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Roadmap> roadmaps;
 
-    public static Directory ok(String name, Directory parent){
+    public static Directory from(String name, Directory parent){
         return new Directory(name, parent);
     }
 
