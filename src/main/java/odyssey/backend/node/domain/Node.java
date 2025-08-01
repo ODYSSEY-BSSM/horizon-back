@@ -55,7 +55,7 @@ public class Node {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Node> children;
 
-    public static Node ok(NodeRequest request, Roadmap roadmap, Node parent) {
+    public static Node from(NodeRequest request, Roadmap roadmap, Node parent) {
         return new Node(
                 request.getTitle(),
                 request.getDescription(),
