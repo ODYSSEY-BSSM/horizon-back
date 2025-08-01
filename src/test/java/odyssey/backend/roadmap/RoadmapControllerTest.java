@@ -62,7 +62,7 @@ class RoadmapControllerTest extends ControllerTest {
                         .file(thumbnail)
                         .with(csrf())
                         .contentType(MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.id").value(fakeResponse.id()))
                 .andExpect(jsonPath("$.data.title").value(fakeResponse.title()));
     }
@@ -84,8 +84,8 @@ class RoadmapControllerTest extends ControllerTest {
         mvc.perform(get("/roadmap/all")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.dataList[0].id").value(response1.id()))
-                .andExpect(jsonPath("$.dataList[1].id").value(response2.id()));
+                .andExpect(jsonPath("$.data[0].id").value(response1.id()))
+                .andExpect(jsonPath("$.data[1].id").value(response2.id()));
     }
 
     @WithMockUser
