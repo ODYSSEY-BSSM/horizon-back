@@ -38,7 +38,7 @@ public class NodeService {
         }
 
         Node node = nodeRepository.save(
-                Node.ok(request, roadmap, parentNode)
+                Node.from(request, roadmap, parentNode)
         );
 
         log.info("만들어진 노드 Id : {} ", node.getId());

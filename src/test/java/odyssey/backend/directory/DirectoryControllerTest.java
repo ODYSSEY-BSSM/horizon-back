@@ -33,7 +33,7 @@ class DirectoryControllerTest extends ControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.id").value(1L))
                 .andExpect(jsonPath("$.data.name").value("새 디렉토리"));
     }
@@ -64,7 +64,7 @@ class DirectoryControllerTest extends ControllerTest {
 
         mvc.perform(delete("/directories/{id}", id)
                         .with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @WithMockUser

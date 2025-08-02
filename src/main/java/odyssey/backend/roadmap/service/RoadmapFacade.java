@@ -34,7 +34,7 @@ public class RoadmapFacade {
         }
 
         Roadmap roadmap = roadmapRepository.save(
-                Roadmap.ok(request, directory)
+                Roadmap.from(request, directory)
         );
 
         roadmap.updateLastModifiedAt();

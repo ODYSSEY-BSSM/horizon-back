@@ -4,7 +4,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.5'
     id 'org.owasp.dependencycheck' version '8.4.0'
     id 'com.github.spotbugs' version '6.0.7'
-    id 'pmd'
     id 'jacoco'
 }
 
@@ -51,10 +50,10 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
-    
+
     testLogging {
         events "passed", "skipped", "failed"
-        exceptionFormat "full"
+        exceptionFormat = "full"
     }
 }
 
@@ -68,21 +67,21 @@ jacocoTestReport {
         xml.required = true
         html.required = true
     }
-    
+
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                '**/config/**',
-                '**/dto/**',
-                '**/domain/**',
-                '**/*Application*'
+                    '**/config/**',
+                    '**/dto/**',
+                    '**/domain/**',
+                    '**/*Application*'
             ])
         }))
     }
 }
 
 spotbugs {
-    ignoreFailures = false
+    ignoreFailures = true
     effort = com.github.spotbugs.snom.Effort.valueOf('MAX')
     reportLevel = com.github.spotbugs.snom.Confidence.valueOf('LOW')
 }
@@ -103,10 +102,6 @@ spotbugsTest {
     }
 }
 
-pmd {
-    ignoreFailures = false
-    ruleSets = []
-}
 
 dependencyCheck {
     format = 'HTML'

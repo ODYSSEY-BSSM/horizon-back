@@ -54,7 +54,7 @@ public class Roadmap {
     @JoinColumn(name = "directory_id")
     private Directory directory;
 
-    public static Roadmap ok(RoadmapRequest request, Directory directory) {
+    public static Roadmap from(RoadmapRequest request, Directory directory) {
         return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), directory);
     }
 
