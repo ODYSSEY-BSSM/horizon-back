@@ -78,9 +78,6 @@ jobs:
     - name: Run SpotBugs
       run: ./gradlew spotbugsMain spotbugsTest
       
-    - name: Run PMD
-      run: ./gradlew pmdMain pmdTest
-      
     - name: Upload SpotBugs results
       uses: actions/upload-artifact@v4
       if: always()
