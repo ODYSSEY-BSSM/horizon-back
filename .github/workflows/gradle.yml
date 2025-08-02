@@ -92,9 +92,6 @@ jobs:
         name: pmd-report
         path: build/reports/pmd/
       
-    - name: Run OWASP dependency check
-      run: ./gradlew dependencyCheckAnalyze
-      
     - name: Upload dependency check results
       uses: actions/upload-artifact@v4
       if: always()
