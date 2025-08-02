@@ -84,7 +84,6 @@ spotbugs {
     ignoreFailures = true
     effort = com.github.spotbugs.snom.Effort.valueOf('MAX')
     reportLevel = com.github.spotbugs.snom.Confidence.valueOf('LOW')
-
 }
 
 spotbugsMain {
