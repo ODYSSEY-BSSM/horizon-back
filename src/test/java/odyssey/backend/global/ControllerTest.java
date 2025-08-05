@@ -9,6 +9,8 @@ import odyssey.backend.node.service.NodeService;
 import odyssey.backend.roadmap.controller.RoadmapController;
 import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
+import odyssey.backend.user.controller.SignUpController;
+import odyssey.backend.user.service.SignUpService;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @Disabled
 @WebMvcTest({RoadmapController.class,
              NodeController.class,
-             DirectoryController.class,})
+             DirectoryController.class,
+             SignUpController.class,})
 public class ControllerTest {
 
     @Autowired
@@ -38,6 +41,9 @@ public class ControllerTest {
 
     @MockBean
     protected DirectoryService directoryService;
+
+    @MockBean
+    protected SignUpService signUpService;
 
     protected String toJson(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
