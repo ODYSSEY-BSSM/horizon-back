@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
              NodeController.class,
              DirectoryController.class,
              SignUpController.class,})
-public class ControllerTest {
+public abstract class ControllerTest {
 
     @Autowired
     protected MockMvc mvc;
