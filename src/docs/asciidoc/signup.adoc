@@ -1,0 +1,89 @@
+= User API Documentation
+작성자: 이건우
+:toc:
+:toclevels: 2
+:sectnums:
+:source-highlighter: rouge
+
+== 회원가입 API
+
+회원가입을 위한 API입니다.
+
+=== 요청 예시 (cURL)
+
+[source,bash]
+----
+$ curl 'http://localhost:8080/users?_csrf=7kokdr6HsCoF-hWCakJoC5npaOvn3v6xkm-ZTKXZsqHlxjeQ3X1GR4uxiB0owiWyCW9cMqqIRYrf6syc9wv9KZ24hJXVpAL1' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{"email":"fakeEmail@gmail.com","username":"이건우","password":"1234"}'
+----
+
+=== 요청 HTTP 메시지
+
+[source,http,options="nowrap"]
+----
+POST /users?_csrf=7kokdr6HsCoF-hWCakJoC5npaOvn3v6xkm-ZTKXZsqHlxjeQ3X1GR4uxiB0owiWyCW9cMqqIRYrf6syc9wv9KZ24hJXVpAL1 HTTP/1.1
+Content-Type: application/json
+Content-Length: 72
+Host: localhost:8080
+
+{"email":"fakeEmail@gmail.com","username":"이건우","password":"1234"}
+----
+
+=== 응답 HTTP 메시지
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 99
+
+{"code":"OK","message":"ok","data":{"uuid":1,"email":"fakeEmail@gmail.com","username":"이건우"}}
+----
+
+=== HTTPie 예시
+
+[source,bash]
+----
+$ echo '{"email":"fakeEmail@gmail.com","username":"이건우","password":"1234"}' | http POST 'http://localhost:8080/users?_csrf=7kokdr6HsCoF-hWCakJoC5npaOvn3v6xkm-ZTKXZsqHlxjeQ3X1GR4uxiB0owiWyCW9cMqqIRYrf6syc9wv9KZ24hJXVpAL1' \
+    'Content-Type:application/json'
+----
+
+=== 요청 JSON 본문
+
+[source,json,options="nowrap"]
+----
+{"email":"fakeEmail@gmail.com","username":"이건우","password":"1234"}
+----
+
+=== 요청 필드 설명
+
+|===
+|Path |Type    |Description
+
+|`+email+`    |`+String+` |회원가입 이메일
+|`+username+` |`+String+` |사용자 이름
+|`+password+` |`+String+` |비밀번호
+|===
+
+=== 응답 JSON 본문
+
+[source,json,options="nowrap"]
+----
+{"code":"OK","message":"ok","data":{"uuid":1,"email":"fakeEmail@gmail.com","username":"이건우"}}
+----
+
+=== 응답 필드 설명
+
+|===
+|Path |Type    |Description
+
+|`+code+`        |`+String+`  |응답 코드
+|`+message+`     |`+String+`  |응답 메시지
+|`+data.uuid+`   |`+Number+`  |유저 ID
+|`+data.email+`  |`+String+`  |유저 이메일
+|`+data.username+` |`+String+` |유저 이름
+|===

@@ -1,0 +1,15 @@
+= API Documentation
+Horizon Project
+:toc:
+:toclevels: 3
+:sectnums:
+:source-highlighter: rouge
+
+== 소개
+
+이 문서는 Horizon 프로젝트의 REST API 명세서입니다.
+
+== 사용자 API
+
+include::signup.adoc[]
+
