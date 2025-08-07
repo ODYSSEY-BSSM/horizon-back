@@ -1,4 +1,4 @@
-package odyssey.backend.Node;
+package odyssey.backend.node;
 
 import odyssey.backend.global.ControllerTest;
 import odyssey.backend.node.domain.NodeType;
