@@ -1,6 +1,6 @@
 package odyssey.backend.roadmap;
 
-import odyssey.backend.global.ControllerTest;
+import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.roadmap.dto.response.RoadmapCountResponse;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.roadmap.dto.response.RoadmapResponse;
@@ -17,12 +17,16 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class RoadmapControllerTest extends ControllerTest {
+class RoadmapControllerTest extends RestDocsSupport {
 
     @WithMockUser
     @Test
@@ -64,7 +68,28 @@ class RoadmapControllerTest extends ControllerTest {
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.id").value(fakeResponse.id()))
-                .andExpect(jsonPath("$.data.title").value(fakeResponse.title()));
+                .andExpect(jsonPath("$.data.title").value(fakeResponse.title()))
+                .andDo(document("roadmap-create",
+                        requestPartFields("roadmap",
+                                fieldWithPath("title").description("로드맵 제목"),
+                                fieldWithPath("description").description("로드맵 설명"),
+                                fieldWithPath("categories").description("카테고리 리스트"),
+                                fieldWithPath("directoryId").description("디렉토리 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("로드맵 ID"),
+                                fieldWithPath("data.title").description("로드맵 제목"),
+                                fieldWithPath("data.description").description("로드맵 설명"),
+                                fieldWithPath("data.categories").description("카테고리 리스트"),
+                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data.location").description("로드맵 위치 정보")
+                        )
+                ));
     }
 
     @WithMockUser
@@ -85,7 +110,22 @@ class RoadmapControllerTest extends ControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data[0].id").value(response1.id()))
-                .andExpect(jsonPath("$.data[1].id").value(response2.id()));
+                .andExpect(jsonPath("$.data[1].id").value(response2.id()))
+                .andDo(document("roadmap-get-all",
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data[].id").description("로드맵 ID"),
+                                fieldWithPath("data[].title").description("로드맵 제목"),
+                                fieldWithPath("data[].description").description("로드맵 설명"),
+                                fieldWithPath("data[].categories").description("카테고리 리스트"),
+                                fieldWithPath("data[].thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data[].lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data[].lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data[].isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data[].location").description("로드맵 위치 정보")
+                        )
+                ));
     }
 
     @WithMockUser
@@ -116,7 +156,28 @@ class RoadmapControllerTest extends ControllerTest {
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.id").value(roadmapId));
+                .andExpect(jsonPath("$.data.id").value(roadmapId))
+                .andDo(document("roadmap-update",
+                        requestFields(
+                                fieldWithPath("title").description("로드맵 제목"),
+                                fieldWithPath("description").description("로드맵 설명"),
+                                fieldWithPath("categories").description("카테고리 리스트"),
+                                fieldWithPath("directoryId").description("디렉토리 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("로드맵 ID"),
+                                fieldWithPath("data.title").description("로드맵 제목"),
+                                fieldWithPath("data.description").description("로드맵 설명"),
+                                fieldWithPath("data.categories").description("카테고리 리스트"),
+                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data.location").description("로드맵 위치 정보")
+                        )
+                ));
     }
 
     @WithMockUser
@@ -126,7 +187,12 @@ class RoadmapControllerTest extends ControllerTest {
 
         mvc.perform(delete("/roadmap/delete/{id}", roadmapId)
                         .with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(document("roadmap-delete",
+                        pathParameters(
+                                parameterWithName("id").description("삭제할 로드맵 ID")
+                        )
+                ));
     }
 
     @WithMockUser
@@ -143,7 +209,8 @@ class RoadmapControllerTest extends ControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andDo(document("roadmap-create-invalid"));
     }
 
     @WithMockUser
@@ -167,7 +234,25 @@ class RoadmapControllerTest extends ControllerTest {
         mvc.perform(post("/roadmap/favorite/{id}", roadmapId)
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.id").value(roadmapId));
+                .andExpect(jsonPath("$.data.id").value(roadmapId))
+                .andDo(document("roadmap-toggle-favorite",
+                        pathParameters(
+                                parameterWithName("id").description("즐겨찾기 토글 대상 로드맵 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("로드맵 ID"),
+                                fieldWithPath("data.title").description("로드맵 제목"),
+                                fieldWithPath("data.description").description("설명"),
+                                fieldWithPath("data.categories").description("카테고리 리스트"),
+                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data.location").description("위치 정보")
+                        )
+                ));
     }
 
     @WithMockUser
@@ -189,7 +274,22 @@ class RoadmapControllerTest extends ControllerTest {
 
         mvc.perform(get("/roadmap/last-accessed"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.id").value(fakeResponse.id()));
+                .andExpect(jsonPath("$.data.id").value(fakeResponse.id()))
+                .andDo(document("roadmap-get-last-accessed",
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("로드맵 ID"),
+                                fieldWithPath("data.title").description("로드맵 제목"),
+                                fieldWithPath("data.description").description("설명"),
+                                fieldWithPath("data.categories").description("카테고리 리스트"),
+                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data.location").description("위치 정보")
+                        )
+                ));
     }
 
     @WithMockUser
@@ -202,6 +302,13 @@ class RoadmapControllerTest extends ControllerTest {
         mvc.perform(get("/roadmap/count")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.count").value(expectedCount));
+                .andExpect(jsonPath("$.data.count").value(expectedCount))
+                .andDo(document("roadmap-get-count",
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.count").description("전체 로드맵 개수")
+                        )
+                ));
     }
 }
