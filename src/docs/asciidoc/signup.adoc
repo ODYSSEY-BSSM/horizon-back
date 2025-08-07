@@ -1,0 +1,15 @@
+=== 회원가입
+
+==== 요청 메시지
+include::{snippets}/user-signup/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/user-signup/request-fields.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/user-signup/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/user-signup/response-fields.adoc[]
+
+작성자: 이건우

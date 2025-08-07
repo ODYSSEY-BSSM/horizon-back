@@ -1,0 +1,57 @@
+
+=== 생성
+
+==== 요청 메시지
+include::{snippets}/node-create/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/node-create/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/node-create/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/node-create/response-fields.adoc[]
+
+=== 단일 조회
+
+==== 요청 파라미터 & 헤더
+include::{snippets}/node-get-one/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/node-get-one/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/node-get-one/response-fields.adoc[]
+
+=== 전체 조회
+
+==== 요청 파라미터 & 헤더
+include::{snippets}/node-get-all/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/node-get-all/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/node-get-all/response-fields.adoc[]
+
+=== 수정
+
+==== 요청 메시지
+include::{snippets}/node-update/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/node-update/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/node-update/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/node-update/response-fields.adoc[]
+=== 삭제
+
+==== 요청 파라미터
+include::{snippets}/node-delete/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/node-delete/http-response.adoc[]

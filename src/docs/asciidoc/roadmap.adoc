@@ -1,0 +1,86 @@
+
+=== 생성
+
+==== 요청 파라미터 & 필드
+include::{snippets}/roadmap-create/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-create/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-create/response-fields.adoc[]
+
+
+
+=== 전체 조회
+
+==== 요청 파라미터 & 헤더
+include::{snippets}/roadmap-get-all/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-get-all/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-get-all/response-fields.adoc[]
+
+
+=== 수정
+
+==== 요청 메시지
+include::{snippets}/roadmap-update/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/roadmap-update/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-update/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-update/response-fields.adoc[]
+
+
+
+=== 삭제
+
+==== 요청 파라미터
+include::{snippets}/roadmap-delete/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-delete/http-response.adoc[]
+
+=== 즐겨찾기 토글
+
+==== 요청 파라미터
+include::{snippets}/roadmap-toggle-favorite/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-toggle-favorite/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-toggle-favorite/response-fields.adoc[]
+
+
+
+=== 마지막 접속 로드맵 조회
+
+==== 요청 파라미터
+include::{snippets}/roadmap-get-last-accessed/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-get-last-accessed/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-get-last-accessed/response-fields.adoc[]
+
+
+
+=== 로드맵 개수 조회
+
+==== 요청 파라미터
+include::{snippets}/roadmap-get-count/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-get-count/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-get-count/response-fields.adoc[]

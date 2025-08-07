@@ -1,7 +1,7 @@
 package odyssey.backend.user.service;
 
 import lombok.RequiredArgsConstructor;
-import odyssey.backend.user.Repository.UserRepository;
+import odyssey.backend.user.domain.UserRepository;
 import odyssey.backend.user.domain.User;
 import odyssey.backend.user.dto.request.SignUpRequest;
 import odyssey.backend.user.dto.response.SignUpResponse;

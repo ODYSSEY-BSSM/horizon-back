@@ -1,6 +1,5 @@
-package odyssey.backend.user.Repository;
+package odyssey.backend.user.domain;
 
-import odyssey.backend.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

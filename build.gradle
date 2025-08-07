@@ -5,10 +5,15 @@ plugins {
     id 'org.owasp.dependencycheck' version '8.4.0'
     id 'com.github.spotbugs' version '6.0.7'
     id 'jacoco'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group = 'odyssey'
 version = '0.0.1-SNAPSHOT'
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
 
 java {
     toolchain {
@@ -20,6 +25,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExtensions
 }
 
 repositories {
@@ -44,12 +50,16 @@ dependencies {
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
+
 
 tasks.named('test') {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+    outputs.dir snippetsDir
+    systemProperty 'org.springframework.restdocs.json.prettyPrint', 'true'
 
     testLogging {
         events "passed", "skipped", "failed"
@@ -102,8 +112,46 @@ spotbugsTest {
     }
 }
 
-
 dependencyCheck {
     format = 'HTML'
     failBuildOnCVSS = 7.0
+}
+
+asciidoctor {
+    dependsOn test
+
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+
+    sources {
+        include('**/index.adoc', '**/docs/*.adoc')
+    }
+
+    baseDirFollowsSourceFile()
+}
+
+tasks.register('copyRestDocs', Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyRestDocs
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
+
+tasks.processTestResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.named("spotbugsMain") {
+    dependsOn(tasks.named("copyRestDocs"))
 }
