@@ -13,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
@@ -29,7 +30,12 @@ public abstract class RestDocsSupport extends ControllerTest{
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         this.mvc = webAppContextSetup(context)
-                .apply(documentationConfiguration(restDocumentation))
+                .apply(
+                        documentationConfiguration(restDocumentation)
+                                .operationPreprocessors()
+                                .withRequestDefaults(prettyPrint())
+                                .withResponseDefaults(prettyPrint())
+                )
                 .build();
     }
 }
