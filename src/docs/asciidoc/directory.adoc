@@ -1,0 +1,49 @@
+
+
+=== 생성
+
+==== 요청 메시지
+include::{snippets}/create-directory/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/create-directory/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/create-directory/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/create-directory/response-fields.adoc[]
+
+=== 수정
+
+==== 요청 메시지
+include::{snippets}/update-directory/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/update-directory/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/update-directory/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/update-directory/response-fields.adoc[]
+
+=== 삭제
+
+==== 요청 파라미터
+include::{snippets}/directory-delete/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/directory-delete/http-response.adoc[]
+
+=== 모든 컨텐츠 조회
+
+==== 요청 메시지
+include::{snippets}/directory-root-contents/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/directory-root-contents/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/directory-root-contents/response-fields.adoc[]
+
