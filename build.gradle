@@ -60,6 +60,7 @@ tasks.named('test') {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
     outputs.dir snippetsDir
+    systemProperty 'org.springframework.restdocs.json.prettyPrint', 'true'
 
     testLogging {
         events "passed", "skipped", "failed"
