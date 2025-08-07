@@ -1,15 +1,21 @@
-= API Documentation
-Horizon Project
-:toc:
-:toclevels: 3
+= 호라이즌 API 명세서
+:doctype: book
+:icons: font
+:source-highlighter: highlight.js
+:toc: left
+:toc-title: 목차
+:toclevels: 2
 :sectnums:
-:source-highlighter: rouge
 
 == 소개
 
 이 문서는 Horizon 프로젝트의 REST API 명세서입니다.
 
-== 사용자 API
+== Node API
+
+include::node.adoc[]
+
+== User API
 
 include::signup.adoc[]
 
