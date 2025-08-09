@@ -24,8 +24,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public static User from(SignUpRequest request){
-        return new User(request.getEmail(), request.getUsername(), request.getPassword());
+    public static User from(SignUpRequest request, String password){
+        return new User(request.getEmail(), request.getUsername(), password);
     }
 
     User(String email, String username, String password){
