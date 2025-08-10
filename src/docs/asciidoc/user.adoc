@@ -1,0 +1,51 @@
+=== 회원가입
+
+==== 요청 메시지
+include::{snippets}/user-signup/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/user-signup/request-fields.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/user-signup/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/user-signup/response-fields.adoc[]
+
+=== 로그인
+
+==== 요청 메시지
+include::{snippets}/user-login/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/user-login/request-fields.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/user-login/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/user-login/response-fields.adoc[]
+
+=== 액세스 토큰 재발급
+
+==== 요청 메시지
+include::{snippets}/user-refresh/http-request.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/user-refresh/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/user-refresh/response-fields.adoc[]
+
+=== 로그아웃
+
+==== 요청 메시지
+include::{snippets}/user-logout/http-request.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/user-logout/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/user-logout/response-fields.adoc[]
+
+작성자: 이건우

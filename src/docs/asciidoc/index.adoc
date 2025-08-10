@@ -18,10 +18,10 @@ include::Roadmap.adoc[]
 
 include::node.adoc[]
 
-== User API
-
-include::signup.adoc[]
-
 == Directory API
 
 include::directory.adoc[]
+
+== User API
+
+include::user.adoc[]
