@@ -20,7 +20,7 @@ logging:
         type: trace
 
 jwt :
-  secret : {SECRET_KEY}
+  secret : ${SECRET_KEY}
 
   logging:
     level:
