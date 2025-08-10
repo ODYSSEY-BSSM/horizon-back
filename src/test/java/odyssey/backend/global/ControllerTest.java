@@ -4,12 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import odyssey.backend.directory.controller.DirectoryController;
 import odyssey.backend.directory.service.DirectoryService;
+import odyssey.backend.global.jwt.service.TokenService;
 import odyssey.backend.node.controller.NodeController;
 import odyssey.backend.node.service.NodeService;
 import odyssey.backend.roadmap.controller.RoadmapController;
 import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
-import odyssey.backend.user.controller.SignUpController;
+import odyssey.backend.user.controller.AuthController;
+import odyssey.backend.user.service.LoginService;
+import odyssey.backend.user.service.LogoutService;
+import odyssey.backend.user.service.RefreshService;
 import odyssey.backend.user.service.SignUpService;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest({RoadmapController.class,
              NodeController.class,
              DirectoryController.class,
-             SignUpController.class,})
+             AuthController.class,})
 public abstract class ControllerTest {
 
     @Autowired
@@ -44,6 +48,18 @@ public abstract class ControllerTest {
 
     @MockBean
     protected SignUpService signUpService;
+
+    @MockBean
+    protected TokenService tokenService;
+
+    @MockBean
+    protected LoginService loginService;
+
+    @MockBean
+    protected LogoutService logoutService;
+
+    @MockBean
+    protected RefreshService refreshService;
 
     protected String toJson(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
