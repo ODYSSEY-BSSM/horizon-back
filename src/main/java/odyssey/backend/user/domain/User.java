@@ -24,14 +24,19 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public static User from(SignUpRequest request, String password){
-        return new User(request.getEmail(), request.getUsername(), password);
+    private Role role;
+
+    public static User from(SignUpRequest request, String password, Role role) {
+        return new User(request.getEmail(), request.getUsername(), password, role);
     }
 
-    User(String email, String username, String password){
+    User(String email, String username, String password, Role role){
         this.email = email;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
 }
+
+
