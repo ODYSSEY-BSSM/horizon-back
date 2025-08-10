@@ -24,6 +24,7 @@ jobs:
       DB_URL: jdbc:postgresql://localhost:5432/horizon
       DB_USERNAME: root
       DB_PASSWORD: 1234
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
       
     steps:
     - uses: actions/checkout@v4
