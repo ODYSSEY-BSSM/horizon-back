@@ -7,6 +7,7 @@ import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.image.domain.Image;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.user.domain.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -53,6 +54,10 @@ public class Roadmap {
     @ManyToOne
     @JoinColumn(name = "directory_id")
     private Directory directory;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public static Roadmap from(RoadmapRequest request, Directory directory) {
         return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), directory);
