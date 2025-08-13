@@ -8,6 +8,7 @@ import odyssey.backend.roadmap.domain.RoadmapRepository;
 import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
 import odyssey.backend.user.Repository.UserRepository;
 import odyssey.backend.websocket.dto.RoadmapCrudMessage;
+import odyssey.backend.websocket.exception.InvalidActionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,7 @@ public class WebSocketRoadmapService {
                 roadmapRepository.deleteById(roadmapId);
                 return message;
             }
-            default -> throw new IllegalArgumentException("지원하지 않는 액션입니다.");
+            default -> throw new InvalidActionException();
         }
     }
 
