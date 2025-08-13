@@ -1,5 +1,6 @@
 package odyssey.backend.websocket.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.node.domain.NodeRepository;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
@@ -21,7 +22,7 @@ public class WebSocketRoadmapController {
     private final SimpMessagingTemplate messaging;
 
     @MessageMapping("/roadmap/{roadmapId}/crud")
-    public void handleRoadmapCrud(@DestinationVariable Long roadmapId, RoadmapCrudMessage message) {
+    public void handleRoadmapCrud(@DestinationVariable Long roadmapId, @Valid RoadmapCrudMessage message) {
         RoadmapCrudMessage roadmapMessage = webSocketRoadmapService.handleCrud(roadmapId, message);
 
         messaging.convertAndSend("/topic/roadmap/" + roadmapId + "/crud", roadmapMessage);
