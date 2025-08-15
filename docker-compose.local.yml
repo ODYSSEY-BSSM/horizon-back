@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: odyssey.db
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: "odyssey"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "horizon"
+    ports:
+      - "5432:5432"
