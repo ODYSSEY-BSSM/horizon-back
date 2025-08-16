@@ -15,9 +15,10 @@ public record RoadmapResponse(
         LocalDate lastModifiedAt,
         LocalDateTime lastAccessedAt,
         boolean isFavorite,
-        String location
+        String location,
+        Long uuid
 ) {
-    public static RoadmapResponse from(Roadmap roadmap, String thumbnailUrl) {
+    public static RoadmapResponse from(Roadmap roadmap, String thumbnailUrl, Long uuid) {
         return new RoadmapResponse(
                 roadmap.getId(),
                 roadmap.getTitle(),
@@ -27,7 +28,8 @@ public record RoadmapResponse(
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
-                "내 로드맵"
+                "내 로드맵",
+                uuid
         );
     }
 }

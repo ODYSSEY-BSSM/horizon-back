@@ -43,9 +43,17 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 Long uuid = claims.get("uuid", Long.class);
                 String roleString = claims.get("role", String.class);
 
-                List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(roleString));
-
                 User user = tokenService.getUserByUuid(uuid);
+
+                if (user == null) {
+                    SecurityContextHolder.clearContext();
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().write("사용자를 찾을 수 없음");
+                    response.getWriter().flush();
+                    return;
+                }
+
+                List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(roleString));
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(user, null, authorities);
@@ -53,13 +61,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (ExpiredJwtException e) {
-                SecurityContextHolder.clearContext();
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("만료된 토큰");
-                response.getWriter().flush();
-
+                return;
             } catch (Exception e) {
-                SecurityContextHolder.clearContext();
+                logger.error("JWT parsing error", e);
             }
         }
 
@@ -68,11 +74,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
-
         return null;
     }
 }

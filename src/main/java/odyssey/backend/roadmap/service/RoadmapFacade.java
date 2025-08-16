@@ -11,6 +11,7 @@ import odyssey.backend.roadmap.domain.RoadmapRepository;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.roadmap.dto.response.RoadmapResponse;
 import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
+import odyssey.backend.user.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ public class RoadmapFacade {
     private final DirectoryService directoryService;
 
     @Transactional
-    public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail) {
+    public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail, User user) {
 
         Directory directory = null;
 
@@ -34,7 +35,7 @@ public class RoadmapFacade {
         }
 
         Roadmap roadmap = roadmapRepository.save(
-                Roadmap.from(request, directory)
+                Roadmap.from(request, directory, user)
         );
 
         roadmap.updateLastModifiedAt();
@@ -43,7 +44,7 @@ public class RoadmapFacade {
 
         log.info("생성된 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, image.getUrl());
+        return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
     }
 
     @Transactional
@@ -63,7 +64,7 @@ public class RoadmapFacade {
     }
 
     @Transactional
-    public RoadmapResponse update(Long id, RoadmapRequest request) {
+    public RoadmapResponse update(Long id, RoadmapRequest request, User user) {
         Roadmap roadmap = findRoadmapById(id);
 
         roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
@@ -74,18 +75,18 @@ public class RoadmapFacade {
 
         Image image = imageService.getImageByRoadmap(roadmap);
 
-        return RoadmapResponse.from(roadmap, image.getUrl());
+        return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
     }
 
     @Transactional
-    public RoadmapResponse toggleFavorite(Long id) {
+    public RoadmapResponse toggleFavorite(Long id, User user) {
         Roadmap roadmap = findRoadmapById(id);
 
         roadmap.toggleFavorite();
 
         log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, roadmap.getImage().getUrl());
+        return RoadmapResponse.from(roadmap, roadmap.getImage().getUrl(), user.getUuid());
     }
 
 }
