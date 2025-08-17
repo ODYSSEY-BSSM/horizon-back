@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
-    Optional<Roadmap> findTopByOrderByLastAccessedAtDesc();
+    Optional<Roadmap> findTopByUserOrderByLastAccessedAtDesc(User user);
     List<Roadmap> findByDirectoryIsNull();
     List<Roadmap> findByUserOrderByLastAccessedAtDesc(User user);
+    Long countByUser(User user);
 }
