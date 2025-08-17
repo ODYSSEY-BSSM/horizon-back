@@ -2,7 +2,6 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
-    import odyssey.backend.directory.service.DirectoryService;
     import odyssey.backend.roadmap.dto.response.ImageUrlResponse;
     import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.image.domain.Image;
@@ -23,7 +22,6 @@
 
         private final RoadmapRepository roadmapRepository;
         private final ImageService imageService;
-        private final DirectoryService directoryService;
 
 
         public List<RoadmapResponse> findAllRoadmaps(User user) {
@@ -37,7 +35,7 @@
 
         public RoadmapResponse getLastAccessedRoadmap(User user) {
 
-            Roadmap roadmap = roadmapRepository.findTopByOrderByLastAccessedAtDesc()
+            Roadmap roadmap = roadmapRepository.findTopByUserOrderByLastAccessedAtDesc(user)
                     .orElseThrow(RoadmapNotFoundException::new);
 
             Image image = imageService.getImageByRoadmap(roadmap);
@@ -47,13 +45,8 @@
             return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
         }
 
-        public List<Roadmap> findByDirectoryIsNull() {
-            return roadmapRepository.findByDirectoryIsNull();
-
-        }
-
-        public RoadmapCountResponse getRoadmapCount() {
-            Long count = roadmapRepository.count();
+        public RoadmapCountResponse getRoadmapCount(User user) {
+            Long count = roadmapRepository.countByUser(user);
 
             return RoadmapCountResponse.from(count);
         }
