@@ -89,7 +89,7 @@ public class RoadmapController {
     public SingleCommonResponse<RoadmapCountResponse> getRoadmapCount(
             @AuthenticationPrincipal User user
     ) {
-        return CommonResponse.ok(roadmapService.getRoadmapCount());
+        return CommonResponse.ok(roadmapService.getRoadmapCount(user));
     }
 
     @GetMapping("/{id}/url")
