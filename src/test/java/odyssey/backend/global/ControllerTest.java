@@ -11,6 +11,7 @@ import odyssey.backend.roadmap.controller.RoadmapController;
 import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
 import odyssey.backend.user.controller.AuthController;
+import odyssey.backend.user.domain.User;
 import odyssey.backend.user.service.LoginService;
 import odyssey.backend.user.service.LogoutService;
 import odyssey.backend.user.service.RefreshService;
@@ -19,7 +20,9 @@ import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 @Disabled
 @WebMvcTest({RoadmapController.class,
@@ -60,6 +63,16 @@ public abstract class ControllerTest {
 
     @MockBean
     protected RefreshService refreshService;
+
+    public static RequestPostProcessor authenticationPrincipal(final User user) {
+        return new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setAttribute("org.springframework.security.core.annotation.AuthenticationPrincipal", user);
+                return request;
+            }
+        };
+    }
 
     protected String toJson(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
