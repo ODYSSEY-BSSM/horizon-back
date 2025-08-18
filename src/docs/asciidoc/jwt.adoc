@@ -1,0 +1,14 @@
+== 공통 Shared
+
+=== 인증
+로그인 한 유저가 API를 사용할 때 공통적으로 다음 형식을 따라야 합니다.
+
+==== 요청 형식
+
+===== Request Header
+*Bearer* prefix를 붙여서 토큰을 전송합니다.
+include::{snippets}/shared-auth/request-headers.adoc[]
+
+
+==== 요청
+include::{snippets}/shared-auth/http-request.adoc[]
