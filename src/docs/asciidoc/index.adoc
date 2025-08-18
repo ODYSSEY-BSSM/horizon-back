@@ -11,6 +11,12 @@
 
 이 문서는 Horizon 프로젝트의 REST API 명세서입니다.
 
+include::jwt.adoc[]
+
+== User API
+
+include::user.adoc[]
+
 == Roadmap API
 include::Roadmap.adoc[]
 
@@ -21,7 +27,3 @@ include::node.adoc[]
 == Directory API
 
 include::directory.adoc[]
-
-== User API
-
-include::user.adoc[]

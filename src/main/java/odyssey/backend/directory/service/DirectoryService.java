@@ -11,6 +11,7 @@ import odyssey.backend.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.roadmap.domain.Roadmap;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
 import odyssey.backend.roadmap.dto.response.SimpleRoadmapResponse;
+import odyssey.backend.user.domain.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class DirectoryService {
     private final DirectoryRepository directoryRepository;
     private final RoadmapRepository roadmapRepository;
 
-    public DirectoryResponse createDirectory(DirectoryRequest directoryRequest) {
+    public DirectoryResponse createDirectory(DirectoryRequest directoryRequest, User user) {
         Directory parent = null;
 
         if (directoryRequest.getParentId() != null) {
@@ -30,7 +31,7 @@ public class DirectoryService {
                     .orElseThrow(DirectoryNotFoundException::new);
         }
 
-        Directory directory = Directory.from(directoryRequest.getName(), parent);
+        Directory directory = Directory.from(directoryRequest, parent, user);
 
         directoryRepository.save(directory);
 
@@ -38,7 +39,7 @@ public class DirectoryService {
     }
 
     @Transactional
-    public DirectoryResponse updateDirectory(Long id, DirectoryRequest request) {
+    public DirectoryResponse updateDirectory(Long id, DirectoryRequest request, User user) {
         Directory directory = findDirectoryById(id);
 
         Directory parent = null;
@@ -51,9 +52,9 @@ public class DirectoryService {
         return DirectoryResponse.from(directory);
     }
 
-    public RootContentResponse getRootContents() {
-        List<Directory> rootDirectories = directoryRepository.findByParentIsNull();
-        List<Roadmap> rootRoadmaps = roadmapRepository.findByDirectoryIsNull();
+    public RootContentResponse getRootContents(User user) {
+        List<Directory> rootDirectories = directoryRepository.findByParentIsNullAndUser(user);
+        List<Roadmap> rootRoadmaps = roadmapRepository.findByDirectoryIsNullAndUser(user);
 
         List<DirectoryResponse> directoryResponses = rootDirectories.stream()
                 .map(DirectoryResponse::from)
@@ -67,8 +68,6 @@ public class DirectoryService {
     }
 
     public void deleteDirectory(Long id) {
-        Directory directory = findDirectoryById(id);
-
         directoryRepository.deleteById(id);
     }
 

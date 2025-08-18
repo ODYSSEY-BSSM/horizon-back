@@ -3,7 +3,10 @@ package odyssey.backend.directory.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.directory.dto.request.DirectoryRequest;
 import odyssey.backend.roadmap.domain.Roadmap;
+import odyssey.backend.user.domain.User;
+
 import java.util.List;
 
 @Getter
@@ -29,13 +32,17 @@ public class Directory {
     @OneToMany(mappedBy = "directory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Roadmap> roadmaps;
 
-    public static Directory from(String name, Directory parent){
-        return new Directory(name, parent);
+    @ManyToOne
+    private User user;
+
+    public static Directory from(DirectoryRequest request, Directory parent, User user) {
+        return new Directory(request.getName(), parent, user);
     }
 
-    Directory(String name, Directory parent) {
+    Directory(String name, Directory parent, User user) {
         this.name = name;
         this.parent = parent;
+        this.user = user;
     }
 
     public void update(String name, Directory parent) {
