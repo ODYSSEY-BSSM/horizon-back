@@ -40,7 +40,9 @@ public class DirectoryController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public SingleCommonResponse<String> deleteDirectory(@PathVariable Long id) {
+    public SingleCommonResponse<String> deleteDirectory(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user) {
         directoryService.deleteDirectory(id);
 
         return CommonResponse.ok("삭제되었습니다.");
