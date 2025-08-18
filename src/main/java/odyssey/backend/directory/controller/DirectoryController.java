@@ -8,7 +8,9 @@ import odyssey.backend.directory.dto.response.RootContentResponse;
 import odyssey.backend.directory.service.DirectoryService;
 import odyssey.backend.global.response.CommonResponse;
 import odyssey.backend.global.response.SingleCommonResponse;
+import odyssey.backend.user.domain.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,17 +23,19 @@ public class DirectoryController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<DirectoryResponse> createDirectory(
-            @Valid @RequestBody DirectoryRequest request
+            @Valid @RequestBody DirectoryRequest request,
+            @AuthenticationPrincipal User user
     ){
-        return CommonResponse.ok(directoryService.createDirectory(request));
+        return CommonResponse.ok(directoryService.createDirectory(request, user));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<DirectoryResponse> updateDirectory(
             @PathVariable Long id,
-            @Valid @RequestBody DirectoryRequest request){
-        return CommonResponse.ok(directoryService.updateDirectory(id, request));
+            @Valid @RequestBody DirectoryRequest request,
+            @AuthenticationPrincipal User user){
+        return CommonResponse.ok(directoryService.updateDirectory(id, request, user));
     }
 
     @DeleteMapping("/{id}")
@@ -44,8 +48,10 @@ public class DirectoryController {
 
     @GetMapping("/root-contents")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RootContentResponse> getRootContents() {
-        RootContentResponse response = directoryService.getRootContents();
+    public SingleCommonResponse<RootContentResponse> getRootContents(
+            @AuthenticationPrincipal User user
+    ) {
+        RootContentResponse response = directoryService.getRootContents(user);
         return CommonResponse.ok(response);
     }
 }
