@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DB_URL} #테스트
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
@@ -11,26 +11,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: debug
-        type: trace
-
-jwt :
-  secret : ${SECRET_KEY}
-
-  logging:
-    level:
-      org:
-        springframework: security = DEBUG
-
-upload:
-  thumbnail-dir: src/main/resources/static/uploads/thumbnails/
-  thumbnail-url-prefix: /uploads/thumbnails/
-
 
   security:
     oauth2:
@@ -42,3 +22,18 @@ upload:
             scope:
               - email
               - profile
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type: trace
+    org.springframework.security: DEBUG
+
+jwt:
+  secret: ${SECRET_KEY}
+
+upload:
+  thumbnail-dir: src/main/resources/static/uploads/thumbnails/
+  thumbnail-url-prefix: /uploads/thumbnails/
