@@ -7,7 +7,6 @@ import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.roadmap.dto.response.SimpleRoadmapResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.List;
 
@@ -25,13 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class DirectoryControllerTest extends RestDocsSupport {
 
-    @WithMockUser
     @Test
     void 디렉토리를_생성한다() throws Exception {
         DirectoryRequest request = new DirectoryRequest("새 디렉토리", null);
         DirectoryResponse response = new DirectoryResponse(1L, "새 디렉토리", null, List.of(), List.of());
 
-        given(directoryService.createDirectory(any(DirectoryRequest.class)))
+        given(directoryService.createDirectory(any(DirectoryRequest.class), any()))
                 .willReturn(response);
 
         mvc.perform(post("/directories/create")
@@ -58,14 +56,13 @@ class DirectoryControllerTest extends RestDocsSupport {
         ));
     }
 
-    @WithMockUser
     @Test
     void 디렉토리를_수정한다() throws Exception {
         Long id = 1L;
         DirectoryRequest request = new DirectoryRequest("수정된 디렉토리", null);
         DirectoryResponse response = new DirectoryResponse(id, "수정된 디렉토리", null, List.of(), List.of());
 
-        given(directoryService.updateDirectory(eq(id), any(DirectoryRequest.class)))
+        given(directoryService.updateDirectory(eq(id), any(DirectoryRequest.class), any()))
                 .willReturn(response);
 
         mvc.perform(put("/directories/{id}", id)
@@ -91,7 +88,6 @@ class DirectoryControllerTest extends RestDocsSupport {
                                 )));
     }
 
-    @WithMockUser
     @Test
     void 디렉토리를_삭제한다() throws Exception {
         Long id = 1L;
@@ -106,14 +102,13 @@ class DirectoryControllerTest extends RestDocsSupport {
         ));
     }
 
-    @WithMockUser
     @Test
     void 루트_컨텐츠를_조회한다() throws Exception {
         DirectoryResponse directory = new DirectoryResponse(1L, "루트 디렉토리", null, List.of(), List.of());
         SimpleRoadmapResponse roadmap = new SimpleRoadmapResponse(1L, "루트 로드맵");
         RootContentResponse response = new RootContentResponse(List.of(directory), List.of(roadmap));
 
-        given(directoryService.getRootContents())
+        given(directoryService.getRootContents(any()))
                 .willReturn(response);
 
         mvc.perform(get("/directories/root-contents"))
