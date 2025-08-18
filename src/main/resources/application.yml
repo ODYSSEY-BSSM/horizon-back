@@ -30,3 +30,15 @@ jwt :
 upload:
   thumbnail-dir: src/main/resources/static/uploads/thumbnails/
   thumbnail-url-prefix: /uploads/thumbnails/
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET_KEY}
+            scope:
+              - email
+              - profile
