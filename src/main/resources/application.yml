@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DB_URL} #테스트
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
@@ -12,20 +12,27 @@ spring:
     hibernate:
       ddl-auto: update
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_SECRET_KEY}
+            scope:
+              - email
+              - profile
+
 logging:
   level:
     org:
       hibernate:
         SQL: debug
         type: trace
+    org.springframework.security: DEBUG
 
-jwt :
-  secret : ${SECRET_KEY}
-
-  logging:
-    level:
-      org:
-        springframework: security = DEBUG
+jwt:
+  secret: ${SECRET_KEY}
 
 upload:
   thumbnail-dir: src/main/resources/static/uploads/thumbnails/

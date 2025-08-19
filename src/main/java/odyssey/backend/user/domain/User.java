@@ -21,7 +21,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
     private Role role;
@@ -30,7 +29,7 @@ public class User {
         return new User(request.getEmail(), request.getUsername(), password, role);
     }
 
-    User(String email, String username, String password, Role role){
+    public User(String email, String username, String password, Role role){
         this.email = email;
         this.username = username;
         this.password = password;

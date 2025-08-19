@@ -3,6 +3,8 @@ package odyssey.backend.global.config;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.global.jwt.JWTAuthenticationFilter;
 import odyssey.backend.global.jwt.service.TokenService;
+import odyssey.backend.global.oauth2.OAuth2LoginSuccessHandler;
+import odyssey.backend.global.oauth2.PrincipalOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,6 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final TokenService tokenService;
+    private final PrincipalOAuth2UserService principalOAuth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,6 +46,14 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(principalOAuth2UserService))
+                        .successHandler(oAuth2LoginSuccessHandler)
+                );
+
 
         return http.build();
     }
