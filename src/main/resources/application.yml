@@ -1,9 +1,27 @@
 spring:
+  cloud:
+    aws:
+      s3:
+        bucket: ${BUCKET_NAME}
+      stack:
+        auto: false
+      region:
+        static: ap-northeast-2
+      credentials:
+        instance-profile: false
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
+
+  config:
+    import:
+      optional:dotenv:
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
   jpa:
     show-sql: true
     database: postgresql
@@ -33,20 +51,3 @@ logging:
 
 jwt:
   secret: ${SECRET_KEY}
-
-upload:
-  thumbnail-dir: src/main/resources/static/uploads/thumbnails/
-  thumbnail-url-prefix: /uploads/thumbnails/
-
-  cloud:
-    aws:
-      s3:
-        bucket: ${BUCKET_NAME}
-      stack:
-        auto: false
-      region:
-        static: ap-northeast-2
-      credentials:
-        instance-profile: true
-        access-key: ${S3_ACCESS_KEY}
-        secret-key: ${S3_SECRET_KEY}
