@@ -2,10 +2,9 @@
 
     import lombok.RequiredArgsConstructor;
     import lombok.extern.slf4j.Slf4j;
+    import odyssey.backend.global.s3.S3Service;
     import odyssey.backend.roadmap.dto.response.ImageUrlResponse;
     import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
-    import odyssey.backend.image.domain.Image;
-    import odyssey.backend.image.service.ImageService;
     import odyssey.backend.roadmap.domain.RoadmapRepository;
     import odyssey.backend.roadmap.dto.response.RoadmapCountResponse;
     import odyssey.backend.roadmap.dto.response.RoadmapResponse;
@@ -21,15 +20,12 @@
     public class RoadmapService {
 
         private final RoadmapRepository roadmapRepository;
-        private final ImageService imageService;
+        private final S3Service s3Service;
 
 
         public List<RoadmapResponse> findAllRoadmaps(User user) {
             return roadmapRepository.findByUserOrderByLastAccessedAtDesc(user).stream()
-                    .map(roadmap -> {
-                        Image image = imageService.getImageByRoadmap(roadmap);
-                        return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
-                    })
+                    .map(roadmap -> RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid()))
                     .toList();
         }
 
@@ -38,11 +34,9 @@
             Roadmap roadmap = roadmapRepository.findTopByUserOrderByLastAccessedAtDesc(user)
                     .orElseThrow(RoadmapNotFoundException::new);
 
-            Image image = imageService.getImageByRoadmap(roadmap);
-
             log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 
-            return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
+            return RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid());
         }
 
         public RoadmapCountResponse getRoadmapCount(User user) {
@@ -52,9 +46,10 @@
         }
 
         public ImageUrlResponse getUrlByRoadmapId(Long id) {
-            Image image = imageService.getImageByRoadmapId(id);
+            Roadmap roadmap = roadmapRepository.findById(id)
+                    .orElseThrow(RoadmapNotFoundException::new);
 
-            return ImageUrlResponse.create(image.getUrl());
+            return ImageUrlResponse.create(roadmap.getImageUrl());
         }
 
     }
