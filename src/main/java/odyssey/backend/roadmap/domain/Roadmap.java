@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.directory.domain.Directory;
-import odyssey.backend.image.domain.Image;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.user.domain.User;
@@ -45,8 +44,7 @@ public class Roadmap {
     @Column(name = "last_accessed_at")
     private LocalDateTime lastAccessedAt;
 
-    @OneToOne(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Image image;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Node> nodes;
