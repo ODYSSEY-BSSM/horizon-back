@@ -34,7 +34,6 @@ public class RoadmapController {
     public ListCommonResponse<RoadmapResponse> getAllRoadmaps(
             @AuthenticationPrincipal User user
     ) {
-        System.out.println(user.getUuid());
         List<RoadmapResponse> roadmaps = roadmapService.findAllRoadmaps(user);
         return CommonResponse.ok(roadmaps);
     }
