@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.directory.service.DirectoryService;
-import odyssey.backend.image.domain.Image;
-import odyssey.backend.image.service.ImageService;
+import odyssey.backend.global.s3.S3Service;
 import odyssey.backend.roadmap.domain.Roadmap;
 import odyssey.backend.roadmap.domain.RoadmapRepository;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
@@ -22,11 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class RoadmapFacade {
 
     private final RoadmapRepository roadmapRepository;
-    private final ImageService imageService;
+    private final S3Service s3Service;
     private final DirectoryService directoryService;
 
     @Transactional
-    public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail, User user) {
+    public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail, User user){
 
         Directory directory = null;
 
@@ -40,11 +39,11 @@ public class RoadmapFacade {
 
         roadmap.updateLastModifiedAt();
 
-        Image image = imageService.save(thumbnail, roadmap);
+        String url = s3Service.uploadFile(thumbnail);
 
         log.info("생성된 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
+        return RoadmapResponse.from(roadmap, url, user.getUuid());
     }
 
     @Transactional
@@ -53,7 +52,7 @@ public class RoadmapFacade {
 
         log.info("삭제된 로드맵 Id : {}", id);
 
-        imageService.deleteImageByRoadmap(roadmap);
+        s3Service.deleteFile(roadmap.getImageUrl());
 
         roadmapRepository.deleteById(id);
     }
@@ -73,9 +72,7 @@ public class RoadmapFacade {
 
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
-        Image image = imageService.getImageByRoadmap(roadmap);
-
-        return RoadmapResponse.from(roadmap, image.getUrl(), user.getUuid());
+        return RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid());
     }
 
     @Transactional
@@ -86,7 +83,7 @@ public class RoadmapFacade {
 
         log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, roadmap.getImage().getUrl(), user.getUuid());
+        return RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid());
     }
 
 }
