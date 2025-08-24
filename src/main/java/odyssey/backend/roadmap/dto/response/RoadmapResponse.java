@@ -18,13 +18,13 @@ public record RoadmapResponse(
         String location,
         Long uuid
 ) {
-    public static RoadmapResponse from(Roadmap roadmap, String thumbnailUrl, Long uuid) {
+    public static RoadmapResponse from(Roadmap roadmap, Long uuid) {
         return new RoadmapResponse(
                 roadmap.getId(),
                 roadmap.getTitle(),
                 roadmap.getDescription(),
                 roadmap.getCategories(),
-                thumbnailUrl,
+                roadmap.getImageUrl(),
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
