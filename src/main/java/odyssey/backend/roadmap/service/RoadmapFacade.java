@@ -33,17 +33,17 @@ public class RoadmapFacade {
             directory = directoryService.findDirectoryById(request.getDirectoryId());
         }
 
+        String url = s3Service.uploadFile(thumbnail);
+
         Roadmap roadmap = roadmapRepository.save(
-                Roadmap.from(request, directory, user)
+                Roadmap.from(request, url, directory, user)
         );
 
         roadmap.updateLastModifiedAt();
 
-        String url = s3Service.uploadFile(thumbnail);
-
         log.info("생성된 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, url, user.getUuid());
+        return RoadmapResponse.from(roadmap, user.getUuid());
     }
 
     @Transactional
@@ -72,7 +72,7 @@ public class RoadmapFacade {
 
         log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid());
+        return RoadmapResponse.from(roadmap, user.getUuid());
     }
 
     @Transactional
@@ -83,7 +83,7 @@ public class RoadmapFacade {
 
         log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
-        return RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid());
+        return RoadmapResponse.from(roadmap, user.getUuid());
     }
 
 }
