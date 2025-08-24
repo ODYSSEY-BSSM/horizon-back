@@ -25,7 +25,7 @@
 
         public List<RoadmapResponse> findAllRoadmaps(User user) {
             return roadmapRepository.findByUserOrderByLastAccessedAtDesc(user).stream()
-                    .map(roadmap -> RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid()))
+                    .map(roadmap -> RoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();
         }
 
@@ -36,7 +36,7 @@
 
             log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 
-            return RoadmapResponse.from(roadmap, roadmap.getImageUrl(), user.getUuid());
+            return RoadmapResponse.from(roadmap, user.getUuid());
         }
 
         public RoadmapCountResponse getRoadmapCount(User user) {
