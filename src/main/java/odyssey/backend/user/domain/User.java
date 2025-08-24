@@ -3,7 +3,10 @@ package odyssey.backend.user.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.team.domain.Team;
 import odyssey.backend.user.dto.request.SignUpRequest;
+
+import java.util.List;
 
 @Entity
 @Table(name = "user_tbl")
@@ -24,6 +27,9 @@ public class User {
     private String password;
 
     private Role role;
+
+    @ManyToMany(mappedBy = "members")
+    private List<Team> teams;
 
     public static User from(SignUpRequest request, String password, Role role) {
         return new User(request.getEmail(), request.getUsername(), password, role);
