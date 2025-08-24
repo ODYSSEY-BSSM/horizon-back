@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.directory.domain.Directory;
-import odyssey.backend.image.domain.Image;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.user.domain.User;
@@ -45,8 +44,7 @@ public class Roadmap {
     @Column(name = "last_accessed_at")
     private LocalDateTime lastAccessedAt;
 
-    @OneToOne(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Image image;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Node> nodes;
@@ -59,14 +57,15 @@ public class Roadmap {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Roadmap from(RoadmapRequest request, Directory directory, User user) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), directory, user);
+    public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user) {
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user);
     }
 
-    Roadmap(String title, String description, List<String> categories, Directory directory, User user) {
+    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user) {
         this.title = title;
         this.description = description;
         this.categories = categories;
+        this.imageUrl = url;
         this.isFavorite = false;
         this.lastAccessedAt = LocalDateTime.now();
         this.lastModifiedAt = LocalDate.now();
