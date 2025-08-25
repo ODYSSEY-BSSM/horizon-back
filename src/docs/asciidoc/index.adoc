@@ -27,3 +27,11 @@ include::node.adoc[]
 == Directory API
 
 include::directory.adoc[]
+
+== Team API
+
+include::team.adoc[]
+
+== Team Apply API
+
+include::apply.adoc[]

@@ -47,5 +47,3 @@ include::{snippets}/user-logout/http-response.adoc[]
 
 ==== 응답 필드
 include::{snippets}/user-logout/response-fields.adoc[]
-
-작성자: 이건우

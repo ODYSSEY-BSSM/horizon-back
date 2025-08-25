@@ -10,6 +10,10 @@ import odyssey.backend.node.service.NodeService;
 import odyssey.backend.roadmap.controller.RoadmapController;
 import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
+import odyssey.backend.team.controller.TeamApplyController;
+import odyssey.backend.team.controller.TeamController;
+import odyssey.backend.team.service.TeamApplyService;
+import odyssey.backend.team.service.TeamService;
 import odyssey.backend.user.controller.AuthController;
 import odyssey.backend.user.domain.User;
 import odyssey.backend.user.service.LoginService;
@@ -28,7 +32,9 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 @WebMvcTest({RoadmapController.class,
              NodeController.class,
              DirectoryController.class,
-             AuthController.class,})
+             AuthController.class,
+             TeamController.class,
+             TeamApplyController.class,})
 public abstract class ControllerTest {
 
     @Autowired
@@ -63,6 +69,12 @@ public abstract class ControllerTest {
 
     @MockBean
     protected RefreshService refreshService;
+
+    @MockBean
+    protected TeamService teamService;
+
+    @MockBean
+    protected TeamApplyService teamApplyService;
 
     public static RequestPostProcessor authenticationPrincipal(final User user) {
         return new RequestPostProcessor() {

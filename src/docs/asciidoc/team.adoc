@@ -1,0 +1,33 @@
+
+=== 팀 생성
+
+==== 요청 메시지
+include::{snippets}/team-create/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/team-create/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/team-create/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/team-create/response-fields.adoc[]
+
+=== 팀 정보 조회
+
+==== 요청 파라미터 & 헤더
+include::{snippets}/team-get/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/team-get/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/team-get/response-fields.adoc[]
+
+=== 삭제
+
+==== 요청 파라미터
+include::{snippets}/team-delete/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/team-delete/http-response.adoc[]
