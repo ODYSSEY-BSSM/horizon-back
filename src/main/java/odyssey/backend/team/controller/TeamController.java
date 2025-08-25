@@ -33,4 +33,12 @@ public class TeamController {
         return CommonResponse.ok("삭제되었습니다");
     }
 
+    @GetMapping("/{teamId}")
+    public SingleCommonResponse<TeamResponse> getTeam(
+            @PathVariable Long teamId,
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(teamService.findById(teamId));
+    }
+
 }
