@@ -1,0 +1,29 @@
+=== 팀 신청
+
+==== 요청 메시지
+include::{snippets}/team-apply/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/team-apply/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/team-apply/response-fields.adoc[]
+
+=== 신청 수락
+
+==== 요청 파라미터 & 헤더
+include::{snippets}/team-apply-approve/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/team-apply-approve/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/team-apply-approve/response-fields.adoc[]
+
+=== 신청 거절
+
+==== 요청 파라미터
+include::{snippets}/team-apply-reject/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/team-apply-reject/http-response.adoc[]
