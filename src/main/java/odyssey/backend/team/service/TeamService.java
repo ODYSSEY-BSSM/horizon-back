@@ -20,4 +20,11 @@ public class TeamService {
         ));
     }
 
+    public void delete(Long id, User user){
+        Team team = teamRepository.findByLeader(user.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("팀은 팀장만 삭제할 수 있읍니다."));
+
+        teamRepository.delete(team);
+    }
+
 }
