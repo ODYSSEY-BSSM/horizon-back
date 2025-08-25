@@ -24,7 +24,7 @@ public class TeamApplyController {
         return CommonResponse.ok(teamApplyService.apply(teamId, user));
     }
 
-    @PostMapping("/{applyId}")
+    @PutMapping("/{applyId}")
     public SingleCommonResponse<ApplyResponse> approved(
             @PathVariable Long applyId,
             @AuthenticationPrincipal User user
