@@ -3,6 +3,7 @@ package odyssey.backend.global.exception;
 import odyssey.backend.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.node.exception.NodeNotFoundException;
 import odyssey.backend.roadmap.exception.RoadmapNotFoundException;
+import odyssey.backend.websocket.exception.InvalidActionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DirectoryNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleDirectoryNotFoundException(DirectoryNotFoundException e) {
         return buildResponse(ExceptionCode.DIRECTORY_NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidActionException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidActionException(InvalidActionException e) {
+        return buildResponse(ExceptionCode.INVALID_ACTION);
     }
 
     private ResponseEntity<ExceptionResponse> buildResponse(ExceptionCode exceptionCode) {
