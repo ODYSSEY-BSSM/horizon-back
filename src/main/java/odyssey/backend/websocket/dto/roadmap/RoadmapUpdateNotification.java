@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoadmapUpdateMessage {
+public class RoadmapUpdateNotification {
     @NotNull(message = "로드맵 ID는 필수입니다.")
     private Long roadmapId;
 
@@ -26,6 +26,9 @@ public class RoadmapUpdateMessage {
 
     @NotEmpty(message = "카테고리는 하나 이상이어야 합니다.")
     private List<String> categories;
+
+    @NotBlank(message = "이미지 URL은 필수입니다.")
+    private String imageUrl;
 
     private Long directoryId;
 }
