@@ -4,8 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.websocket.dto.roadmap.RoadmapCreateNotification;
 import odyssey.backend.websocket.dto.roadmap.RoadmapDeleteNotification;
-import odyssey.backend.websocket.dto.roadmap.RoadmapUpdateMessage;
-import odyssey.backend.websocket.dto.roadmap.RoadmapUpdateResponse;
+import odyssey.backend.websocket.dto.roadmap.RoadmapUpdateNotification;
 import odyssey.backend.websocket.service.WebSocketRoadmapService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -20,18 +19,17 @@ public class WebSocketRoadmapController {
     private final SimpMessagingTemplate messaging;
 
     @MessageMapping("/created")
-    public void notifyCreate(RoadmapCreateNotification notification) {
+    public void notifyCreate(@Valid RoadmapCreateNotification notification) {
         messaging.convertAndSend("/topic/roadmap/created", notification);
     }
 
-    @MessageMapping("/update")
-    public void update(@Valid RoadmapUpdateMessage message) {
-        RoadmapUpdateResponse response = webSocketRoadmapService.update(message);
-        messaging.convertAndSend("/topic/roadmap/update", response);
+    @MessageMapping("/updated")
+    public void update(@Valid RoadmapUpdateNotification notification) {
+        messaging.convertAndSend("/topic/roadmap/updated", notification);
     }
 
     @MessageMapping("/deleted")
-    public void notifyDelete(RoadmapDeleteNotification notification) {
+    public void notifyDelete(@Valid RoadmapDeleteNotification notification) {
         messaging.convertAndSend("/topic/roadmap/deleted", notification.getRoadmapId());
     }
 }
