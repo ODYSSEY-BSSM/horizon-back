@@ -3,7 +3,6 @@ package odyssey.backend.global.s3;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
-import odyssey.backend.global.S3Properties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,5 +35,6 @@ public class S3Service {
     private String extractFileName(String url) {
         return url.substring(url.indexOf(".amazonaws.com/") + 14);
     }
+
 
 }

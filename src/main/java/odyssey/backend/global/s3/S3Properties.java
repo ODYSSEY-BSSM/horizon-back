@@ -1,4 +1,4 @@
-package odyssey.backend.global;
+package odyssey.backend.global.s3;
 
 import lombok.Getter;
 import lombok.Setter;
