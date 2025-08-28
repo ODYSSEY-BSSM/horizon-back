@@ -3,16 +3,10 @@ package odyssey.backend.websocket.dto.roadmap;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class RoadmapUpdateNotification {
     @NotNull(message = "로드맵 ID는 필수입니다.")

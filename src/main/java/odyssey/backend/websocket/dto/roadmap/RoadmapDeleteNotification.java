@@ -1,11 +1,9 @@
 package odyssey.backend.websocket.dto.roadmap;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
 public class RoadmapDeleteNotification {
     private Long roadmapId;
