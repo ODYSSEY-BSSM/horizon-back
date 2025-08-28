@@ -79,6 +79,10 @@ public class Roadmap {
         this.categories = categories;
     }
 
+    public void changeDirectory(Directory directory) {
+        this.directory = directory;
+    }
+
     public void toggleFavorite() {
         this.isFavorite = !this.isFavorite;
     }

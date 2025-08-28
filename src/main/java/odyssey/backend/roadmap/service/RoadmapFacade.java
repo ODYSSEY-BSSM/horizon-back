@@ -66,11 +66,14 @@ public class RoadmapFacade {
     public RoadmapResponse update(Long id, RoadmapRequest request, User user) {
         Roadmap roadmap = findRoadmapById(id);
 
+        Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
+
+        if(!roadmap.getDirectory().getId().equals(directory.getId())) {
+            roadmap.changeDirectory(directory);
+            roadmap.updateLastModifiedAt();
+        }
+
         roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
-
-        roadmap.updateLastModifiedAt();
-
-        log.info("업데이트 요청 로드맵 Id : {}", roadmap.getId());
 
         return RoadmapResponse.from(roadmap, user.getUuid());
     }
