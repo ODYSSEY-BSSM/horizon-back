@@ -173,6 +173,20 @@ class RoadmapControllerTest extends RestDocsSupport {
                 .andDo(document("roadmap-toggle-favorite",
                         pathParameters(
                                 parameterWithName("id").description("즐겨찾기 토글 대상 로드맵 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("로드맵 ID"),
+                                fieldWithPath("data.title").description("로드맵 제목"),
+                                fieldWithPath("data.description").description("로드맵 설명"),
+                                fieldWithPath("data.categories").description("카테고리 리스트"),
+                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data.location").description("로드맵 위치 정보"),
+                                fieldWithPath("data.uuid").description("유저 id")
                         )
                 ));
     }
