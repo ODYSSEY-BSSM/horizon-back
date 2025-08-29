@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.websocket.dto.roadmap.RoadmapCreateNotification;
 import odyssey.backend.websocket.dto.roadmap.RoadmapDeleteNotification;
 import odyssey.backend.websocket.dto.roadmap.RoadmapUpdateNotification;
-import odyssey.backend.websocket.service.WebSocketRoadmapService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 @MessageMapping("/roadmap")
 public class WebSocketRoadmapController {
 
-    private final WebSocketRoadmapService webSocketRoadmapService;
     private final SimpMessagingTemplate messaging;
 
     @MessageMapping("/created")
