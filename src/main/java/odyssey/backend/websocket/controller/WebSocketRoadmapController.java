@@ -6,7 +6,7 @@ import odyssey.backend.websocket.dto.roadmap.RoadmapCreatedNotification;
 import odyssey.backend.websocket.dto.roadmap.RoadmapDeletedNotification;
 import odyssey.backend.websocket.dto.roadmap.RoadmapUpdatedNotification;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -14,20 +14,21 @@ import org.springframework.stereotype.Controller;
 @MessageMapping("/roadmap")
 public class WebSocketRoadmapController {
 
-    private final SimpMessagingTemplate messaging;
-
     @MessageMapping("/created")
-    public void notifyCreate(@Valid RoadmapCreatedNotification notification) {
-        messaging.convertAndSend("/topic/roadmap/created", notification);
+    @SendTo("/topic/roadmap/created")
+    public RoadmapCreatedNotification notifyCreate(@Valid RoadmapCreatedNotification notification) {
+        return notification;
     }
 
     @MessageMapping("/updated")
-    public void update(@Valid RoadmapUpdatedNotification notification) {
-        messaging.convertAndSend("/topic/roadmap/updated", notification);
+    @SendTo("/topic/roadmap/updated")
+    public RoadmapUpdatedNotification update(@Valid RoadmapUpdatedNotification notification) {
+        return notification;
     }
 
     @MessageMapping("/deleted")
-    public void notifyDelete(@Valid RoadmapDeletedNotification notification) {
-        messaging.convertAndSend("/topic/roadmap/deleted", notification.getRoadmapId());
+    @SendTo("/topic/roadmap/deleted")
+    public RoadmapDeletedNotification notifyDelete(@Valid RoadmapDeletedNotification notification) {
+        return notification;
     }
 }
