@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RoadmapDeleteNotification {
+public class RoadmapDeletedNotification {
     private Long roadmapId;
 }

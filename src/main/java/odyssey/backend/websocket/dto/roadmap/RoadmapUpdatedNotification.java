@@ -8,7 +8,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public class RoadmapUpdateNotification {
+public class RoadmapUpdatedNotification {
     @NotNull(message = "로드맵 ID는 필수입니다.")
     private Long roadmapId;
 
