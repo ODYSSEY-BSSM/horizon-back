@@ -33,10 +33,12 @@ public class TeamApplyController {
     }
 
     @PatchMapping("/{applyId}")
-    public SingleCommonResponse<ApplyResponse> reject(
+    public SingleCommonResponse<String> reject(
             @PathVariable Long applyId,
             @AuthenticationPrincipal User user
     ){
-        return CommonResponse.ok(teamApplyService.reject(applyId, user));
+        teamApplyService.reject(applyId, user);
+
+        return CommonResponse.ok("삭제되었습니다.");
     }
 }
