@@ -1,6 +1,7 @@
 package odyssey.backend.team;
 
 import odyssey.backend.global.RestDocsSupport;
+import odyssey.backend.team.domain.TeamApply;
 import odyssey.backend.team.dto.response.ApplyResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -21,14 +22,14 @@ public class TeamApplyControllerTest extends RestDocsSupport {
 
     @Test
     void 팀에_신청한다() throws Exception {
-        ApplyResponse response = new ApplyResponse(1L, "이건우팀", false);
+        ApplyResponse response = new ApplyResponse(1L, "이건우팀", TeamApply.Status.SUBMITTED);
         given(teamApplyService.apply(eq(1L), any())).willReturn(response);
 
         mvc.perform(post("/apply/{teamId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.approved").value(false))
+                .andExpect(jsonPath("$.data.applyStatus").value(TeamApply.Status.SUBMITTED.name()))
                 .andDo(document("team-apply",
                         pathParameters(
                                 parameterWithName("teamId").description("팀 ID")
@@ -38,21 +39,21 @@ public class TeamApplyControllerTest extends RestDocsSupport {
                                 fieldWithPath("message").description("응답 메시지"),
                                 fieldWithPath("data.id").description("신청 ID"),
                                 fieldWithPath("data.teamName").description("팀 이름"),
-                                fieldWithPath("data.approved").description("승인 여부")
+                                fieldWithPath("data.applyStatus").description("승인 여부")
                         )
                 ));
     }
 
     @Test
     void 팀_신청을_승인한다() throws Exception {
-        ApplyResponse response = new ApplyResponse(1L, "이건우팀", true);
+        ApplyResponse response = new ApplyResponse(1L, "이건우팀", TeamApply.Status.SUBMITTED);
         given(teamApplyService.approve(eq(1L), any())).willReturn(response);
 
         mvc.perform(put("/apply/{applyId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.approved").value(true))
+                .andExpect(jsonPath("$.data.applyStatus").value(TeamApply.Status.SUBMITTED.name()))
                 .andDo(document("team-apply-approve",
                         pathParameters(
                                 parameterWithName("applyId").description("신청 ID")
@@ -62,21 +63,19 @@ public class TeamApplyControllerTest extends RestDocsSupport {
                                 fieldWithPath("message").description("응답 메시지"),
                                 fieldWithPath("data.id").description("신청 ID"),
                                 fieldWithPath("data.teamName").description("팀 이름"),
-                                fieldWithPath("data.approved").description("승인 여부")
+                                fieldWithPath("data.applyStatus").description("승인 여부")
                         )
                 ));
     }
 
     @Test
     void 팀_신청을_거절한다() throws Exception {
-        ApplyResponse response = new ApplyResponse(1L, "이건우팀", false);
-        given(teamApplyService.reject(eq(1L), any())).willReturn(response);
 
         mvc.perform(patch("/apply/{applyId}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.approved").value(false))
+                .andExpect(jsonPath("$.data").value("삭제되었습니다."))
                 .andDo(document("team-apply-reject",
                         pathParameters(
                                 parameterWithName("applyId").description("신청 ID")
@@ -84,9 +83,7 @@ public class TeamApplyControllerTest extends RestDocsSupport {
                         responseFields(
                                 fieldWithPath("code").description("상태 코드"),
                                 fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.id").description("신청 ID"),
-                                fieldWithPath("data.teamName").description("팀 이름"),
-                                fieldWithPath("data.approved").description("승인 여부")
+                                fieldWithPath("data").description("삭제 메시지")
                         )
                 ));
     }
