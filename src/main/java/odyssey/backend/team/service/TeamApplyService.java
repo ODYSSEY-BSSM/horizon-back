@@ -1,5 +1,6 @@
 package odyssey.backend.team.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.team.domain.Team;
 import odyssey.backend.team.domain.TeamApply;
@@ -23,6 +24,7 @@ public class TeamApplyService {
         return ApplyResponse.of(teamApplyRepository.save(new TeamApply(team, user)));
     }
 
+    @Transactional
     public ApplyResponse approve(Long applyId, User user){
         TeamApply apply = teamApplyRepository.findById(applyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다"));
@@ -33,27 +35,22 @@ public class TeamApplyService {
             throw new IllegalArgumentException("팀장만 신청을 관리할 수 있습니다.");
         }
 
-        apply.approve();
-
         team.addMember(apply.getUser());
-
-        teamRepository.save(team);
 
         return ApplyResponse.of(teamApplyRepository.save(apply));
     }
 
-    public ApplyResponse reject(Long applyId, User user){
+    @Transactional
+    public void reject(Long applyId, User user){
         TeamApply apply = teamApplyRepository.findById(applyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 신청입니다"));
 
         Team team = apply.getTeam();
 
-        if(team.isLeader(user)){
+        if(!team.isLeader(user)){
             throw new IllegalArgumentException("팀장만 신청을 관리할 수 있습니다.");
         }
 
-        apply.reject();
-
-        return ApplyResponse.of(teamApplyRepository.save(apply));
+        teamApplyRepository.deleteById(applyId);
     }
 }
