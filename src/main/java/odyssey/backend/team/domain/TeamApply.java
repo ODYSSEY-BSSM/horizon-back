@@ -31,8 +31,7 @@ public class TeamApply {
 
     public enum Status {
         SUBMITTED,
-        APPROVED,
-        REJECTED
+        APPROVED
     }
 }
 
