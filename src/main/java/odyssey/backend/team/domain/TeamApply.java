@@ -20,20 +20,18 @@ public class TeamApply {
     @ManyToOne
     private User user;
 
-    private boolean approved;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     public TeamApply(Team team, User user) {
         this.team = team;
         this.user = user;
-        this.approved = false;
+        this.status = Status.SUBMITTED;
     }
 
-    public void approve(){
-        this.approved = true;
+    public enum Status {
+        SUBMITTED,
+        APPROVED
     }
-
-    public void reject(){
-        this.approved = false;
-    }
-
 }
+
