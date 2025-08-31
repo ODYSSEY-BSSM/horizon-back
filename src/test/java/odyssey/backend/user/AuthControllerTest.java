@@ -6,8 +6,11 @@ import odyssey.backend.user.domain.Role;
 import odyssey.backend.user.dto.request.LoginRequest;
 import odyssey.backend.user.dto.request.SignUpRequest;
 import odyssey.backend.user.dto.response.SignUpResponse;
+import odyssey.backend.user.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -125,6 +128,37 @@ public class AuthControllerTest extends RestDocsSupport {
                                 fieldWithPath("code").description("응답 코드"),
                                 fieldWithPath("message").description("응답 메시지"),
                                 fieldWithPath("data").description("로그아웃 메시지")
+                        )
+                ));
+    }
+
+    @Test
+    void 유저_정보를_가져온다() throws Exception {
+        UserResponse fakeResponse = new UserResponse(
+                "gunwoo",
+                "fakeEmail@gmail.com",
+                Role.USER.name(),
+                List.of("팀1", "팀2")
+        );
+
+        given(getUserInfoService.getUserInfo(any()))
+                .willReturn(fakeResponse);
+
+        mvc.perform(get("/users/info")
+                        .header("Authorization", "Bearer fakeAccessToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.username").value("gunwoo"))
+                .andExpect(jsonPath("$.data.email").value("fakeEmail@gmail.com"))
+                .andExpect(jsonPath("$.data.role").value("USER"))
+                .andExpect(jsonPath("$.data.teams[0]").value("팀1"))
+                .andDo(document("user-me",
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.username").description("사용자 이름"),
+                                fieldWithPath("data.email").description("사용자 이메일"),
+                                fieldWithPath("data.role").description("사용자 권한"),
+                                fieldWithPath("data.teams").description("사용자가 속한 팀 목록")
                         )
                 ));
     }
