@@ -151,7 +151,7 @@ public class AuthControllerTest extends RestDocsSupport {
                 .andExpect(jsonPath("$.data.email").value("fakeEmail@gmail.com"))
                 .andExpect(jsonPath("$.data.role").value("USER"))
                 .andExpect(jsonPath("$.data.teams[0]").value("팀1"))
-                .andDo(document("user-me",
+                .andDo(document("user-info",
                         responseFields(
                                 fieldWithPath("code").description("응답 코드"),
                                 fieldWithPath("message").description("응답 메시지"),
