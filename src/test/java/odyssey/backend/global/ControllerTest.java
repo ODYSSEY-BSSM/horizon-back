@@ -16,10 +16,7 @@ import odyssey.backend.team.service.TeamApplyService;
 import odyssey.backend.team.service.TeamService;
 import odyssey.backend.user.controller.AuthController;
 import odyssey.backend.user.domain.User;
-import odyssey.backend.user.service.LoginService;
-import odyssey.backend.user.service.LogoutService;
-import odyssey.backend.user.service.RefreshService;
-import odyssey.backend.user.service.SignUpService;
+import odyssey.backend.user.service.*;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -75,6 +72,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected TeamApplyService teamApplyService;
+
+    @MockBean
+    protected GetUserInfoService getUserInfoService;
 
     public static RequestPostProcessor authenticationPrincipal(final User user) {
         return new RequestPostProcessor() {
