@@ -21,17 +21,19 @@ public class Team {
 
     private String name;
 
-    private String leader;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User leader;
 
     @ManyToMany
     private List<User> members = new ArrayList<>();
 
-    Team(String name, String leader){
+    Team(String name, User leader){
         this.name = name;
         this.leader = leader;
+        members.add(leader);
     }
 
-    public static Team ok(TeamRequest request, String leader){
+    public static Team ok(TeamRequest request, User leader){
         return new Team(
                 request.getName(),
                 leader
@@ -49,7 +51,11 @@ public class Team {
     }
 
     public boolean isLeader(User user){
-        return this.leader.equals(user.getUsername());
+        return this.leader == user;
+    }
+
+    public String getLeaderUsername(){
+        return this.leader.getUsername();
     }
 
 }
