@@ -77,6 +77,7 @@ public class Roadmap {
         this.title = title;
         this.description = description;
         this.categories = categories;
+        updateLastModifiedAt();
     }
 
     public void changeDirectory(Directory directory) {
