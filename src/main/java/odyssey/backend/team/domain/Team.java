@@ -51,7 +51,7 @@ public class Team {
     }
 
     public boolean isLeader(User user){
-        return this.leader == user;
+        return this.leader.getUuid().equals(user.getUuid());
     }
 
     public String getLeaderUsername(){
