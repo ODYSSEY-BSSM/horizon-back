@@ -15,7 +15,7 @@ public record TeamResponse(
         return new TeamResponse(
                 team.getId(),
                 team.getName(),
-                team.getLeader(),
+                team.getLeaderUsername(),
                 team.getMembers().stream()
                         .map(User::getUsername)
                         .toList());

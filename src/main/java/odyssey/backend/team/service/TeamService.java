@@ -18,12 +18,12 @@ public class TeamService {
 
     public TeamResponse create(TeamRequest request, User leader){
         return TeamResponse.from(teamRepository.save(
-                Team.ok(request, leader.getUsername())
+                Team.ok(request, leader)
         ));
     }
 
     public void delete(Long id, User user){
-        Team team = teamRepository.findByLeader(user.getUsername())
+        Team team = teamRepository.findByLeader(user)
                 .orElseThrow(() -> new IllegalArgumentException("팀은 팀장만 삭제할 수 있읍니다."));
 
         teamRepository.delete(team);
