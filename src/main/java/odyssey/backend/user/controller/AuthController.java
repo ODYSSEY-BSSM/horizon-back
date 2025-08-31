@@ -9,10 +9,8 @@ import odyssey.backend.user.domain.User;
 import odyssey.backend.user.dto.request.LoginRequest;
 import odyssey.backend.user.dto.request.SignUpRequest;
 import odyssey.backend.user.dto.response.SignUpResponse;
-import odyssey.backend.user.service.LoginService;
-import odyssey.backend.user.service.LogoutService;
-import odyssey.backend.user.service.RefreshService;
-import odyssey.backend.user.service.SignUpService;
+import odyssey.backend.user.dto.response.UserResponse;
+import odyssey.backend.user.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,27 +24,43 @@ public class AuthController {
     private final LoginService loginService;
     private final LogoutService logoutService;
     private final RefreshService refreshService;
+    private final GetUserInfoService getUserInfoService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SingleCommonResponse<SignUpResponse> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+    public SingleCommonResponse<SignUpResponse> signUp(
+            @RequestBody @Valid SignUpRequest signUpRequest
+    ) {
         return CommonResponse.ok(signUpService.signUp(signUpRequest));
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<TokenResponse> login(@RequestBody @Valid LoginRequest request){
+    public SingleCommonResponse<TokenResponse> login(
+            @RequestBody @Valid LoginRequest request
+    ){
         return CommonResponse.ok(loginService.login(request));
     }
 
     @GetMapping("/refresh")
-    public SingleCommonResponse<TokenResponse> refreshAccessToken(@RequestHeader("Refresh-Token") String refreshToken) {
+    public SingleCommonResponse<TokenResponse> refreshAccessToken(
+            @RequestHeader("Refresh-Token") String refreshToken
+    ) {
         return CommonResponse.ok(refreshService.refreshToken(refreshToken));
     }
 
     @GetMapping("/logout")
-    public SingleCommonResponse<String> logout(@AuthenticationPrincipal User user) {
+    public SingleCommonResponse<String> logout(
+            @AuthenticationPrincipal User user
+    ) {
         logoutService.logout(user);
         return CommonResponse.ok("로그아웃되었습니다.");
+    }
+
+    @GetMapping("/info")
+    public SingleCommonResponse<UserResponse> info(
+            @AuthenticationPrincipal User user
+    ) {
+        return CommonResponse.ok(getUserInfoService.getUserInfo(user));
     }
 }
