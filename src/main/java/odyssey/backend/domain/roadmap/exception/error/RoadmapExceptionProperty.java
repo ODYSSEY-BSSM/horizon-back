@@ -1,4 +1,4 @@
-package odyssey.backend.domain.roadmap.exception;
+package odyssey.backend.domain.roadmap.exception.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
