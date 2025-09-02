@@ -3,7 +3,7 @@ package odyssey.backend.global.exception;
 import org.apache.http.HttpStatus;
 
 public interface ErrorProperty {
-    HttpStatus getHttpStatus();
+    HttpStatus getStatus();
     String getMessage();
     String name();
 }
