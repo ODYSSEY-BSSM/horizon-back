@@ -12,4 +12,5 @@ public enum GlobalErrorProperty implements ErrorProperty{
 
     private final HttpStatus status;
     private final String message;
+
 }
