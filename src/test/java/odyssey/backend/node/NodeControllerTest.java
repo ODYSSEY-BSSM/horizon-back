@@ -1,9 +1,9 @@
 package odyssey.backend.node;
 
 import odyssey.backend.global.RestDocsSupport;
-import odyssey.backend.node.domain.NodeType;
-import odyssey.backend.node.dto.request.NodeRequest;
-import odyssey.backend.node.dto.response.NodeResponse;
+import odyssey.backend.domain.node.NodeType;
+import odyssey.backend.presentation.node.dto.request.NodeRequest;
+import odyssey.backend.presentation.node.dto.response.NodeResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;

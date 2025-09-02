@@ -1,12 +1,12 @@
 package odyssey.backend.user;
 
 import odyssey.backend.global.RestDocsSupport;
-import odyssey.backend.global.jwt.dto.response.TokenResponse;
-import odyssey.backend.user.domain.Role;
-import odyssey.backend.user.dto.request.LoginRequest;
-import odyssey.backend.user.dto.request.SignUpRequest;
-import odyssey.backend.user.dto.response.SignUpResponse;
-import odyssey.backend.user.dto.response.UserResponse;
+import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
+import odyssey.backend.domain.auth.Role;
+import odyssey.backend.presentation.auth.dto.request.LoginRequest;
+import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
+import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
+import odyssey.backend.presentation.auth.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 

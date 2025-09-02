@@ -1,11 +1,11 @@
 package odyssey.backend.roadmap;
 
 import odyssey.backend.global.RestDocsSupport;
-import odyssey.backend.global.test.UserCreate;
-import odyssey.backend.roadmap.dto.request.RoadmapRequest;
-import odyssey.backend.roadmap.dto.response.RoadmapCountResponse;
-import odyssey.backend.roadmap.dto.response.RoadmapResponse;
-import odyssey.backend.user.domain.User;
+import odyssey.backend.shared.test.UserCreate;
+import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
+import odyssey.backend.presentation.roadmap.dto.response.RoadmapResponse;
+import odyssey.backend.domain.auth.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

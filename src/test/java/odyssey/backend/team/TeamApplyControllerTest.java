@@ -1,8 +1,8 @@
 package odyssey.backend.team;
 
 import odyssey.backend.global.RestDocsSupport;
-import odyssey.backend.team.domain.TeamApply;
-import odyssey.backend.team.dto.response.ApplyResponse;
+import odyssey.backend.domain.team.TeamApply;
+import odyssey.backend.presentation.team.dto.response.ApplyResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
