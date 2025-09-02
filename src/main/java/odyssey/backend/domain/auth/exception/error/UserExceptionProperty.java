@@ -1,4 +1,4 @@
-package odyssey.backend.domain.auth.exception;
+package odyssey.backend.domain.auth.exception.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
