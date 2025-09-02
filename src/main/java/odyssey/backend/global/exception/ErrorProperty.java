@@ -1,6 +1,6 @@
 package odyssey.backend.global.exception;
 
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 
 public interface ErrorProperty {
     HttpStatus getStatus();
