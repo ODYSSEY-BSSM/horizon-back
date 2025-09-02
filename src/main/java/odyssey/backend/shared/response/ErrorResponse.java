@@ -22,4 +22,5 @@ public class ErrorResponse extends CommonResponse {
     public ErrorResponse(ErrorProperty errorProperty) {
         super(errorProperty.name(), errorProperty.getMessage());
     }
+
 }
