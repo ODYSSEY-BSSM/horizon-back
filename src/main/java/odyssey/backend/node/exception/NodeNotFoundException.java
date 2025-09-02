@@ -1,4 +1,9 @@
 package odyssey.backend.node.exception;
 
-public class NodeNotFoundException extends RuntimeException {
+import odyssey.backend.global.exception.GlobalException;
+
+public class NodeNotFoundException extends GlobalException {
+    public NodeNotFoundException(){
+        super(NodeExceptionProperty.NODE_NOT_FOUND);
+    }
 }
