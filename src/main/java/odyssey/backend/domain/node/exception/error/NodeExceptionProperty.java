@@ -1,4 +1,4 @@
-package odyssey.backend.domain.directory.exception;
+package odyssey.backend.domain.node.exception.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum DirectoryExceptionProperty implements ErrorProperty {
-    DIRECTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "디렉토리를 찾을 수 없습니다.");
+public enum NodeExceptionProperty implements ErrorProperty {
+    NODE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 노드를 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;
