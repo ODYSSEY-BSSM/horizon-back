@@ -1,4 +1,9 @@
 package odyssey.backend.user.exception;
 
-public class UserNotFoundException extends RuntimeException {
+import odyssey.backend.global.exception.GlobalException;
+
+public class UserNotFoundException extends GlobalException {
+    public UserNotFoundException(){
+        super(UserExceptionProperty.USER_NOT_FOUND);
+    }
 }
