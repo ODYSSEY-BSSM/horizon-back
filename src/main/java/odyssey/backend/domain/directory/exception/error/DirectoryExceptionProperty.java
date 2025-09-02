@@ -1,4 +1,4 @@
-package odyssey.backend.domain.directory.exception;
+package odyssey.backend.domain.directory.exception.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
