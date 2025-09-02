@@ -1,4 +1,9 @@
 package odyssey.backend.roadmap.exception;
 
-public class RoadmapNotFoundException extends RuntimeException {
+import odyssey.backend.global.exception.GlobalException;
+
+public class RoadmapNotFoundException extends GlobalException {
+    public RoadmapNotFoundException(){
+        super(RoadmapExceptionProperty.ROADMAP_NOT_FOUND);
+    }
 }

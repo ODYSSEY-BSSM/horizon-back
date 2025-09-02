@@ -7,7 +7,7 @@ import odyssey.backend.user.domain.User;
 import odyssey.backend.user.domain.UserRepository;
 import odyssey.backend.user.dto.request.LoginRequest;
 import odyssey.backend.user.exception.UserNotFoundException;
-import odyssey.backend.user.exception.WrongPasswordException;
+import odyssey.backend.user.exception.InvalidPasswordException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class LoginService {
                 .orElseThrow(UserNotFoundException::new);
 
         if(!checkPassword(request.getPassword(), user.getPassword())){
-            throw new WrongPasswordException();
+            throw new InvalidPasswordException();
         }
 
         return TokenResponse.create(
