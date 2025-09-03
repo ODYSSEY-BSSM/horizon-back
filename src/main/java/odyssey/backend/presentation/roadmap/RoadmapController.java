@@ -29,13 +29,22 @@ public class RoadmapController {
     private final RoadmapService roadmapService;
     private final RoadmapFacade roadmapFacade;
 
-    @GetMapping("/all")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ListCommonResponse<RoadmapResponse> getAllRoadmaps(
+    public ListCommonResponse<RoadmapResponse> getPersonalRoadmaps(
             @AuthenticationPrincipal User user
     ) {
-        List<RoadmapResponse> roadmaps = roadmapService.findAllRoadmaps(user);
+        List<RoadmapResponse> roadmaps = roadmapService.findPersonalRoadmaps(user);
         return CommonResponse.ok(roadmaps);
+    }
+
+    @GetMapping("/team")
+    @ResponseStatus(HttpStatus.OK)
+    public ListCommonResponse<RoadmapResponse> getTeamRoadmaps(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = true) Long teamId
+    ){
+        return CommonResponse.ok(roadmapService.findTeamRoadmaps(user, teamId));
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
