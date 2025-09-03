@@ -3,7 +3,9 @@ package odyssey.backend.application.roadmap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.application.directory.DirectoryService;
+import odyssey.backend.application.team.TeamService;
 import odyssey.backend.domain.directory.Directory;
+import odyssey.backend.domain.team.Team;
 import odyssey.backend.infrastructure.s3.S3Service;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
@@ -23,10 +25,11 @@ public class RoadmapFacade {
     private final RoadmapRepository roadmapRepository;
     private final S3Service s3Service;
     private final DirectoryService directoryService;
+    private final TeamService teamService;
 
     @Transactional
     public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail, User user){
-        Long teamId = request.getTeamId();
+        Team team = teamService.findByTeamId(request.getTeamId());
 
         Directory directory = null;
 
@@ -37,7 +40,7 @@ public class RoadmapFacade {
         String url = s3Service.uploadFile(thumbnail);
 
         Roadmap roadmap = roadmapRepository.save(
-                Roadmap.from(request, url, directory, user, teamId)
+                Roadmap.from(request, url, directory, user, team.getId())
         );
 
         roadmap.updateLastModifiedAt();
