@@ -35,7 +35,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(signUpService.signUp(any(SignUpRequest.class)))
                 .willReturn(fakeResponse);
 
-        mvc.perform(post("/users")
+        mvc.perform(post("/auth")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signUpRequest))
                         .with(csrf()))
@@ -68,7 +68,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(loginService.login(any(LoginRequest.class)))
                 .willReturn(fakeTokenResponse);
 
-        mvc.perform(post("/users/login")
+        mvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
@@ -97,7 +97,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(refreshService.refreshToken(fakeRefreshToken))
                 .willReturn(fakeTokenResponse);
 
-        mvc.perform(get("/users/refresh")
+        mvc.perform(put("/auth/token")
                         .header("Refresh-Token", fakeRefreshToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.accessToken").value("newAccessToken"))
@@ -118,7 +118,7 @@ public class AuthControllerTest extends RestDocsSupport {
 
         willDoNothing().given(logoutService).logout(any());
 
-        mvc.perform(get("/users/logout")
+        mvc.perform(delete("/auth/logout")
                         .header("Authorization", fakeAccessToken)
                         .with(csrf()))
                 .andExpect(status().isOk())
@@ -144,7 +144,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(getUserInfoService.getUserInfo(any()))
                 .willReturn(fakeResponse);
 
-        mvc.perform(get("/users/info")
+        mvc.perform(get("/auth/info")
                         .header("Authorization", "Bearer fakeAccessToken"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.username").value("gunwoo"))
