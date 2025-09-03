@@ -16,7 +16,8 @@ public record RoadmapResponse(
         LocalDateTime lastAccessedAt,
         boolean isFavorite,
         String location,
-        Long uuid
+        Long uuid,
+        Long teamId
 ) {
     public static RoadmapResponse from(Roadmap roadmap, Long uuid) {
         return new RoadmapResponse(
@@ -29,7 +30,8 @@ public record RoadmapResponse(
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
                 "내 로드맵",
-                uuid
+                uuid,
+                roadmap.getTeam_id()
         );
     }
 }
