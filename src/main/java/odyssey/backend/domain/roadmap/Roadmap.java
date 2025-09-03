@@ -57,11 +57,14 @@ public class Roadmap {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user);
+    @Column(name = "team_id")
+    private Long teamId;
+
+    public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user, Long team_id) {
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, team_id);
     }
 
-    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user) {
+    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user, Long team_id) {
         this.title = title;
         this.description = description;
         this.categories = categories;
@@ -71,6 +74,7 @@ public class Roadmap {
         this.lastModifiedAt = LocalDate.now();
         this.directory = directory;
         this.user = user;
+        this.teamId = team_id;
     }
 
     public void update(String title, String description, List<String> categories) {

@@ -23,8 +23,15 @@
         private final S3Service s3Service;
 
 
-        public List<RoadmapResponse> findAllRoadmaps(User user) {
-            return roadmapRepository.findByUserOrderByLastAccessedAtDesc(user).stream()
+        public List<RoadmapResponse> findPersonalRoadmaps(User user) {
+            return roadmapRepository.findByUserAndTeamIdIsNullOrderByLastAccessedAtDesc(user).stream()
+                    .map(roadmap -> RoadmapResponse.from(roadmap, user.getUuid()))
+                    .toList();
+        }
+
+        public List<RoadmapResponse> findTeamRoadmaps(User user, Long teamId) {
+            return roadmapRepository.findByTeamIdOrderByLastAccessedAtDesc(teamId)
+                    .stream()
                     .map(roadmap -> RoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();
         }

@@ -26,6 +26,7 @@ public class RoadmapFacade {
 
     @Transactional
     public RoadmapResponse save(RoadmapRequest request, MultipartFile thumbnail, User user){
+        Long teamId = request.getTeamId();
 
         Directory directory = null;
 
@@ -36,7 +37,7 @@ public class RoadmapFacade {
         String url = s3Service.uploadFile(thumbnail);
 
         Roadmap roadmap = roadmapRepository.save(
-                Roadmap.from(request, url, directory, user)
+                Roadmap.from(request, url, directory, user, teamId)
         );
 
         roadmap.updateLastModifiedAt();

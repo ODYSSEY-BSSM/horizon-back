@@ -12,7 +12,7 @@ include::{snippets}/roadmap-create/response-fields.adoc[]
 
 
 
-=== 전체 조회
+=== 개인로드맵 조회
 
 ==== 요청 파라미터 & 헤더
 include::{snippets}/roadmap-get-all/http-request.adoc[]
@@ -22,6 +22,17 @@ include::{snippets}/roadmap-get-all/http-response.adoc[]
 
 ==== 응답 필드
 include::{snippets}/roadmap-get-all/response-fields.adoc[]
+
+=== 팀 로드맵 조회
+
+==== 요청 파라미터 & 헤더
+include::{snippets}/roadmap-get-team/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-get-team/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-get-team/response-fields.adoc[]
 
 
 === 업데이트/디렉토리 위치 변경
