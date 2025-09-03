@@ -32,7 +32,7 @@ class DirectoryControllerTest extends RestDocsSupport {
         given(directoryService.createDirectory(any(DirectoryRequest.class), any()))
                 .willReturn(response);
 
-        mvc.perform(post("/directories/create")
+        mvc.perform(post("/directories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
@@ -111,7 +111,7 @@ class DirectoryControllerTest extends RestDocsSupport {
         given(directoryService.getRootContents(any()))
                 .willReturn(response);
 
-        mvc.perform(get("/directories/root-contents"))
+        mvc.perform(get("/directories/root"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.directories[0].id").value(1L))
                 .andExpect(jsonPath("$.data.directories[0].name").value("루트 디렉토리"))

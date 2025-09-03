@@ -49,7 +49,7 @@ public class TeamApplyControllerTest extends RestDocsSupport {
         ApplyResponse response = new ApplyResponse(1L, "이건우팀", TeamApply.Status.SUBMITTED);
         given(teamApplyService.approve(eq(1L), any())).willReturn(response);
 
-        mvc.perform(put("/apply/{applyId}", 1L)
+        mvc.perform(put("/apply/{applyId}/approve", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isOk())
@@ -71,7 +71,7 @@ public class TeamApplyControllerTest extends RestDocsSupport {
     @Test
     void 팀_신청을_거절한다() throws Exception {
 
-        mvc.perform(patch("/apply/{applyId}", 1L)
+        mvc.perform(patch("/apply/{applyId}/reject", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().isOk())

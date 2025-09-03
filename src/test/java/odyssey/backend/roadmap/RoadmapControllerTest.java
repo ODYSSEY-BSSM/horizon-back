@@ -74,7 +74,7 @@ class RoadmapControllerTest extends RestDocsSupport {
         SecurityContextHolder.getContext()
                 .setAuthentication(new UsernamePasswordAuthenticationToken(testUser, null));
 
-        mvc.perform(multipart("/roadmap/create")
+        mvc.perform(multipart("/roadmap")
                         .file(roadmapPart)
                         .file(thumbnail)
                         .with(csrf())
@@ -172,7 +172,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         given(roadmapFacade.toggleFavorite(roadmapId, testUser)).willReturn(fakeResponse);
 
-        mvc.perform(post("/roadmap/favorite/{id}", roadmapId)
+        mvc.perform(post("/roadmap/{id}/favorite", roadmapId)
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(document("roadmap-toggle-favorite",
@@ -295,7 +295,7 @@ class RoadmapControllerTest extends RestDocsSupport {
         given(roadmapFacade.update(any(Long.class), any(RoadmapRequest.class), any(User.class)))
                 .willReturn(fakeResponse);
 
-        mvc.perform(put("/roadmap/update/{id}", roadmapId)
+        mvc.perform(put("/roadmap/{id}", roadmapId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest))
                         .with(csrf()))

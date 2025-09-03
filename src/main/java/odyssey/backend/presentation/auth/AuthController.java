@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final SignUpService signUpService;
@@ -42,14 +42,14 @@ public class AuthController {
         return CommonResponse.ok(loginService.login(request));
     }
 
-    @GetMapping("/refresh")
+    @PutMapping("/token")
     public SingleCommonResponse<TokenResponse> refreshAccessToken(
             @RequestHeader("Refresh-Token") String refreshToken
     ) {
         return CommonResponse.ok(refreshService.refreshToken(refreshToken));
     }
 
-    @GetMapping("/logout")
+    @DeleteMapping("/logout")
     public SingleCommonResponse<String> logout(
             @AuthenticationPrincipal User user
     ) {

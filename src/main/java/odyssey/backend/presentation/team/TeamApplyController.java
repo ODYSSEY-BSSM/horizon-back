@@ -24,7 +24,7 @@ public class TeamApplyController {
         return CommonResponse.ok(teamApplyService.apply(teamId, user));
     }
 
-    @PutMapping("/{applyId}")
+    @PutMapping("/{applyId}/approve")
     public SingleCommonResponse<ApplyResponse> approved(
             @PathVariable Long applyId,
             @AuthenticationPrincipal User user
@@ -32,7 +32,7 @@ public class TeamApplyController {
         return CommonResponse.ok(teamApplyService.approve(applyId, user));
     }
 
-    @PatchMapping("/{applyId}")
+    @PatchMapping("/{applyId}/reject")
     public SingleCommonResponse<String> reject(
             @PathVariable Long applyId,
             @AuthenticationPrincipal User user

@@ -47,7 +47,7 @@ public class RoadmapController {
         return CommonResponse.ok(roadmapService.findTeamRoadmaps(user, teamId));
     }
 
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
     public SingleCommonResponse<RoadmapResponse> createRoadmap(
@@ -57,7 +57,7 @@ public class RoadmapController {
         return CommonResponse.ok(roadmapFacade.save(request, thumbnail, user));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> updateRoadmap(
             @PathVariable Long id,
@@ -66,7 +66,7 @@ public class RoadmapController {
         return CommonResponse.ok(roadmapFacade.update(id, request, user));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<String> deleteRoadmap(
             @PathVariable Long id,
@@ -76,7 +76,7 @@ public class RoadmapController {
         return CommonResponse.ok("삭제되었습니다.");
     }
 
-    @PostMapping("/favorite/{id}")
+    @PostMapping("/{id}/favorite")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RoadmapResponse> toggleFavorite(
             @PathVariable Long id,
