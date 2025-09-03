@@ -31,7 +31,7 @@ public record RoadmapResponse(
                 roadmap.getIsFavorite(),
                 "내 로드맵",
                 uuid,
-                roadmap.getTeam_id()
+                roadmap.getTeamId()
         );
     }
 }
