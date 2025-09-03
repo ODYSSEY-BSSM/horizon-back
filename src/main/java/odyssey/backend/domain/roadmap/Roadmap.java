@@ -58,7 +58,7 @@ public class Roadmap {
     private User user;
 
     @Column(name = "team_id")
-    private Long team_id;
+    private Long teamId;
 
     public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user, Long team_id) {
         return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, team_id);
@@ -74,7 +74,7 @@ public class Roadmap {
         this.lastModifiedAt = LocalDate.now();
         this.directory = directory;
         this.user = user;
-        this.team_id = team_id;
+        this.teamId = team_id;
     }
 
     public void update(String title, String description, List<String> categories) {
