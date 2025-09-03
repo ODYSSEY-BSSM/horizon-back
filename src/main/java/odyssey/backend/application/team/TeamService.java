@@ -35,4 +35,10 @@ public class TeamService {
         return TeamResponse.from(team);
     }
 
+    public Team findByTeamId(Long teamId){
+        return teamRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 팀입니다."));
+    }
+
+
 }
