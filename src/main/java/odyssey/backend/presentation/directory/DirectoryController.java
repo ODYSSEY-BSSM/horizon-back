@@ -20,7 +20,7 @@ public class DirectoryController {
 
     private final DirectoryService directoryService;
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<DirectoryResponse> createDirectory(
             @Valid @RequestBody DirectoryRequest request,
@@ -48,7 +48,7 @@ public class DirectoryController {
         return CommonResponse.ok("삭제되었습니다.");
     }
 
-    @GetMapping("/root-contents")
+    @GetMapping("/root")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<RootContentResponse> getRootContents(
             @AuthenticationPrincipal User user
