@@ -37,7 +37,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
     @Test
     void 로드맵을_생성한다() throws Exception {
-        RoadmapRequest request = new RoadmapRequest("자바자바", "조아요", List.of("백엔드", "스프링"), 1L);
+        RoadmapRequest request = new RoadmapRequest("자바자바", "조아요", List.of("백엔드", "스프링"), 1L, 1L);
         User testUser = UserCreate.createUser();
 
         RoadmapResponse fakeResponse = new RoadmapResponse(
@@ -50,7 +50,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDateTime.now(),
                 false,
                 "내 로드맵",
-                testUser.getUuid()
+                testUser.getUuid(),
+                request.getTeamId()
         );
 
         MockMultipartFile roadmapPart = new MockMultipartFile(
@@ -84,7 +85,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("title").description("로드맵 제목"),
                                 fieldWithPath("description").description("로드맵 설명"),
                                 fieldWithPath("categories").description("카테고리 리스트"),
-                                fieldWithPath("directoryId").description("디렉토리 ID")
+                                fieldWithPath("directoryId").description("디렉토리 ID"),
+                                fieldWithPath("teamId").description("팀 ID(개인로드맵일 경우 null)")
                         ),
                         responseFields(
                                 fieldWithPath("code").description("응답 코드"),
@@ -98,7 +100,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data.location").description("로드맵 위치 정보"),
-                                fieldWithPath("data.uuid").description("유저 id")
+                                fieldWithPath("data.uuid").description("유저 id"),
+                                fieldWithPath("data.teamId").description("팀 ID(개인로드맵일 경우 null)")
                         )
                 ));
     }
@@ -112,19 +115,19 @@ class RoadmapControllerTest extends RestDocsSupport {
         RoadmapResponse response1 = new RoadmapResponse(
                 1L, "타이틀1", "설명1", List.of("테스트1", "테스트2"),
                 "https://image1.com", LocalDate.now(), LocalDateTime.now(), true, "내 로드맵",
-                testUser.getUuid()
+                testUser.getUuid(), 1L
         );
 
         RoadmapResponse response2 = new RoadmapResponse(
                 2L, "타이틀2", "설명2", List.of("테스트3", "테스트4"),
                 "https://image2.com", LocalDate.now(), LocalDateTime.now(), false, "내 로드맵",
-                testUser.getUuid()
+                testUser.getUuid(), 1L
         );
 
-        given(roadmapService.findAllRoadmaps(any(User.class)))
+        given(roadmapService.findPersonalRoadmaps(any(User.class)))
                 .willReturn(List.of(response1, response2));
 
-        mvc.perform(get("/roadmap/all")
+        mvc.perform(get("/roadmap")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("roadmap-get-all",
@@ -140,7 +143,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data[].lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data[].isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data[].location").description("로드맵 위치 정보"),
-                                fieldWithPath("data[].uuid").description("유저 id")
+                                fieldWithPath("data[].uuid").description("유저 id"),
+                                fieldWithPath("data[].teamId").description("팀 ID(개인로드맵일 경우 null)")
                         )
                 ));
     }
@@ -162,7 +166,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDateTime.now(),
                 true,
                 "내 로드맵",
-                testUser.getUuid()
+                testUser.getUuid(),
+                1L
         );
 
         given(roadmapFacade.toggleFavorite(roadmapId, testUser)).willReturn(fakeResponse);
@@ -186,7 +191,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data.location").description("로드맵 위치 정보"),
-                                fieldWithPath("data.uuid").description("유저 id")
+                                fieldWithPath("data.uuid").description("유저 id"),
+                                fieldWithPath("data.teamId").description("팀 ID(개인로드맵일 경우 null)")
                         )
                 ));
     }
@@ -207,7 +213,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDateTime.now(),
                 false,
                 "내 로드맵",
-                testUser.getUuid()
+                testUser.getUuid(),
+                1L
         );
 
         given(roadmapService.getLastAccessedRoadmap(testUser)).willReturn(fakeResponse);
@@ -228,7 +235,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data.location").description("위치 정보"),
-                                fieldWithPath("data.uuid").description("유저 id")
+                                fieldWithPath("data.uuid").description("유저 id"),
+                                fieldWithPath("data.teamId").description("팀 ID(개인로드맵일 경우 null)")
                         )
                 ));
     }
@@ -266,7 +274,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 "업데이트 타이틀",
                 "업데이트 설명",
                 List.of("업데이트 카테고리1", "업데이트 카테고리2"),
-                2L
+                2L,
+                1L
         );
 
         RoadmapResponse fakeResponse = new RoadmapResponse(
@@ -279,7 +288,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDateTime.now(),
                 false,
                 "내 로드맵",
-                testUser.getUuid()
+                testUser.getUuid(),
+                updateRequest.getTeamId()
         );
 
         given(roadmapFacade.update(any(Long.class), any(RoadmapRequest.class), any(User.class)))
@@ -298,7 +308,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("title").description("업데이트할 로드맵 제목"),
                                 fieldWithPath("description").description("업데이트할 로드맵 설명"),
                                 fieldWithPath("categories").description("업데이트할 카테고리 리스트"),
-                                fieldWithPath("directoryId").description("업데이트할 디렉토리 ID")
+                                fieldWithPath("directoryId").description("업데이트할 디렉토리 ID"),
+                                fieldWithPath("teamId").description("팀 ID(개인로드맵일 경우 null)")
                         ),
                         responseFields(
                                 fieldWithPath("code").description("응답 코드"),
@@ -312,9 +323,57 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data.location").description("로드맵 위치 정보"),
-                                fieldWithPath("data.uuid").description("유저 ID")
+                                fieldWithPath("data.uuid").description("유저 ID"),
+                                fieldWithPath("data.teamId").description("팀 ID(개인로드맵일 경우 null)")
                         )
                 ));
     }
+
+    @Test
+    void 팀_로드맵을_조회한다() throws Exception {
+        User testUser = UserCreate.createUser();
+        SecurityContextHolder.getContext()
+                .setAuthentication(new UsernamePasswordAuthenticationToken(testUser, null));
+
+        Long teamId = 1L;
+
+        RoadmapResponse response1 = new RoadmapResponse(
+                1L, "팀 타이틀1", "팀 설명1", List.of("카테고리1"),
+                "https://team-image1.com", LocalDate.now(), LocalDateTime.now(), false, "팀 로드맵", testUser.getUuid(),
+                1L
+        );
+
+        RoadmapResponse response2 = new RoadmapResponse(
+                2L, "팀 타이틀2", "팀 설명2", List.of("카테고리2"),
+                "https://team-image2.com", LocalDate.now(), LocalDateTime.now(), true, "팀 로드맵", testUser.getUuid(),
+                1L
+        );
+
+        given(roadmapService.findTeamRoadmaps(testUser, teamId))
+                .willReturn(List.of(response1, response2));
+
+        mvc.perform(get("/roadmap/team")
+                        .param("teamId", String.valueOf(teamId))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("roadmap-get-team",
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data[].id").description("로드맵 ID"),
+                                fieldWithPath("data[].title").description("로드맵 제목"),
+                                fieldWithPath("data[].description").description("로드맵 설명"),
+                                fieldWithPath("data[].categories").description("카테고리 리스트"),
+                                fieldWithPath("data[].thumbnailUrl").description("썸네일 URL"),
+                                fieldWithPath("data[].lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
+                                fieldWithPath("data[].lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
+                                fieldWithPath("data[].isFavorite").description("즐겨찾기 여부"),
+                                fieldWithPath("data[].location").description("로드맵 위치 정보"),
+                                fieldWithPath("data[].uuid").description("작성자 UUID"),
+                                fieldWithPath("data[].teamId").description("팀 ID(개인로드맵일 경우 null)")
+                        )
+                ));
+    }
+
 
 }
