@@ -25,4 +25,6 @@ public class RoadmapRequest {
 
     private Long directoryId;
 
+    private Long teamId;
+
 }
