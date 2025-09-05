@@ -2,19 +2,14 @@ package odyssey.backend.application.directory;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
+import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
+import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
-import odyssey.backend.presentation.directory.dto.response.RootContentResponse;
-import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
-import odyssey.backend.domain.roadmap.Roadmap;
-import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
-import odyssey.backend.presentation.roadmap.dto.response.SimpleRoadmapResponse;
-import odyssey.backend.domain.auth.User;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -52,20 +47,7 @@ public class DirectoryService {
         return DirectoryResponse.from(directory);
     }
 
-    public RootContentResponse getRootContents(User user) {
-        List<Directory> rootDirectories = directoryRepository.findByParentIsNullAndUser(user);
-        List<Roadmap> rootRoadmaps = roadmapRepository.findByDirectoryIsNullAndUser(user);
 
-        List<DirectoryResponse> directoryResponses = rootDirectories.stream()
-                .map(DirectoryResponse::from)
-                .toList();
-
-        List<SimpleRoadmapResponse> roadmapResponses = rootRoadmaps.stream()
-                .map(SimpleRoadmapResponse::from)
-                .toList();
-
-        return RootContentResponse.from(directoryResponses, roadmapResponses);
-    }
 
     public void deleteDirectory(Long id) {
         directoryRepository.deleteById(id);
