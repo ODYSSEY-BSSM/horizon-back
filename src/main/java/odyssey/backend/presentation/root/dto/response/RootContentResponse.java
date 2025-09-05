@@ -1,5 +1,6 @@
-package odyssey.backend.presentation.directory.dto.response;
+package odyssey.backend.presentation.root.dto.response;
 
+import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
 import odyssey.backend.presentation.roadmap.dto.response.SimpleRoadmapResponse;
 
 import java.util.List;
