@@ -2,13 +2,12 @@ package odyssey.backend.presentation.directory;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.directory.DirectoryService;
+import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
-import odyssey.backend.presentation.directory.dto.response.RootContentResponse;
-import odyssey.backend.application.directory.DirectoryService;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
-import odyssey.backend.domain.auth.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -48,12 +47,4 @@ public class DirectoryController {
         return CommonResponse.ok("삭제되었습니다.");
     }
 
-    @GetMapping("/root")
-    @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RootContentResponse> getRootContents(
-            @AuthenticationPrincipal User user
-    ) {
-        RootContentResponse response = directoryService.getRootContents(user);
-        return CommonResponse.ok(response);
-    }
 }
