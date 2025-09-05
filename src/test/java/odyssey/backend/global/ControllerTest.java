@@ -7,16 +7,18 @@ import odyssey.backend.application.directory.DirectoryService;
 import odyssey.backend.application.node.NodeService;
 import odyssey.backend.application.roadmap.RoadmapFacade;
 import odyssey.backend.application.roadmap.RoadmapService;
+import odyssey.backend.application.root.RootUseCase;
 import odyssey.backend.application.team.TeamApplyService;
 import odyssey.backend.application.team.TeamService;
-import odyssey.backend.presentation.directory.DirectoryController;
+import odyssey.backend.domain.auth.User;
 import odyssey.backend.infrastructure.jwt.service.TokenService;
+import odyssey.backend.presentation.auth.AuthController;
+import odyssey.backend.presentation.directory.DirectoryController;
 import odyssey.backend.presentation.node.NodeController;
 import odyssey.backend.presentation.roadmap.RoadmapController;
+import odyssey.backend.presentation.root.RootController;
 import odyssey.backend.presentation.team.TeamApplyController;
 import odyssey.backend.presentation.team.TeamController;
-import odyssey.backend.presentation.auth.AuthController;
-import odyssey.backend.domain.auth.User;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,7 +33,8 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
              DirectoryController.class,
              AuthController.class,
              TeamController.class,
-             TeamApplyController.class,})
+             TeamApplyController.class,
+             RootController.class,})
 public abstract class ControllerTest {
 
     @Autowired
@@ -75,6 +78,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected GetUserInfoService getUserInfoService;
+
+    @MockBean
+    protected RootUseCase rootUseCase;
 
     public static RequestPostProcessor authenticationPrincipal(final User user) {
         return new RequestPostProcessor() {
