@@ -96,4 +96,14 @@ public class Node {
         this.y = y;
         this.category = category;
     }
+
+    public void updatePosition(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void updateSize(Integer width, Integer height) {
+        this.width = width;
+        this.height = height;
+    }
 }

@@ -1,11 +1,11 @@
 package odyssey.backend.websocket.dto.node;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class NodeSizeMessage {
 
     @NotNull

@@ -24,4 +24,7 @@ public class RoadmapCreatedNotification {
 
     @NotBlank(message = "imageUrl은 필수입니다.")
     private String imageUrl;
+
+    private Long directoryId;
+
 }

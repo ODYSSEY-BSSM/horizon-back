@@ -3,9 +3,12 @@ package odyssey.backend.websocket.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.websocket.dto.node.*;
+import odyssey.backend.websocket.service.WebSocketSessionManager;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Controller;
 public class WebSocketNodeController {
 
     private final SimpMessagingTemplate messaging;
+    private final WebSocketSessionManager sessionManager;
 
     @MessageMapping("/created")
     public void notifyNodeCreated(@Valid NodeCreatedNotification notification) {
@@ -45,7 +49,10 @@ public class WebSocketNodeController {
     }
 
     private void sendNodeNotification(String event, Long roadmapId, Object payload) {
-        messaging.convertAndSend("/topic/node/" + roadmapId + "/" + event, payload);
+        Set<String> subscribedUsers = sessionManager.getUsersSubscribedToRoadmap(roadmapId);
+        for (String userId : subscribedUsers) {
+            messaging.convertAndSendToUser(userId, "/topic/node/" + roadmapId + "/" + event, payload);
+        }
     }
 
 }

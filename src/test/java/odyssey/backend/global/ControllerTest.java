@@ -12,14 +12,22 @@ import odyssey.backend.roadmap.service.RoadmapFacade;
 import odyssey.backend.roadmap.service.RoadmapService;
 import odyssey.backend.team.controller.TeamApplyController;
 import odyssey.backend.team.controller.TeamController;
+import odyssey.backend.team.controller.directory.TeamDirectoryController;
+import odyssey.backend.team.controller.node.TeamNodeController;
+import odyssey.backend.team.controller.roadmap.TeamRoadmapController;
 import odyssey.backend.team.service.TeamApplyService;
 import odyssey.backend.team.service.TeamService;
+import odyssey.backend.team.service.directory.TeamDirectoryService;
+import odyssey.backend.team.service.node.TeamNodeService;
+import odyssey.backend.team.service.roadmap.TeamRoadmapService;
 import odyssey.backend.user.controller.AuthController;
 import odyssey.backend.user.domain.User;
 import odyssey.backend.user.service.LoginService;
 import odyssey.backend.user.service.LogoutService;
 import odyssey.backend.user.service.RefreshService;
 import odyssey.backend.user.service.SignUpService;
+import odyssey.backend.websocket.controller.WebSocketCursorController;
+import odyssey.backend.websocket.controller.WebSocketSubscriptionController;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,7 +42,12 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
              DirectoryController.class,
              AuthController.class,
              TeamController.class,
-             TeamApplyController.class,})
+             TeamApplyController.class,
+             TeamRoadmapController.class,
+             TeamNodeController.class,
+             TeamDirectoryController.class,
+             WebSocketCursorController.class,
+             WebSocketSubscriptionController.class})
 public abstract class ControllerTest {
 
     @Autowired
@@ -75,6 +88,21 @@ public abstract class ControllerTest {
 
     @MockBean
     protected TeamApplyService teamApplyService;
+
+    @MockBean
+    protected TeamRoadmapService teamRoadmapService;
+
+    @MockBean
+    protected TeamNodeService teamNodeService;
+
+    @MockBean
+    protected TeamDirectoryService teamDirectoryService;
+
+    @MockBean
+    protected WebSocketCursorController webSocketCursorController;
+
+    @MockBean
+    protected WebSocketSubscriptionController webSocketSubscriptionController;
 
     public static RequestPostProcessor authenticationPrincipal(final User user) {
         return new RequestPostProcessor() {

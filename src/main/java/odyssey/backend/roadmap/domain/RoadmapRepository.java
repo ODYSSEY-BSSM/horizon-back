@@ -1,5 +1,6 @@
 package odyssey.backend.roadmap.domain;
 
+import odyssey.backend.team.domain.Team;
 import odyssey.backend.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,9 @@ public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
     List<Roadmap> findByDirectoryIsNullAndUser(User user);
     List<Roadmap> findByUserOrderByLastAccessedAtDesc(User user);
     Long countByUser(User user);
+    
+    Optional<Roadmap> findTopByTeamOrderByLastAccessedAtDesc(Team team);
+    List<Roadmap> findByDirectoryIsNullAndTeam(Team team);
+    List<Roadmap> findByTeamOrderByLastAccessedAtDesc(Team team);
+    Long countByTeam(Team team);
 }

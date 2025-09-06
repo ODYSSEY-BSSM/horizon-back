@@ -3,12 +3,12 @@ package odyssey.backend.websocket.dto.node;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import odyssey.backend.node.domain.NodeType;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class NodeUpdatedNotification {
 
     @NotNull
@@ -26,9 +26,23 @@ public class NodeUpdatedNotification {
     private String description;
 
     @NotNull
+    private Integer height;
+
+    @NotNull
+    private Integer width;
+
+    @NotNull
     private NodeType type;
+
+    @NotNull
+    private Integer x;
+
+    @NotNull
+    private Integer y;
 
     @NotBlank
     private String category;
+
+    private Long parentNodeId;
 
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.directory.dto.request.DirectoryRequest;
 import odyssey.backend.roadmap.domain.Roadmap;
+import odyssey.backend.team.domain.Team;
 import odyssey.backend.user.domain.User;
 
 import java.util.List;
@@ -35,14 +36,23 @@ public class Directory {
     @ManyToOne
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     public static Directory from(DirectoryRequest request, Directory parent, User user) {
-        return new Directory(request.getName(), parent, user);
+        return new Directory(request.getName(), parent, user, null);
     }
 
-    Directory(String name, Directory parent, User user) {
+    public static Directory fromTeam(DirectoryRequest request, Directory parent, Team team) {
+        return new Directory(request.getName(), parent, null, team);
+    }
+
+    Directory(String name, Directory parent, User user, Team team) {
         this.name = name;
         this.parent = parent;
         this.user = user;
+        this.team = team;
     }
 
     public void update(String name, Directory parent) {

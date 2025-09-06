@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import odyssey.backend.directory.domain.Directory;
 import odyssey.backend.node.domain.Node;
 import odyssey.backend.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.team.domain.Team;
 import odyssey.backend.user.domain.User;
 
 import java.time.LocalDate;
@@ -57,11 +58,19 @@ public class Roadmap {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user);
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, null);
     }
 
-    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user) {
+    public static Roadmap fromTeam(RoadmapRequest request, String url, Directory directory, Team team) {
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, null, team);
+    }
+
+    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
         this.categories = categories;
@@ -71,6 +80,7 @@ public class Roadmap {
         this.lastModifiedAt = LocalDate.now();
         this.directory = directory;
         this.user = user;
+        this.team = team;
     }
 
     public void update(String title, String description, List<String> categories) {
