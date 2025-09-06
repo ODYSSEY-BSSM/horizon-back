@@ -47,4 +47,35 @@ public class DirectoryController {
         return CommonResponse.ok("삭제되었습니다.");
     }
 
+    @PostMapping("/team/{teamId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public SingleCommonResponse<DirectoryResponse> createTeamDirectory(
+            @PathVariable Long teamId,
+            @Valid @RequestBody DirectoryRequest request,
+            @AuthenticationPrincipal User user) {
+        DirectoryResponse response = directoryService.createTeamDirectory(teamId, request, user);
+        return CommonResponse.ok(response);
+    }
+
+    @PutMapping("/{id}/team/{teamId}")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<DirectoryResponse> updateTeamDirectory(
+            @PathVariable Long id,
+            @PathVariable Long teamId,
+            @Valid @RequestBody DirectoryRequest request,
+            @AuthenticationPrincipal User user) {
+        DirectoryResponse response = directoryService.updateTeamDirectory(id, teamId, request, user);
+        return CommonResponse.ok(response);
+    }
+
+    @DeleteMapping("/{id}/team/{teamId}")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<String> deleteTeamDirectory(
+            @PathVariable Long id,
+            @PathVariable Long teamId,
+            @AuthenticationPrincipal User user) {
+        directoryService.deleteTeamDirectory(id, teamId, user);
+        return CommonResponse.ok("팀 디렉토리가 삭제되었습니다.");
+    }
+
 }
