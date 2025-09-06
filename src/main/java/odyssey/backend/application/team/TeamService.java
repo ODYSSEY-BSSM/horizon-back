@@ -40,5 +40,14 @@ public class TeamService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 팀입니다."));
     }
 
+    public boolean isUserMemberOfTeam(Long userId, Long teamId) {
+        Team team = teamRepository.findById(teamId).orElse(null);
+        if (team == null) {
+            return false;
+        }
+        
+        return team.getMembers().stream()
+                   .anyMatch(member -> member.getUuid().equals(userId));
+    }
 
 }
