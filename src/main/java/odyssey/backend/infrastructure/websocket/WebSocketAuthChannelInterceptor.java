@@ -28,38 +28,46 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-        
+
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             String token = accessor.getFirstNativeHeader("Authorization");
-            
+            log.info("WebSocket CONNECT 시도 - Authorization 헤더: '{}'", token);
+
             if (token != null && token.startsWith("Bearer ")) {
                 token = token.substring(7);
+                log.info("Bearer 제거 후 토큰 길이: {}, 시작 부분: {}", token.length(),
+                        token.length() > 20 ? token.substring(0, 20) + "..." : token);
                 try {
                     Claims claims = tokenService.parseToken(token);
+                    log.info("토큰 파싱 성공 - UUID: {}", claims.get("uuid", Long.class));
+
                     Long uuid = claims.get("uuid", Long.class);
                     User user = tokenService.getUserByUuid(uuid);
-                    
-                    // 기존 Spring Security Authentication 사용
-                    UsernamePasswordAuthenticationToken authentication = 
-                        new UsernamePasswordAuthenticationToken(
-                            user,
-                            null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
-                        );
-                    
+                    if (user == null) {
+                        log.error("WebSocket 인증 실패: DB에서 uuid '{}'에 해당하는 사용자를 찾을 수 없습니다.", uuid);
+                        throw new IllegalArgumentException("User not found in DB");
+                    }
+
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    user,
+                                    null,
+                                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                            );
+
                     accessor.setUser(authentication);
                     log.info("WebSocket 인증 성공 - 사용자: {}", user.getUsername());
-                    
+
                 } catch (Exception e) {
-                    log.error("WebSocket 인증 실패: {}", e.getMessage());
+                    log.error("WebSocket 토큰 파싱 실패: {} - {}", e.getClass().getSimpleName(), e.getMessage());
                     throw new IllegalArgumentException("Invalid token");
                 }
             } else {
-                log.error("WebSocket 연결 시 토큰이 없습니다.");
+                log.error("WebSocket 연결 시 토큰이 없거나 Bearer로 시작하지 않음: '{}'", token);
                 throw new IllegalArgumentException("Authorization token required");
             }
         }
-        
+
         return message;
     }
 }
