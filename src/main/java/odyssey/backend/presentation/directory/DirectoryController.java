@@ -28,21 +28,21 @@ public class DirectoryController {
         return CommonResponse.ok(directoryService.createDirectory(request, user));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{directoryId}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<DirectoryResponse> updateDirectory(
-            @PathVariable Long id,
+            @PathVariable Long directoryId,
             @Valid @RequestBody DirectoryRequest request,
             @AuthenticationPrincipal User user){
-        return CommonResponse.ok(directoryService.updateDirectory(id, request, user));
+        return CommonResponse.ok(directoryService.updateDirectory(directoryId, request, user));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{directoryId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public SingleCommonResponse<String> deleteDirectory(
-            @PathVariable Long id,
+            @PathVariable Long directoryId,
             @AuthenticationPrincipal User user) {
-        directoryService.deleteDirectory(id);
+        directoryService.deleteDirectory(directoryId);
 
         return CommonResponse.ok("삭제되었습니다.");
     }
@@ -57,24 +57,24 @@ public class DirectoryController {
         return CommonResponse.ok(response);
     }
 
-    @PutMapping("/{id}/team/{teamId}")
+    @PutMapping("/{directoryId}/team/{teamId}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<DirectoryResponse> updateTeamDirectory(
-            @PathVariable Long id,
+            @PathVariable Long directoryId,
             @PathVariable Long teamId,
             @Valid @RequestBody DirectoryRequest request,
             @AuthenticationPrincipal User user) {
-        DirectoryResponse response = directoryService.updateTeamDirectory(id, teamId, request, user);
+        DirectoryResponse response = directoryService.updateTeamDirectory(directoryId, teamId, request, user);
         return CommonResponse.ok(response);
     }
 
-    @DeleteMapping("/{id}/team/{teamId}")
+    @DeleteMapping("/{directoryId}/team/{teamId}")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<String> deleteTeamDirectory(
-            @PathVariable Long id,
+            @PathVariable Long directoryId,
             @PathVariable Long teamId,
             @AuthenticationPrincipal User user) {
-        directoryService.deleteTeamDirectory(id, teamId, user);
+        directoryService.deleteTeamDirectory(directoryId, teamId, user);
         return CommonResponse.ok("팀 디렉토리가 삭제되었습니다.");
     }
 
