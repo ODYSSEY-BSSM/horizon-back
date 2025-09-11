@@ -53,7 +53,6 @@ public class WebSocketSubscriptionController {
         log.info("디렉토리 삭제 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
-    // === Node 관련 구독 ===
     @SubscribeMapping("/topic/node/team/{teamId}/created")
     public void subscribeToTeamNodeCreated(@DestinationVariable Long teamId,
                                            @AuthenticationPrincipal User user) {
@@ -90,7 +89,6 @@ public class WebSocketSubscriptionController {
     @MessageMapping("/subscribe/team/{teamId}")
     public void subscribeToTeam(@DestinationVariable Long teamId, 
                               @AuthenticationPrincipal User user) {
-        // 팀 멤버십 권한 검증
         if (!teamService.isUserMemberOfTeam(user.getUuid(), teamId)) {
             log.warn("팀 구독 권한 없음 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
@@ -103,7 +101,6 @@ public class WebSocketSubscriptionController {
     @MessageMapping("/unsubscribe/team/{teamId}")
     public void unsubscribeFromTeam(@DestinationVariable Long teamId,
                                   @AuthenticationPrincipal User user) {
-        // 구독 해제는 멤버십 검증 없이 허용 (이미 구독된 상태라면)
         sessionManager.unsubscribeFromTeam(user.getUuid(), teamId);
         log.info("팀 구독 해제 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
