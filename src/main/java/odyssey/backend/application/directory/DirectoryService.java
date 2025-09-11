@@ -6,7 +6,6 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
-import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -71,7 +70,7 @@ public class DirectoryService {
         directoryRepository.save(directory);
         
         DirectoryResponse response = DirectoryResponse.from(directory);
-        
+
         messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/created", response);
         
         return response;
