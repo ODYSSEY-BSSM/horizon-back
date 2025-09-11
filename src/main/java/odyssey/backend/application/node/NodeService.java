@@ -48,7 +48,7 @@ public class NodeService {
         NodeResponse response = NodeResponse.from(node);
         
         if (roadmap.getTeamId() != null) {
-            messagingTemplate.convertAndSend("/topic/node/team/" + roadmap.getTeamId() + "/created", response);
+            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/created", response);
         }
 
         return response;
@@ -99,7 +99,7 @@ public class NodeService {
         NodeResponse response = NodeResponse.from(node);
         
         if (roadmap.getTeamId() != null) {
-            messagingTemplate.convertAndSend("/topic/node/team/" + roadmap.getTeamId() + "/updated", response);
+            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/updated", response);
         }
 
         return response;
@@ -116,7 +116,7 @@ public class NodeService {
         log.info("삭제된 노드 Id : {} ", node.getId());
 
         if (roadmap.getTeamId() != null) {
-            messagingTemplate.convertAndSend("/topic/node/team/" + roadmap.getTeamId() + "/deleted", nodeId);
+            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/deleted", nodeId);
         }
 
         nodeRepository.delete(node);
