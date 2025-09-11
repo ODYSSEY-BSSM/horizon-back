@@ -12,5 +12,6 @@ public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
     List<Roadmap> findByDirectoryIsNullAndUser(User user);
     List<Roadmap> findByUserAndTeamIdIsNullOrderByLastAccessedAtDesc(User user);
     List<Roadmap> findByTeamIdOrderByLastAccessedAtDesc(Long teamId);
+    List<Roadmap> findByDirectoryIsNullAndTeamId(Long teamId);
     Long countByUser(User user);
 }

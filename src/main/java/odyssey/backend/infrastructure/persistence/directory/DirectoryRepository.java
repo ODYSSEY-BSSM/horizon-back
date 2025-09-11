@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface DirectoryRepository extends JpaRepository<Directory, Long> {
     List<Directory> findByParentIsNullAndUser(User user);
+
+    List<Directory> findByParentIsNullAndTeamId(Long teamId);
 }

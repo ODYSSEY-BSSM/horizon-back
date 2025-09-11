@@ -35,4 +35,19 @@ public class RootUseCase {
         return RootContentResponse.from(directoryResponses, roadmapResponses);
     }
 
+    public RootContentResponse getTeamRootContents(User user, Long teamId) {
+        List<Directory> rootDirectories = directoryRepository.findByParentIsNullAndTeamId(teamId);
+        List<Roadmap> rootRoadmaps = roadmapRepository.findByDirectoryIsNullAndTeamId(teamId);
+
+        List<DirectoryResponse> directoryResponses = rootDirectories.stream()
+                .map(DirectoryResponse::from)
+                .toList();
+
+        List<SimpleRoadmapResponse> roadmapResponses = rootRoadmaps.stream()
+                .map(SimpleRoadmapResponse::from)
+                .toList();
+
+        return RootContentResponse.from(directoryResponses, roadmapResponses);
+    }
+
 }
