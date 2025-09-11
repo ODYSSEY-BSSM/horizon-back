@@ -111,7 +111,6 @@ public class WebSocketSubscriptionController {
     @MessageMapping("/subscribe/roadmap/{roadmapId}")
     public void subscribeToRoadmap(@DestinationVariable Long roadmapId,
                                  @AuthenticationPrincipal User user) {
-        // TODO: 로드맵 접근 권한 검증
         sessionManager.subscribeToRoadmap(user.getUuid(), roadmapId);
         log.info("로드맵 구독 성공 - 사용자ID: {}, 로드맵ID: {}", user.getUuid(), roadmapId);
     }
