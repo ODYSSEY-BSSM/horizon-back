@@ -8,6 +8,7 @@ import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
+import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,7 @@ public class DirectoryService {
                 .orElseThrow(DirectoryNotFoundException::new);
     }
 
-    public DirectoryResponse createTeamDirectory(Long teamId, DirectoryRequest request, User user) {
+    public TeamDirectoryResponse createTeamDirectory(Long teamId, DirectoryRequest request, User user) {
         Directory parent = null;
         
         if (request.getParentId() != null) {
@@ -69,7 +70,7 @@ public class DirectoryService {
         Directory directory = Directory.fromTeam(request, parent, teamId);
         directoryRepository.save(directory);
         
-        DirectoryResponse response = DirectoryResponse.from(directory);
+        TeamDirectoryResponse response = TeamDirectoryResponse.from(directory);
 
         messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/created", response);
         
@@ -77,7 +78,7 @@ public class DirectoryService {
     }
 
     @Transactional
-    public DirectoryResponse updateTeamDirectory(Long id, Long teamId, DirectoryRequest request, User user) {
+    public TeamDirectoryResponse updateTeamDirectory(Long id, Long teamId, DirectoryRequest request, User user) {
         Directory directory = findDirectoryById(id);
         
         Directory parent = null;
@@ -86,7 +87,7 @@ public class DirectoryService {
         }
         
         directory.update(request.getName(), parent);
-        DirectoryResponse response = DirectoryResponse.from(directory);
+        TeamDirectoryResponse response = TeamDirectoryResponse.from(directory);
         
         messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/updated", response);
         

@@ -6,6 +6,7 @@ import odyssey.backend.application.directory.DirectoryService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
+import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
@@ -49,22 +50,22 @@ public class DirectoryController {
 
     @PostMapping("/team/{teamId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public SingleCommonResponse<DirectoryResponse> createTeamDirectory(
+    public SingleCommonResponse<TeamDirectoryResponse> createTeamDirectory(
             @PathVariable Long teamId,
             @Valid @RequestBody DirectoryRequest request,
             @AuthenticationPrincipal User user) {
-        DirectoryResponse response = directoryService.createTeamDirectory(teamId, request, user);
+        TeamDirectoryResponse response = directoryService.createTeamDirectory(teamId, request, user);
         return CommonResponse.ok(response);
     }
 
     @PutMapping("/{directoryId}/team/{teamId}")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<DirectoryResponse> updateTeamDirectory(
+    public SingleCommonResponse<TeamDirectoryResponse> updateTeamDirectory(
             @PathVariable Long directoryId,
             @PathVariable Long teamId,
             @Valid @RequestBody DirectoryRequest request,
             @AuthenticationPrincipal User user) {
-        DirectoryResponse response = directoryService.updateTeamDirectory(directoryId, teamId, request, user);
+        TeamDirectoryResponse response = directoryService.updateTeamDirectory(directoryId, teamId, request, user);
         return CommonResponse.ok(response);
     }
 
