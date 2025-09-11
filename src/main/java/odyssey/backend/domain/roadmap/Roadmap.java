@@ -3,9 +3,10 @@ package odyssey.backend.domain.roadmap;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.node.Node;
-import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.team.Team;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 
 import java.time.LocalDate;
@@ -57,14 +58,15 @@ public class Roadmap {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "team_id")
-    private Long teamId;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user, Long team_id) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, team_id);
+    public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user, Team team) {
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, team);
     }
 
-    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user, Long team_id) {
+    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
         this.categories = categories;
@@ -74,7 +76,7 @@ public class Roadmap {
         this.lastModifiedAt = LocalDate.now();
         this.directory = directory;
         this.user = user;
-        this.teamId = team_id;
+        this.team = team;
     }
 
     public void update(String title, String description, List<String> categories) {
