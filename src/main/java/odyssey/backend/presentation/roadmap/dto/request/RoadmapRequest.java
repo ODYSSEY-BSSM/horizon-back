@@ -3,11 +3,13 @@ package odyssey.backend.presentation.roadmap.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class RoadmapRequest {
 
     @NotBlank(message = "필수값입니다.")
