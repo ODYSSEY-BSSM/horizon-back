@@ -1,10 +1,10 @@
 package odyssey.backend.presentation.roadmap.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -24,7 +24,5 @@ public class RoadmapRequest {
     private List<String> categories;
 
     private Long directoryId;
-
-    private Long teamId;
 
 }

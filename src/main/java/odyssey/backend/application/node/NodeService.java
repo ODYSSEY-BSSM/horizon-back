@@ -2,14 +2,14 @@ package odyssey.backend.application.node;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import odyssey.backend.domain.node.exception.NodeNotFoundException;
-import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
 import odyssey.backend.domain.node.Node;
+import odyssey.backend.domain.node.exception.NodeNotFoundException;
+import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
+import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
-import odyssey.backend.domain.roadmap.Roadmap;
-import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +47,7 @@ public class NodeService {
 
         NodeResponse response = NodeResponse.from(node);
         
-        if (roadmap.getTeamId() != null) {
+        if (roadmap.getTeam() != null) {
             messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/created", response);
         }
 
@@ -98,7 +98,7 @@ public class NodeService {
 
         NodeResponse response = NodeResponse.from(node);
         
-        if (roadmap.getTeamId() != null) {
+        if (roadmap.getTeam() != null) {
             messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/updated", response);
         }
 
@@ -115,7 +115,7 @@ public class NodeService {
 
         log.info("삭제된 노드 Id : {} ", node.getId());
 
-        if (roadmap.getTeamId() != null) {
+        if (roadmap.getTeam() != null) {
             messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/deleted", nodeId);
         }
 

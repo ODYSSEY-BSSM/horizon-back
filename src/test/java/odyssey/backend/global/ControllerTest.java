@@ -16,6 +16,7 @@ import odyssey.backend.presentation.auth.AuthController;
 import odyssey.backend.presentation.directory.DirectoryController;
 import odyssey.backend.presentation.node.NodeController;
 import odyssey.backend.presentation.roadmap.RoadmapController;
+import odyssey.backend.presentation.roadmap.TeamRoadmapController;
 import odyssey.backend.presentation.root.RootController;
 import odyssey.backend.presentation.team.TeamApplyController;
 import odyssey.backend.presentation.team.TeamController;
@@ -34,7 +35,8 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
              AuthController.class,
              TeamController.class,
              TeamApplyController.class,
-             RootController.class,})
+             RootController.class,
+        TeamRoadmapController.class,})
 public abstract class ControllerTest {
 
     @Autowired

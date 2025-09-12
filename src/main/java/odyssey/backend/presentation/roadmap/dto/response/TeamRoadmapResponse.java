@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record RoadmapResponse(
+public record TeamRoadmapResponse(
         Long id,
         String title,
         String description,
@@ -15,12 +15,12 @@ public record RoadmapResponse(
         LocalDate lastModifiedAt,
         LocalDateTime lastAccessedAt,
         boolean isFavorite,
-        String location,
         Long uuid,
-        Long teamId
+        Long teamId,
+        String teamName
 ) {
-    public static RoadmapResponse from(Roadmap roadmap, Long uuid) {
-        return new RoadmapResponse(
+    public static TeamRoadmapResponse from(Roadmap roadmap, Long uuid){
+        return new TeamRoadmapResponse(
                 roadmap.getId(),
                 roadmap.getTitle(),
                 roadmap.getDescription(),
@@ -29,9 +29,9 @@ public record RoadmapResponse(
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
-                "내 로드맵",
                 uuid,
-                roadmap.getTeamId()
+                roadmap.getTeam().getId(),
+                roadmap.getTeam().getName()
         );
     }
 }
