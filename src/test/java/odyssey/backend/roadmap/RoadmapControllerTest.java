@@ -307,4 +307,27 @@ class RoadmapControllerTest extends RestDocsSupport {
                 ));
     }
 
+    @Test
+    void 로드맵을_삭제한다() throws Exception {
+        User testUser = UserCreate.createUser();
+        SecurityContextHolder.getContext()
+                .setAuthentication(new UsernamePasswordAuthenticationToken(testUser, null));
+
+        Long roadmapId = 1L;
+
+        mvc.perform(delete("/roadmap/{id}", roadmapId)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andDo(document("roadmap-delete",
+                        pathParameters(
+                                parameterWithName("id").description("삭제할 로드맵 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data").description("삭제 결과 메시지")
+                        )
+                ));
+    }
+
 }

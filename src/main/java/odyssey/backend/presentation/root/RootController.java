@@ -9,6 +9,7 @@ import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,5 +24,13 @@ public class RootController {
             @AuthenticationPrincipal User user
     ){
         return CommonResponse.ok(rootUseCase.getRootContents(user));
+    }
+
+    @GetMapping("/team")
+    public SingleCommonResponse<RootContentResponse> getTeamContent(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = true) Long teamId
+    ){
+        return CommonResponse.ok(rootUseCase.getTeamRootContents(user, teamId));
     }
 }

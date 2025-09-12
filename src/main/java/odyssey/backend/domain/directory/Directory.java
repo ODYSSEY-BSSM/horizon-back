@@ -35,14 +35,22 @@ public class Directory {
     @ManyToOne
     private User user;
 
+    @Column(name = "team_id")
+    private Long teamId;
+
     public static Directory from(DirectoryRequest request, Directory parent, User user) {
-        return new Directory(request.getName(), parent, user);
+        return new Directory(request.getName(), parent, user, null);
     }
 
-    Directory(String name, Directory parent, User user) {
+    public static Directory fromTeam(DirectoryRequest request, Directory parent, Long teamId) {
+        return new Directory(request.getName(), parent, null, teamId);
+    }
+
+    Directory(String name, Directory parent, User user, Long teamId) {
         this.name = name;
         this.parent = parent;
         this.user = user;
+        this.teamId = teamId;
     }
 
     public void update(String name, Directory parent) {

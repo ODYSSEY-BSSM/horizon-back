@@ -6,9 +6,10 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
-import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
+import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class DirectoryService {
 
     private final DirectoryRepository directoryRepository;
-    private final RoadmapRepository roadmapRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public DirectoryResponse createDirectory(DirectoryRequest directoryRequest, User user) {
         Directory parent = null;
@@ -56,6 +57,48 @@ public class DirectoryService {
     public Directory findDirectoryById(Long id) {
         return directoryRepository.findById(id)
                 .orElseThrow(DirectoryNotFoundException::new);
+    }
+
+    public TeamDirectoryResponse createTeamDirectory(Long teamId, DirectoryRequest request, User user) {
+        Directory parent = null;
+        
+        if (request.getParentId() != null) {
+            parent = directoryRepository.findById(request.getParentId())
+                    .orElseThrow(DirectoryNotFoundException::new);
+        }
+        
+        Directory directory = Directory.fromTeam(request, parent, teamId);
+        directoryRepository.save(directory);
+        
+        TeamDirectoryResponse response = TeamDirectoryResponse.from(directory);
+
+        messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/created", response);
+        
+        return response;
+    }
+
+    @Transactional
+    public TeamDirectoryResponse updateTeamDirectory(Long id, Long teamId, DirectoryRequest request, User user) {
+        Directory directory = findDirectoryById(id);
+        
+        Directory parent = null;
+        if (request.getParentId() != null) {
+            parent = findDirectoryById(request.getParentId());
+        }
+        
+        directory.update(request.getName(), parent);
+        TeamDirectoryResponse response = TeamDirectoryResponse.from(directory);
+        
+        messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/updated", response);
+        
+        return response;
+    }
+
+    public void deleteTeamDirectory(Long id, Long teamId, User user) {
+
+        messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/deleted", id);
+        
+        directoryRepository.deleteById(id);
     }
 
 }
