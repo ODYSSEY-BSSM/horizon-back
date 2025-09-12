@@ -1,0 +1,24 @@
+=== 팀 로드맵 생성
+
+==== 요청 메시지
+include::{snippets}/roadmap-create-team/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/roadmap-create-team/request-parts.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-create-team/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-create-team/response-fields.adoc[]
+
+=== 팀 로드맵 조회
+
+==== 요청 메시지
+include::{snippets}/roadmap-get-team/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-get-team/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-get-team/response-fields.adoc[]
