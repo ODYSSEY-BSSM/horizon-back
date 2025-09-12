@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Slf4j
 @Component
-public class  RoadmapFacade {
+public class RoadmapFacade {
 
     private final RoadmapRepository roadmapRepository;
     private final S3Service s3Service;
