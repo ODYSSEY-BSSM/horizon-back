@@ -2,16 +2,16 @@ package odyssey.backend.presentation.roadmap;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import odyssey.backend.shared.response.CommonResponse;
-import odyssey.backend.shared.response.ListCommonResponse;
-import odyssey.backend.shared.response.SingleCommonResponse;
-import odyssey.backend.presentation.roadmap.dto.response.ImageUrlResponse;
-import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
-import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
-import odyssey.backend.presentation.roadmap.dto.response.RoadmapResponse;
 import odyssey.backend.application.roadmap.RoadmapFacade;
 import odyssey.backend.application.roadmap.RoadmapService;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.presentation.roadmap.dto.response.ImageUrlResponse;
+import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
+import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
+import odyssey.backend.shared.response.CommonResponse;
+import odyssey.backend.shared.response.ListCommonResponse;
+import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,35 +31,27 @@ public class RoadmapController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ListCommonResponse<RoadmapResponse> getPersonalRoadmaps(
+    public ListCommonResponse<PersonalRoadmapResponse> getPersonalRoadmaps(
             @AuthenticationPrincipal User user
     ) {
-        List<RoadmapResponse> roadmaps = roadmapService.findPersonalRoadmaps(user);
+        List<PersonalRoadmapResponse> roadmaps = roadmapService.findPersonalRoadmaps(user);
         return CommonResponse.ok(roadmaps);
     }
 
-    @GetMapping("/team")
-    @ResponseStatus(HttpStatus.OK)
-    public ListCommonResponse<RoadmapResponse> getTeamRoadmaps(
-            @AuthenticationPrincipal User user,
-            @RequestParam(required = true) Long teamId
-    ){
-        return CommonResponse.ok(roadmapService.findTeamRoadmaps(user, teamId));
-    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
-    public SingleCommonResponse<RoadmapResponse> createRoadmap(
+    public SingleCommonResponse<PersonalRoadmapResponse> createRoadmap(
             @RequestPart("roadmap") @Valid RoadmapRequest request,
             @RequestPart("thumbnail") MultipartFile thumbnail,
             @AuthenticationPrincipal User user){
-        return CommonResponse.ok(roadmapFacade.save(request, thumbnail, user));
+        return CommonResponse.ok(roadmapFacade.savePersonalRoadmap(request, thumbnail, user));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RoadmapResponse> updateRoadmap(
+    public SingleCommonResponse<PersonalRoadmapResponse> updateRoadmap(
             @PathVariable Long id,
             @RequestBody @Valid RoadmapRequest request,
             @AuthenticationPrincipal User user) {
@@ -78,7 +70,7 @@ public class RoadmapController {
 
     @PostMapping("/{id}/favorite")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RoadmapResponse> toggleFavorite(
+    public SingleCommonResponse<PersonalRoadmapResponse> toggleFavorite(
             @PathVariable Long id,
             @AuthenticationPrincipal User user) {
         return CommonResponse.ok(roadmapFacade.toggleFavorite(id, user));
@@ -86,7 +78,7 @@ public class RoadmapController {
 
     @GetMapping("/last-accessed")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RoadmapResponse> getLastAccessedRoadmap(
+    public SingleCommonResponse<PersonalRoadmapResponse> getLastAccessedRoadmap(
             @AuthenticationPrincipal User user
     ) {
         return CommonResponse.ok(roadmapService.getLastAccessedRoadmap(user));
