@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Slf4j
 @Component
-public class RoadmapFacade {
+public class  RoadmapFacade {
 
     private final RoadmapRepository roadmapRepository;
     private final S3Service s3Service;
@@ -51,10 +51,15 @@ public class RoadmapFacade {
     }
 
     @Transactional
-    public TeamRoadmapResponse saveTeamRoadmap(RoadmapRequest request, MultipartFile thumbnail, User user){
-        Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
+    public TeamRoadmapResponse saveTeamRoadmap(RoadmapRequest request, MultipartFile thumbnail, User user, Long teamId){
         String url = s3Service.uploadFile(thumbnail);
-        Team team = teamService.findByTeamId(request.getTeamId());
+        Team team = teamService.findByTeamId(teamId);
+
+        Directory directory = null;
+
+        if (request.getDirectoryId() != null) {
+            directory = directoryService.findDirectoryById(request.getDirectoryId());
+        }
 
         return TeamRoadmapResponse.from(roadmapRepository.save(
                 Roadmap.from(request, url, directory, user, team)), user.getUuid());
