@@ -10,6 +10,7 @@ import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class NodeService {
 
     private final RoadmapRepository roadmapRepository;
     private final NodeRepository nodeRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Transactional
     public NodeResponse createNode(Long roadmapId ,NodeRequest request) {
@@ -43,7 +45,13 @@ public class NodeService {
 
         log.info("만들어진 노드 Id : {} ", node.getId());
 
-        return NodeResponse.from(node);
+        NodeResponse response = NodeResponse.from(node);
+        
+        if (roadmap.getTeamId() != null) {
+            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/created", response);
+        }
+
+        return response;
     }
 
     @Transactional
@@ -88,9 +96,13 @@ public class NodeService {
 
         log.info("업데이트 노드 Id : {} ", node.getId());
 
-        log.info("업데이트 노드 Id : {} ", node.getId());
+        NodeResponse response = NodeResponse.from(node);
+        
+        if (roadmap.getTeamId() != null) {
+            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/updated", response);
+        }
 
-        return NodeResponse.from(node);
+        return response;
     }
 
     @Transactional
@@ -102,6 +114,10 @@ public class NodeService {
         roadmap.updateLastModifiedAt();
 
         log.info("삭제된 노드 Id : {} ", node.getId());
+
+        if (roadmap.getTeamId() != null) {
+            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/deleted", nodeId);
+        }
 
         nodeRepository.delete(node);
     }
