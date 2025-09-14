@@ -2,7 +2,6 @@ package odyssey.backend.root;
 
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
-import odyssey.backend.presentation.roadmap.dto.response.SimpleRoadmapResponse;
 import odyssey.backend.presentation.root.dto.response.RootContentResponse;
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +21,7 @@ public class RootControllerTest extends RestDocsSupport {
     @Test
     void 루트_컨텐츠를_조회한다() throws Exception {
         DirectoryResponse directory = new DirectoryResponse(1L, "루트 디렉토리", null, List.of(), List.of());
-        SimpleRoadmapResponse roadmap = new SimpleRoadmapResponse(1L, "루트 로드맵");
-        RootContentResponse response = new RootContentResponse(List.of(directory), List.of(roadmap));
+        RootContentResponse response = new RootContentResponse(List.of(directory));
 
         given(rootUseCase.getRootContents(any()))
                 .willReturn(response);
