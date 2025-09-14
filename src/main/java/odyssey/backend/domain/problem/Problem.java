@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.node.Node;
+import odyssey.backend.presentation.problem.dto.request.ProblemRequest;
 
 @Entity
 @Getter
