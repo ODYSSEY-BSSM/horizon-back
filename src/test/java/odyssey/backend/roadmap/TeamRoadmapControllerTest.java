@@ -88,7 +88,7 @@ public class TeamRoadmapControllerTest extends RestDocsSupport {
                 "팀 타이틀 생성",
                 "팀 설명 생성",
                 List.of("카테고리1", "카테고리2"),
-                null
+                1L
         );
 
         MockMultipartFile thumbnail = new MockMultipartFile(
