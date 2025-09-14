@@ -60,6 +60,9 @@ public class Node {
     @OneToMany(mappedBy = "node", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Problem> problems = new ArrayList<>();
 
+    @Column(nullable = false)
+    private int progress = 0;
+
     public static Node from(NodeRequest request, Roadmap roadmap, Node parent) {
         return new Node(
                 request.getTitle(),
@@ -108,4 +111,19 @@ public class Node {
         }
         problems.add(problem);
     }
+
+    private void updateProgress(){
+        long progressCount = problems.stream()
+                .filter(Problem::isResolved)
+                .count();
+        this.progress = (int)Math.round(((progressCount / 3.0) * 100));
+    }
+
+    public void solveProblem(Problem problem, String answer){
+        if(problem.isCorrect(answer)){
+            updateProgress();
+            roadmap.updateProgress();
+        }
+    }
+
 }
