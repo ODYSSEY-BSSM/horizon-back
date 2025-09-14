@@ -30,8 +30,6 @@ public class RootControllerTest extends RestDocsSupport {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.directories[0].id").value(1L))
                 .andExpect(jsonPath("$.data.directories[0].name").value("루트 디렉토리"))
-                .andExpect(jsonPath("$.data.roadmaps[0].id").value(1L))
-                .andExpect(jsonPath("$.data.roadmaps[0].title").value("루트 로드맵"))
                 .andDo(document("directory-root-contents",
                         responseFields(
                                 fieldWithPath("code").description("응답 코드"),
@@ -40,9 +38,7 @@ public class RootControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.directories[].name").description("디렉토리 이름"),
                                 fieldWithPath("data.directories[].parentId").description("상위 디렉토리 ID").optional(),
                                 fieldWithPath("data.directories[].directories").description("하위 디렉토리 리스트"),
-                                fieldWithPath("data.directories[].roadmaps").description("디렉토리에 포함된 로드맵 리스트"),
-                                fieldWithPath("data.roadmaps[].id").description("로드맵 ID"),
-                                fieldWithPath("data.roadmaps[].title").description("로드맵 제목")
+                                fieldWithPath("data.directories[].roadmaps").description("디렉토리에 포함된 로드맵 리스트")
                         )
                 ));
 
