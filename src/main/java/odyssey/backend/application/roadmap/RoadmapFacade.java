@@ -31,11 +31,7 @@ public class RoadmapFacade {
     @Transactional
     public PersonalRoadmapResponse savePersonalRoadmap(RoadmapRequest request, MultipartFile thumbnail, User user){
 
-        Directory directory = null;
-
-        if (request.getDirectoryId() != null) {
-            directory = directoryService.findDirectoryById(request.getDirectoryId());
-        }
+        Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
 
         String url = s3Service.uploadFile(thumbnail);
 
@@ -55,11 +51,7 @@ public class RoadmapFacade {
         String url = s3Service.uploadFile(thumbnail);
         Team team = teamService.findByTeamId(teamId);
 
-        Directory directory = null;
-
-        if (request.getDirectoryId() != null) {
-            directory = directoryService.findDirectoryById(request.getDirectoryId());
-        }
+        Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
 
         return TeamRoadmapResponse.from(roadmapRepository.save(
                 Roadmap.from(request, url, directory, user, team)), user.getUuid());

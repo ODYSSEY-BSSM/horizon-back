@@ -51,7 +51,7 @@ public class Roadmap {
     private List<Node> nodes;
 
     @ManyToOne
-    @JoinColumn(name = "directory_id")
+    @JoinColumn(name = "directory_id", nullable = false)
     private Directory directory;
 
     @ManyToOne
