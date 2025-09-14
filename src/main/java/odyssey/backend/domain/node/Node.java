@@ -3,9 +3,11 @@ package odyssey.backend.domain.node;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -53,7 +55,10 @@ public class Node {
     private Node parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Node> children;
+    private List<Node> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "node", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Problem> problems = new ArrayList<>();
 
     public static Node from(NodeRequest request, Roadmap roadmap, Node parent) {
         return new Node(
@@ -95,5 +100,12 @@ public class Node {
         this.x = x;
         this.y = y;
         this.category = category;
+    }
+
+    public void addProblem(Problem problem){
+        if(problems.size() == 3){
+            throw new IllegalStateException("문제는 3개가 최대입니다.");
+        }
+        problems.add(problem);
     }
 }
