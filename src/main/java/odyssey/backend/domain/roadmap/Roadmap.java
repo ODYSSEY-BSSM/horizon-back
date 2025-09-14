@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.node.Node;
+import odyssey.backend.domain.node.NodeType;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 
@@ -62,6 +63,9 @@ public class Roadmap {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Column(nullable = false)
+    private int progress = 0;
+
     public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user, Team team) {
         return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, team);
     }
@@ -100,6 +104,23 @@ public class Roadmap {
 
     public void updateLastModifiedAt() {
         this.lastModifiedAt = LocalDate.now();
+    }
+
+    public void updateProgress(){
+        if(nodes.isEmpty()){
+            this.progress = 0;
+            return;
+        }
+
+        List<Node> bottomNodes = nodes.stream()
+                .filter(node -> node.getType() == NodeType.Bottom)
+                .toList();
+
+        long totalProgress = nodes.stream()
+                .mapToInt(Node::getProgress)
+                .sum();
+
+        this.progress = (int)Math.round((totalProgress / (double) bottomNodes.size()));
     }
 
 }
