@@ -17,7 +17,8 @@ public record NodeResponse(
         String category,
         Long roadmapId,
         Long parentNodeId,
-        List<NodeResponse> childNode
+        List<NodeResponse> childNode,
+        int progress
 ) {
     public static NodeResponse from(Node node) {
         List<NodeResponse> children = node.getChildren() != null
@@ -38,7 +39,8 @@ public record NodeResponse(
                 node.getCategory(),
                 node.getRoadmap().getId(),
                 node.getParent() != null ? node.getParent().getId() : null,
-                children
+                children,
+                node.getProgress()
         );
     }
 }
