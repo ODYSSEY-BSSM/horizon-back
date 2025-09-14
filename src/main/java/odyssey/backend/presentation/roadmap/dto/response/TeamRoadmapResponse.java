@@ -17,7 +17,8 @@ public record TeamRoadmapResponse(
         boolean isFavorite,
         Long uuid,
         Long teamId,
-        String teamName
+        String teamName,
+        int progress
 ) {
     public static TeamRoadmapResponse from(Roadmap roadmap, Long uuid){
         return new TeamRoadmapResponse(
@@ -31,7 +32,8 @@ public record TeamRoadmapResponse(
                 roadmap.getIsFavorite(),
                 uuid,
                 roadmap.getTeam().getId(),
-                roadmap.getTeam().getName()
+                roadmap.getTeam().getName(),
+                roadmap.getProgress()
         );
     }
 }
