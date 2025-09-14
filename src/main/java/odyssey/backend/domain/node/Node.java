@@ -126,4 +126,10 @@ public class Node {
         }
     }
 
+    public void validateNodeLocation(){
+        if(this.type != NodeType.Bottom){
+            throw new IllegalArgumentException("해당 노드에 문제를 만들 수 없습니다");
+        }
+    }
+
 }
