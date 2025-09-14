@@ -53,4 +53,8 @@ public class Problem {
         return false;
     }
 
+    public boolean isResolved(){
+        return this.status == Status.RESOLVED;
+    }
+
 }
