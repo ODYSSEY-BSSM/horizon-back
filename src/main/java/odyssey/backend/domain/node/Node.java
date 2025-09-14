@@ -113,10 +113,15 @@ public class Node {
     }
 
     private void updateProgress(){
+        int totalProblems = problems.size();
+        if(totalProblems == 0) {
+            this.progress = 0;
+            return;
+        }
         long progressCount = problems.stream()
                 .filter(Problem::isResolved)
                 .count();
-        this.progress = (int)Math.round(((progressCount / 3.0) * 100));
+        this.progress = (int)Math.round((progressCount / (double) totalProblems) * 100);
     }
 
     public void solveProblem(Problem problem, String answer){

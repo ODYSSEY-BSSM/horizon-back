@@ -7,6 +7,7 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.NodeType;
+import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 
@@ -112,15 +113,18 @@ public class Roadmap {
             return;
         }
 
-        List<Node> bottomNodes = nodes.stream()
-                .filter(node -> node.getType() == NodeType.Bottom)
-                .toList();
-
-        long totalProgress = nodes.stream()
-                .mapToInt(Node::getProgress)
+        int totalProblems = nodes.stream()
+                .filter(n -> n.getType() == NodeType.Bottom)
+                .mapToInt(n -> n.getProblems().size())
                 .sum();
 
-        this.progress = (int)Math.round((totalProgress / (double) bottomNodes.size()));
+
+        int resolvedProblems = nodes.stream()
+                .filter(n -> n.getType() == NodeType.Bottom)
+                .mapToInt(n -> (int)n.getProblems().stream().filter(Problem::isResolved).count())
+                .sum();
+
+        this.progress = (int)Math.round((resolvedProblems / (double) totalProblems) * 100);
     }
 
 }
