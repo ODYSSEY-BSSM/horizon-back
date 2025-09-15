@@ -125,7 +125,7 @@ public class Node {
     }
 
     public void validate(){
-        if(this.type != NodeType.Bottom){
+        if(this.type != NodeType.BOTTOM){
             throw new IllegalArgumentException("해당 노드에 문제를 만들 수 없습니다");
         }
         if(problems.size() == 3){

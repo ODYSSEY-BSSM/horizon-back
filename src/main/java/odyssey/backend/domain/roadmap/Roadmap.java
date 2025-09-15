@@ -114,13 +114,13 @@ public class Roadmap {
         }
 
         int totalProblems = nodes.stream()
-                .filter(n -> n.getType() == NodeType.Bottom)
+                .filter(n -> n.getType() == NodeType.BOTTOM)
                 .mapToInt(n -> n.getProblems().size())
                 .sum();
 
 
         int resolvedProblems = nodes.stream()
-                .filter(n -> n.getType() == NodeType.Bottom)
+                .filter(n -> n.getType() == NodeType.BOTTOM)
                 .mapToInt(n -> (int)n.getProblems().stream().filter(Problem::isResolved).count())
                 .sum();
 
