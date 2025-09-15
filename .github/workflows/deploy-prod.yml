@@ -28,8 +28,8 @@ jobs:
             --parameters 'commands=[
               "cd /home/ubuntu",
               "git pull origin main",
-              "chmod +x gradlew", 
-              "./gradlew clean build -x test",
+              "chmod +x gradlew",
+              "./gradlew clean build -x test -x asciidoctor",
               "pkill -f java || true",
               "nohup java -jar build/libs/*.jar > app.log 2>&1 &"
             ]'
