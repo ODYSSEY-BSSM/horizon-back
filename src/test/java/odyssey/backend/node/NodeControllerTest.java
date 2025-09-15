@@ -28,7 +28,7 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_생성한다() throws Exception {
         Long roadmapId = 1L;
         NodeRequest request = new NodeRequest("노드 제목", "노드 설명", 100, 200,
-                NodeType.Top, 50, 60, "Java", null);
+                NodeType.TOP, 50, 60, "Java", null);
 
         NodeResponse response = new NodeResponse(1L, request.getTitle(), request.getDescription(),
                 request.getHeight(), request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
@@ -84,7 +84,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long nodeId = 2L;
 
         NodeResponse childNode = new NodeResponse(
-                2L, "자식 노드 제목", "설명", 1, 2, NodeType.Top, 50, 60, "java", roadmapId, 1L, null,12
+                2L, "자식 노드 제목", "설명", 1, 2, NodeType.TOP, 50, 60, "java", roadmapId, 1L, null,12
         );
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(childNode);
@@ -121,8 +121,8 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_전체조회한다() throws Exception {
         Long roadmapId = 1L;
 
-        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.Top, 50, 60, "java", roadmapId, null, List.of(),12);
-        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java", roadmapId, 1L, null,12);
+        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.TOP, 50, 60, "java", roadmapId, null, List.of(),12);
+        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12);
 
         given(nodeService.getNodesByRoadmapId(roadmapId)).willReturn(List.of(parentNode, childNode));
 
@@ -158,7 +158,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java", roadmapId, 1L, null,12);
+        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12);
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(node);
 
@@ -195,7 +195,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.Top, 70, 80, "java", 1L);
+        NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.TOP, 70, 80, "java", 1L);
         NodeResponse response = new NodeResponse(nodeId, request.getTitle(), request.getDescription(), request.getHeight(),
                 request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
                 roadmapId, request.getParentNodeId(), null,12);

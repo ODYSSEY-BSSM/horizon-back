@@ -27,7 +27,7 @@ public record NodeResponse(
                 .toList()
                 : List.of();
 
-        Integer progress = node.getType() == NodeType.Bottom ? node.getProgress() : null;
+        Integer progress = node.getType() == NodeType.BOTTOM ? node.getProgress() : null;
 
         return new NodeResponse(
                 node.getId(),
