@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import odyssey.backend.application.auth.*;
 import odyssey.backend.application.directory.DirectoryService;
 import odyssey.backend.application.node.NodeService;
+import odyssey.backend.application.problem.ProblemService;
 import odyssey.backend.application.roadmap.RoadmapFacade;
 import odyssey.backend.application.roadmap.RoadmapService;
 import odyssey.backend.application.root.RootUseCase;
@@ -15,6 +16,7 @@ import odyssey.backend.infrastructure.jwt.service.TokenService;
 import odyssey.backend.presentation.auth.AuthController;
 import odyssey.backend.presentation.directory.DirectoryController;
 import odyssey.backend.presentation.node.NodeController;
+import odyssey.backend.presentation.problem.ProblemController;
 import odyssey.backend.presentation.roadmap.RoadmapController;
 import odyssey.backend.presentation.roadmap.TeamRoadmapController;
 import odyssey.backend.presentation.root.RootController;
@@ -36,7 +38,8 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
              TeamController.class,
              TeamApplyController.class,
              RootController.class,
-        TeamRoadmapController.class,})
+             TeamRoadmapController.class,
+             ProblemController.class,})
 public abstract class ControllerTest {
 
     @Autowired
@@ -84,6 +87,9 @@ public abstract class ControllerTest {
     @MockBean
     protected RootUseCase rootUseCase;
 
+    @MockBean
+    protected ProblemService problemService;
+
     public static RequestPostProcessor authenticationPrincipal(final User user) {
         return new RequestPostProcessor() {
             @Override
@@ -97,4 +103,5 @@ public abstract class ControllerTest {
     protected String toJson(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
+
 }
