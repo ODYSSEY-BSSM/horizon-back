@@ -29,7 +29,7 @@ jobs:
               "cd /home/ubuntu",
               "git pull origin main",
               "chmod +x gradlew",
-              "./gradlew clean bootJar",
+              "./gradlew :bootJar",
               "pkill -f java || true",
               "nohup java -jar build/libs/*.jar > app.log 2>&1 &"
             ]'
