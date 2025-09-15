@@ -136,6 +136,7 @@ asciidoctor {
 
     configurations 'asciidoctorExtensions'
     inputs.dir snippetsDir
+    onlyIf { file(snippetsDir).exists() }
 
     sources {
         include('**/index.adoc', '**/docs/*.adoc')
