@@ -40,7 +40,7 @@ public class ProblemService {
         Node node = nodeRepository.findById(nodeId)
                 .orElseThrow(NodeNotFoundException::new);
 
-        node.validateNodeLocation();
+        node.validate();
 
         Problem problem = problemRepository.save(Problem.from(request, node));
 

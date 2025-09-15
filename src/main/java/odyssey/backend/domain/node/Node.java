@@ -105,13 +105,6 @@ public class Node {
         this.category = category;
     }
 
-    public void addProblem(Problem problem){
-        if(problems.size() == 3){
-            throw new IllegalStateException("문제는 3개가 최대입니다.");
-        }
-        problems.add(problem);
-    }
-
     private void updateProgress(){
         int totalProblems = problems.size();
         if(totalProblems == 0) {
@@ -131,9 +124,12 @@ public class Node {
         }
     }
 
-    public void validateNodeLocation(){
+    public void validate(){
         if(this.type != NodeType.Bottom){
             throw new IllegalArgumentException("해당 노드에 문제를 만들 수 없습니다");
+        }
+        if(problems.size() == 3){
+            throw new IllegalStateException("문제는 3개가 최대입니다.");
         }
     }
 
