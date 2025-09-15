@@ -15,7 +15,8 @@ public record PersonalRoadmapResponse(
         LocalDate lastModifiedAt,
         LocalDateTime lastAccessedAt,
         boolean isFavorite,
-        Long uuid
+        Long uuid,
+        int progress
 ) {
     public static PersonalRoadmapResponse from(Roadmap roadmap, Long uuid) {
         return new PersonalRoadmapResponse(
@@ -27,7 +28,8 @@ public record PersonalRoadmapResponse(
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
-                uuid
+                uuid,
+                roadmap.getProgress()
         );
     }
 }
