@@ -49,7 +49,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDate.now(),
                 LocalDateTime.now(),
                 false,
-                testUser.getUuid()
+                testUser.getUuid(),
+                12
         );
 
         MockMultipartFile roadmapPart = new MockMultipartFile(
@@ -96,7 +97,9 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 id")
+                                fieldWithPath("data.uuid").description("유저 id"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
+
                         )
                 ));
     }
@@ -109,13 +112,14 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         PersonalRoadmapResponse response1 = new PersonalRoadmapResponse(
                 1L, "타이틀1", "설명1", List.of("테스트1", "테스트2"),
-                "https://image1.com", LocalDate.now(), LocalDateTime.now(), true, testUser.getUuid()
+                "https://image1.com", LocalDate.now(), LocalDateTime.now(), true, testUser.getUuid(),
+                12
         );
 
         PersonalRoadmapResponse response2 = new PersonalRoadmapResponse(
                 2L, "타이틀2", "설명2", List.of("테스트3", "테스트4"),
                 "https://image2.com", LocalDate.now(), LocalDateTime.now(), false,
-                testUser.getUuid()
+                testUser.getUuid(),12
         );
 
         given(roadmapService.findPersonalRoadmaps(any(User.class)))
@@ -136,7 +140,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data[].lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
                                 fieldWithPath("data[].lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data[].isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data[].uuid").description("유저 id")
+                                fieldWithPath("data[].uuid").description("유저 id"),
+                                fieldWithPath(("data[].progress")).optional().description("진행도(문제가 없을 땐 0)")
                         )
                 ));
     }
@@ -157,7 +162,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDate.now(),
                 LocalDateTime.now(),
                 true,
-                testUser.getUuid()
+                testUser.getUuid(),
+                12
         );
 
         given(roadmapFacade.toggleFavorite(roadmapId, testUser)).willReturn(fakeResponse);
@@ -180,7 +186,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 id")
+                                fieldWithPath("data.uuid").description("유저 id"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
                         )
                 ));
     }
@@ -200,7 +207,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDate.now(),
                 LocalDateTime.now(),
                 false,
-                testUser.getUuid()
+                testUser.getUuid(),
+                12
         );
 
         given(roadmapService.getLastAccessedRoadmap(testUser)).willReturn(fakeResponse);
@@ -220,7 +228,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 id")
+                                fieldWithPath("data.uuid").description("유저 id"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
                         )
                 ));
     }
@@ -270,7 +279,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                 LocalDate.now(),
                 LocalDateTime.now(),
                 false,
-                testUser.getUuid()
+                testUser.getUuid(),
+                12
         );
 
         given(roadmapFacade.update(any(Long.class), any(RoadmapRequest.class), any(User.class)))
@@ -302,7 +312,8 @@ class RoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
                                 fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 ID")
+                                fieldWithPath("data.uuid").description("유저 ID"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
                         )
                 ));
     }

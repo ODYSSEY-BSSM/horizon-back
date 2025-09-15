@@ -1,7 +1,7 @@
 package odyssey.backend.node;
 
-import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.domain.node.NodeType;
+import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
 import org.junit.jupiter.api.Test;
@@ -14,11 +14,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class NodeControllerTest extends RestDocsSupport {
 
@@ -27,11 +28,11 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_생성한다() throws Exception {
         Long roadmapId = 1L;
         NodeRequest request = new NodeRequest("노드 제목", "노드 설명", 100, 200,
-                NodeType.Top, 50, 60, "Java", null);
+                NodeType.TOP, 50, 60, "Java", null);
 
         NodeResponse response = new NodeResponse(1L, request.getTitle(), request.getDescription(),
                 request.getHeight(), request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
-                roadmapId, null, null);
+                roadmapId, null, null, 12);
 
         given(nodeService.createNode(eq(roadmapId), any(NodeRequest.class)))
                 .willReturn(response);
@@ -70,7 +71,8 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.category").description("카테고리"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").optional().description("부모 노드 ID"),
-                                fieldWithPath("data.childNode").optional().description("자식 노드 목록")
+                                fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
                         )
                 ));
     }
@@ -82,7 +84,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long nodeId = 2L;
 
         NodeResponse childNode = new NodeResponse(
-                2L, "자식 노드 제목", "설명", 1, 2, NodeType.Top, 50, 60, "java", roadmapId, 1L, null
+                2L, "자식 노드 제목", "설명", 1, 2, NodeType.TOP, 50, 60, "java", roadmapId, 1L, null,12
         );
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(childNode);
@@ -108,7 +110,8 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.category").description("카테고리"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID"),
-                                fieldWithPath("data.childNode").optional().description("자식 노드 목록")
+                                fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
                         )
                 ));
     }
@@ -118,8 +121,8 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_전체조회한다() throws Exception {
         Long roadmapId = 1L;
 
-        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.Top, 50, 60, "java", roadmapId, null, List.of());
-        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java", roadmapId, 1L, null);
+        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.TOP, 50, 60, "java", roadmapId, null, List.of(),12);
+        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12);
 
         given(nodeService.getNodesByRoadmapId(roadmapId)).willReturn(List.of(parentNode, childNode));
 
@@ -143,7 +146,8 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data[].category").description("카테고리"),
                                 fieldWithPath("data[].roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data[].parentNodeId").optional().description("부모 노드 ID"),
-                                fieldWithPath("data[].childNode").optional().description("자식 노드 목록")
+                                fieldWithPath("data[].childNode").optional().description("자식 노드 목록"),
+                                fieldWithPath(("data[].progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
                         )
                 ));
     }
@@ -154,7 +158,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.Top, 60, 70, "java", roadmapId, 1L, null);
+        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12);
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(node);
 
@@ -179,7 +183,8 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.category").description("카테고리"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID"),
-                                fieldWithPath("data.childNode").optional().description("자식 노드 목록")
+                                fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
                         )
                 ));
     }
@@ -190,10 +195,10 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.Top, 70, 80, "java", 1L);
+        NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.TOP, 70, 80, "java", 1L);
         NodeResponse response = new NodeResponse(nodeId, request.getTitle(), request.getDescription(), request.getHeight(),
                 request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
-                roadmapId, request.getParentNodeId(), null);
+                roadmapId, request.getParentNodeId(), null,12);
 
         given(nodeService.updateNode(eq(nodeId), eq(roadmapId), any(NodeRequest.class))).willReturn(response);
 
@@ -232,7 +237,8 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.category").description("카테고리"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID").optional(),
-                                fieldWithPath("data.childNode").optional().description("자식 노드 목록")
+                                fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
                         )
                 ));
     }
