@@ -18,7 +18,7 @@ public record TeamRoadmapResponse(
         Long uuid,
         Long teamId,
         String teamName,
-        int progress
+        Integer progress
 ) {
     public static TeamRoadmapResponse from(Roadmap roadmap, Long uuid){
         return new TeamRoadmapResponse(
