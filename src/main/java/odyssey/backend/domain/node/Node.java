@@ -61,7 +61,7 @@ public class Node {
     private List<Problem> problems = new ArrayList<>();
 
     @Column(nullable = false)
-    private int progress = 0;
+    private Integer progress = 0;
 
     public static Node from(NodeRequest request, Roadmap roadmap, Node parent) {
         return new Node(
