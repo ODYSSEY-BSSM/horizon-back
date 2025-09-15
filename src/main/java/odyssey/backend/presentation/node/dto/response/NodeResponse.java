@@ -17,7 +17,8 @@ public record NodeResponse(
         String category,
         Long roadmapId,
         Long parentNodeId,
-        List<NodeResponse> childNode
+        List<NodeResponse> childNode,
+        Integer progress
 ) {
     public static NodeResponse from(Node node) {
         List<NodeResponse> children = node.getChildren() != null
@@ -25,6 +26,8 @@ public record NodeResponse(
                 .map(NodeResponse::from)
                 .toList()
                 : List.of();
+
+        Integer progress = node.getType() == NodeType.Bottom ? node.getProgress() : null;
 
         return new NodeResponse(
                 node.getId(),
@@ -38,7 +41,8 @@ public record NodeResponse(
                 node.getCategory(),
                 node.getRoadmap().getId(),
                 node.getParent() != null ? node.getParent().getId() : null,
-                children
+                children,
+                progress
         );
     }
 }

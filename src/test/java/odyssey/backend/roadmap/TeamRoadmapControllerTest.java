@@ -40,15 +40,33 @@ public class TeamRoadmapControllerTest extends RestDocsSupport {
         Long teamId = 1L;
 
         TeamRoadmapResponse response1 = new TeamRoadmapResponse(
-                1L, "팀 타이틀1", "팀 설명1", List.of("카테고리1"),
-                "https://team-image1.com", LocalDate.now(), LocalDateTime.now(), false,
-                testUser.getUuid(), 1L, "이건우"
+                1L,
+                "제목제목",
+                "설명",
+                List.of("DNDND"),
+                "URL",
+                LocalDate.now(),
+                LocalDateTime.now(),
+                false,
+                testUser.getUuid(),
+                teamId,
+                "이건우",
+                100
         );
 
         TeamRoadmapResponse response2 = new TeamRoadmapResponse(
-                2L, "팀 타이틀2", "팀 설명2", List.of("카테고리2"),
-                "https://team-image2.com", LocalDate.now(), LocalDateTime.now(), true,
-                testUser.getUuid(), 1L, "이건우"
+                2L,
+                "제목제목",
+                "설명",
+                List.of("DNDND"),
+                "URL",
+                LocalDate.now(),
+                LocalDateTime.now(),
+                false,
+                testUser.getUuid(),
+                teamId,
+                "이건우",
+                100
         );
 
         given(roadmapService.findTeamRoadmaps(testUser, teamId))
@@ -71,7 +89,8 @@ public class TeamRoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data[].isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data[].uuid").description("작성자 UUID"),
                                 fieldWithPath("data[].teamId").description("팀 ID"),
-                                fieldWithPath("data[].teamName").description("팀 이름")
+                                fieldWithPath("data[].teamName").description("팀 이름"),
+                                fieldWithPath(("data[].progress")).optional().description("진행도(문제가 없을 땐 0)")
                         )
                 ));
     }
@@ -116,7 +135,8 @@ public class TeamRoadmapControllerTest extends RestDocsSupport {
                 false,
                 testUser.getUuid(),
                 teamId,
-                "이건우팀"
+                "이건우팀",
+                12
         );
 
         given(roadmapFacade.saveTeamRoadmap(
@@ -149,7 +169,8 @@ public class TeamRoadmapControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
                                 fieldWithPath("data.uuid").description("작성자 UUID"),
                                 fieldWithPath("data.teamId").description("팀 ID"),
-                                fieldWithPath("data.teamName").description("팀 이름")
+                                fieldWithPath("data.teamName").description("팀 이름"),
+                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
                         )
                 ));
     }
