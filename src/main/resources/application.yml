@@ -22,8 +22,7 @@ spring:
         show-details: always
 
   config:
-    import:
-      optional:dotenv:
+      import: optional:file:.env[.properties]
 
   datasource:
     driver-class-name: org.postgresql.Driver
