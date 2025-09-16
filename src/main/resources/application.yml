@@ -12,9 +12,17 @@ spring:
         access-key: ${S3_ACCESS_KEY}
         secret-key: ${S3_SECRET_KEY}
 
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health
+    endpoint:
+      health:
+        show-details: always
+
   config:
-    import:
-      optional:dotenv:
+      import: optional:file:.env[.properties]
 
   datasource:
     driver-class-name: org.postgresql.Driver

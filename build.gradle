@@ -34,6 +34,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.security:spring-security-messaging'
 
@@ -135,6 +136,7 @@ asciidoctor {
 
     configurations 'asciidoctorExtensions'
     inputs.dir snippetsDir
+    onlyIf { file(snippetsDir).exists() }
 
     sources {
         include('**/index.adoc', '**/docs/*.adoc')
