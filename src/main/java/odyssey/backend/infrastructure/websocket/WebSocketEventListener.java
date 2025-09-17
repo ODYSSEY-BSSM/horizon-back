@@ -29,7 +29,6 @@ public class WebSocketEventListener {
             User user = (User) authentication.getPrincipal();
             Long userId = user.getUuid();
             sessionManager.addSession(sessionId, userId);
-            log.info("새 WebSocket 연결 - 세션ID: {}, 사용자ID: {}", sessionId, userId);
         } else {
             log.warn("인증되지 않은 WebSocket 연결 시도 - 세션ID: {}", sessionId);
         }
@@ -41,6 +40,5 @@ public class WebSocketEventListener {
         String sessionId = headerAccessor.getSessionId();
 
         sessionManager.removeSession(sessionId);
-        log.info("WebSocket 연결 종료 - 세션ID: {}", sessionId);
     }
 }
