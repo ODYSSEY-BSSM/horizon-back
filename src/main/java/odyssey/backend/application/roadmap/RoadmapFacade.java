@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@Slf4j
 @Component
 public class RoadmapFacade {
 
@@ -41,8 +40,6 @@ public class RoadmapFacade {
 
         roadmap.updateLastModifiedAt();
 
-        log.info("생성된 로드맵 Id : {}", roadmap.getId());
-
         return PersonalRoadmapResponse.from(roadmap, user.getUuid());
     }
 
@@ -60,8 +57,6 @@ public class RoadmapFacade {
     @Transactional
     public void deleteRoadmapById(Long id) {
         Roadmap roadmap = findRoadmapById(id);
-
-        log.info("삭제된 로드맵 Id : {}", id);
 
         s3Service.deleteFile(roadmap.getImageUrl());
 
@@ -94,8 +89,6 @@ public class RoadmapFacade {
         Roadmap roadmap = findRoadmapById(id);
 
         roadmap.toggleFavorite();
-
-        log.info("즐겨찾기 요청 로드맵 Id : {}", roadmap.getId());
 
         return PersonalRoadmapResponse.from(roadmap, user.getUuid());
     }

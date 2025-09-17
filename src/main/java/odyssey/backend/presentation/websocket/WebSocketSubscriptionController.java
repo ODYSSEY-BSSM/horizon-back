@@ -28,7 +28,6 @@ public class WebSocketSubscriptionController {
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("디렉토리 생성 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @SubscribeMapping("/topic/directory/team/{teamId}/updated")
@@ -39,7 +38,6 @@ public class WebSocketSubscriptionController {
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("디렉토리 업데이트 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @SubscribeMapping("/topic/directory/team/{teamId}/deleted")
@@ -50,7 +48,6 @@ public class WebSocketSubscriptionController {
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("디렉토리 삭제 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @SubscribeMapping("/topic/node/team/{teamId}/created")
@@ -61,7 +58,6 @@ public class WebSocketSubscriptionController {
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("노드 생성 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @SubscribeMapping("/topic/node/team/{teamId}/updated")
@@ -72,7 +68,6 @@ public class WebSocketSubscriptionController {
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("노드 업데이트 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @SubscribeMapping("/topic/node/team/{teamId}/deleted")
@@ -83,7 +78,6 @@ public class WebSocketSubscriptionController {
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("노드 삭제 구독 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @MessageMapping("/subscribe/team/{teamId}")
@@ -95,27 +89,23 @@ public class WebSocketSubscriptionController {
         }
 
         sessionManager.subscribeToTeam(user.getUuid(), teamId);
-        log.info("팀 구독 성공 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @MessageMapping("/unsubscribe/team/{teamId}")
     public void unsubscribeFromTeam(@DestinationVariable Long teamId,
                                   @AuthenticationPrincipal User user) {
         sessionManager.unsubscribeFromTeam(user.getUuid(), teamId);
-        log.info("팀 구독 해제 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
     }
 
     @MessageMapping("/subscribe/roadmap/{roadmapId}")
     public void subscribeToRoadmap(@DestinationVariable Long roadmapId,
                                  @AuthenticationPrincipal User user) {
         sessionManager.subscribeToRoadmap(user.getUuid(), roadmapId);
-        log.info("로드맵 구독 성공 - 사용자ID: {}, 로드맵ID: {}", user.getUuid(), roadmapId);
     }
 
     @MessageMapping("/unsubscribe/roadmap/{roadmapId}")
     public void unsubscribeFromRoadmap(@DestinationVariable Long roadmapId,
                                      @AuthenticationPrincipal User user) {
         sessionManager.unsubscribeFromRoadmap(user.getUuid(), roadmapId);
-        log.info("로드맵 구독 해제 - 사용자ID: {}, 로드맵ID: {}", user.getUuid(), roadmapId);
     }
 }
