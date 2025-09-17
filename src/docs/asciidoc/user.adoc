@@ -1,3 +1,25 @@
+=== 인증 코드 요청
+
+==== 요청 메시지
+include::{snippets}/send-verification-code/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/send-verification-code/request-fields.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/send-verification-code/http-response.adoc[]
+
+=== 인증코드 인증
+
+==== 요청 메시지
+include::{snippets}/verify-code/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/verify-code/request-fields.adoc[]
+
+==== 응답 HTTP 메시지
+include::{snippets}/verify-code/http-response.adoc[]
+
 === 회원가입
 
 ==== 요청 메시지

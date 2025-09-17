@@ -66,6 +66,10 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 
@@ -132,7 +136,6 @@ dependencyCheck {
 }
 
 asciidoctor {
-    dependsOn test
 
     configurations 'asciidoctorExtensions'
     inputs.dir snippetsDir
@@ -143,6 +146,10 @@ asciidoctor {
     }
 
     baseDirFollowsSourceFile()
+}
+
+tasks.named('processResources') {
+    dependsOn tasks.named('copyRestDocs')
 }
 
 tasks.register('copyRestDocs', Copy) {
