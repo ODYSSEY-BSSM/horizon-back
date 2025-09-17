@@ -1,16 +1,17 @@
 package odyssey.backend.presentation.auth;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.auth.*;
-import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
-import odyssey.backend.shared.response.CommonResponse;
-import odyssey.backend.shared.response.SingleCommonResponse;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
 import odyssey.backend.presentation.auth.dto.request.LoginRequest;
 import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
 import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
 import odyssey.backend.presentation.auth.dto.response.UserResponse;
+import odyssey.backend.shared.response.CommonResponse;
+import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +38,10 @@ public class AuthController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<TokenResponse> login(
-            @RequestBody @Valid LoginRequest request
+            @RequestBody @Valid LoginRequest request,
+            HttpServletResponse response
     ){
-        return CommonResponse.ok(loginService.login(request));
+        return CommonResponse.ok(loginService.login(request, response));
     }
 
     @PutMapping("/token")
