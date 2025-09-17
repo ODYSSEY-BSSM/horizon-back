@@ -2,7 +2,6 @@ package odyssey.backend.application.team;
 
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.team.Team;
-import odyssey.backend.infrastructure.persistence.team.TeamApplyRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 import odyssey.backend.presentation.team.dto.response.TeamResponse;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class TeamService {
 
     private final TeamRepository teamRepository;
-    private final TeamApplyRepository teamApplyRepository;
 
     public TeamResponse create(TeamRequest request, User leader){
         return TeamResponse.from(teamRepository.save(
