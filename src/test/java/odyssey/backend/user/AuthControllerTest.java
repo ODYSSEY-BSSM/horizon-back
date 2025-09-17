@@ -1,25 +1,25 @@
 package odyssey.backend.user;
 
+import jakarta.servlet.http.HttpServletResponse;
+import odyssey.backend.domain.auth.Role;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
-import odyssey.backend.domain.auth.Role;
 import odyssey.backend.presentation.auth.dto.request.LoginRequest;
 import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
 import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
 import odyssey.backend.presentation.auth.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,10 +62,11 @@ public class AuthControllerTest extends RestDocsSupport {
     @Test
     void 로그인을_하면_액세스_토큰이_발급된다() throws Exception {
         LoginRequest request = new LoginRequest("fake@Email.com", "fakePassword");
-
         TokenResponse fakeTokenResponse = TokenResponse.create("fakeAccessToken", "fakeRefreshToken");
 
-        given(loginService.login(any(LoginRequest.class)))
+        MockHttpServletResponse mockResponse = new MockHttpServletResponse();
+
+        given(loginService.login(any(LoginRequest.class), any(HttpServletResponse.class)))
                 .willReturn(fakeTokenResponse);
 
         mvc.perform(post("/auth/login")
@@ -88,6 +89,7 @@ public class AuthControllerTest extends RestDocsSupport {
                         )
                 ));
     }
+
 
     @Test
     void 리프레시_토큰으로_액세스_토큰을_재발급한다() throws Exception {
