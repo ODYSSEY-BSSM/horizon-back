@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.infrastructure.jwt.exception.InvalidTokenTypeException;
-import odyssey.backend.infrastructure.jwt.exception.TokenNotFoundException;
 import odyssey.backend.infrastructure.jwt.service.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -82,7 +81,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
-        throw new TokenNotFoundException();
+        return null;
     }
 
 }
