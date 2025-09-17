@@ -11,8 +11,6 @@
 
 이 문서는 Horizon 프로젝트의 REST API 명세서입니다.
 
-include::jwt.adoc[]
-
 == User API
 
 include::user.adoc[]
