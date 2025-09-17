@@ -31,7 +31,7 @@ spring:
     password: ${DB_PASSWORD}
 
   jpa:
-    show-sql: true
+    show-sql: false
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
@@ -51,11 +51,8 @@ spring:
 
 logging:
   level:
-    org:
-      hibernate:
-        SQL: debug
-        type: trace
-    org.springframework.security: DEBUG
+    root: WARN
+    odyssey: INFO
 
 jwt:
   secret: ${SECRET_KEY}

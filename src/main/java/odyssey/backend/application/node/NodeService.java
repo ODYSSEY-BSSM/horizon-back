@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class NodeService {
 
@@ -42,8 +41,6 @@ public class NodeService {
         Node node = nodeRepository.save(
                 Node.from(request, roadmap, parentNode)
         );
-
-        log.info("만들어진 노드 Id : {} ", node.getId());
 
         NodeResponse response = NodeResponse.from(node);
         
@@ -71,8 +68,6 @@ public class NodeService {
     public NodeResponse getNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         Node node = findByIdAndRoadmapId(nodeId, roadmapId);
 
-        log.info("조회된 노드 Id : {} ", node.getId());
-
         return NodeResponse.from(node);
     }
 
@@ -94,8 +89,6 @@ public class NodeService {
                 request.getY(),
                 request.getCategory());
 
-        log.info("업데이트 노드 Id : {} ", node.getId());
-
         NodeResponse response = NodeResponse.from(node);
         
         if (roadmap.getTeam() != null) {
@@ -112,8 +105,6 @@ public class NodeService {
         Roadmap roadmap = getRoadmapById(roadmapId);
 
         roadmap.updateLastModifiedAt();
-
-        log.info("삭제된 노드 Id : {} ", node.getId());
 
         if (roadmap.getTeam() != null) {
             messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/deleted", nodeId);

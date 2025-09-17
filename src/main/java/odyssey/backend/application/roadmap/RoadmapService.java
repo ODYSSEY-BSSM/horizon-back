@@ -16,7 +16,6 @@
     import java.util.List;
 
     @Service
-    @Slf4j
     @RequiredArgsConstructor
     public class RoadmapService {
 
@@ -41,8 +40,6 @@
 
             Roadmap roadmap = roadmapRepository.findTopByUserOrderByLastAccessedAtDesc(user)
                     .orElseThrow(RoadmapNotFoundException::new);
-
-            log.info("마지막 접속 로드맵 Id : {}", roadmap.getId());
 
             return PersonalRoadmapResponse.from(roadmap, user.getUuid());
         }

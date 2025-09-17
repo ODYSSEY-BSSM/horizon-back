@@ -20,7 +20,6 @@ public class WebSocketSessionManager {
     public void addSession(String sessionId, Long userId) {
         sessionToUserId.put(sessionId, userId);
         userIdToSessions.computeIfAbsent(userId, k -> new HashSet<>()).add(sessionId);
-        log.info("WebSocket 세션 추가 - 세션ID: {}, 사용자ID: {}", sessionId, userId);
     }
 
     public void removeSession(String sessionId) {
@@ -35,8 +34,6 @@ public class WebSocketSessionManager {
                 }
             }
         }
-
-        log.info("WebSocket 세션 제거 - 세션ID: {}, 사용자ID: {}", sessionId, userId);
     }
     
     private void cleanupUserSubscriptions(Long userId) {
@@ -49,7 +46,6 @@ public class WebSocketSessionManager {
 
     public void subscribeToRoadmap(Long userId, Long roadmapId) {
         roadmapSubscriptions.computeIfAbsent(roadmapId.toString(), k -> new HashSet<>()).add(userId);
-        log.info("로드맵 구독 - 사용자ID: {}, 로드맵ID: {}", userId, roadmapId);
     }
 
     public void unsubscribeFromRoadmap(Long userId, Long roadmapId) {
@@ -60,7 +56,6 @@ public class WebSocketSessionManager {
                 roadmapSubscriptions.remove(roadmapId.toString());
             }
         }
-        log.info("로드맵 구독 해제 - 사용자ID: {}, 로드맵ID: {}", userId, roadmapId);
     }
 
     public Set<Long> getUsersSubscribedToRoadmap(Long roadmapId) {
@@ -85,7 +80,6 @@ public class WebSocketSessionManager {
 
     public void subscribeToTeam(Long userId, Long teamId) {
         teamSubscriptions.computeIfAbsent(teamId.toString(), k -> new HashSet<>()).add(userId);
-        log.info("팀 구독 - 사용자ID: {}, 팀ID: {}", userId, teamId);
     }
 
     public void unsubscribeFromTeam(Long userId, Long teamId) {
@@ -96,7 +90,6 @@ public class WebSocketSessionManager {
                 teamSubscriptions.remove(teamId.toString());
             }
         }
-        log.info("팀 구독 해제 - 사용자ID: {}, 팀ID: {}", userId, teamId);
     }
 
     public Set<Long> getUsersSubscribedToTeam(Long teamId) {

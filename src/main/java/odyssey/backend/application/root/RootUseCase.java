@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
-import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
 import odyssey.backend.presentation.root.dto.response.RootContentResponse;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.List;
 public class RootUseCase {
 
     private final DirectoryRepository directoryRepository;
-    private final RoadmapRepository roadmapRepository;
 
     public RootContentResponse getRootContents(User user) {
         List<Directory> rootDirectories = directoryRepository.findByParentIsNullAndUser(user);

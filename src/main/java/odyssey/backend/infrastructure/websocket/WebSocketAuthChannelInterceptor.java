@@ -31,16 +31,11 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             String token = accessor.getFirstNativeHeader("Authorization");
-            log.info("WebSocket CONNECT 시도 - Authorization 헤더: '{}'", token);
 
             if (token != null && token.startsWith("Bearer ")) {
                 token = token.substring(7);
-                log.info("Bearer 제거 후 토큰 길이: {}, 시작 부분: {}", token.length(),
-                        token.length() > 20 ? token.substring(0, 20) + "..." : token);
                 try {
                     Claims claims = tokenService.parseToken(token);
-                    log.info("토큰 파싱 성공 - UUID: {}", claims.get("uuid", Long.class));
-
                     Long uuid = claims.get("uuid", Long.class);
                     User user = tokenService.getUserByUuid(uuid);
                     if (user == null) {
@@ -56,8 +51,6 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
                             );
 
                     accessor.setUser(authentication);
-                    log.info("WebSocket 인증 성공 - 사용자: {}", user.getUsername());
-
                 } catch (Exception e) {
                     log.error("WebSocket 토큰 파싱 실패: {} - {}", e.getClass().getSimpleName(), e.getMessage());
                     throw new IllegalArgumentException("Invalid token");
