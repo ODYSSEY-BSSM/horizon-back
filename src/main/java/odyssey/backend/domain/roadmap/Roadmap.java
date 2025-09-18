@@ -140,4 +140,12 @@ public class Roadmap {
         return this.icon.getDescription();
     }
 
+    public Long getTeamId(){
+        return this.team.getId();
+    }
+
+    public String getTeamName(){
+        return this.team.getName();
+    }
+
 }
