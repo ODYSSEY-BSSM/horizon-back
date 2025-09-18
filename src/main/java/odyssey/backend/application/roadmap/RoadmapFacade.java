@@ -14,7 +14,6 @@ import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse
 import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Component
@@ -39,7 +38,7 @@ public class RoadmapFacade {
     }
 
     @Transactional
-    public TeamRoadmapResponse saveTeamRoadmap(RoadmapRequest request, MultipartFile thumbnail, User user, Long teamId){
+    public TeamRoadmapResponse saveTeamRoadmap(RoadmapRequest request, User user, Long teamId){
         Team team = teamService.findByTeamId(teamId);
 
         Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
