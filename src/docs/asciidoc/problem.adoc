@@ -1,0 +1,19 @@
+=== 문제 생성
+==== 요청 메시지
+include::{snippets}/problem-create/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/problem-create/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/problem-create/response-fields.adoc[]
+
+=== 문제 풀이
+==== 요청 메시지
+include::{snippets}/problem-solve/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/problem-solve/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/problem-solve/response-fields.adoc[]
