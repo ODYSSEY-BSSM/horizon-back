@@ -47,8 +47,6 @@ public class Roadmap {
     @Column(name = "last_accessed_at")
     private LocalDateTime lastAccessedAt;
 
-    private String imageUrl;
-
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Node> nodes;
 
@@ -64,24 +62,31 @@ public class Roadmap {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Enumerated(EnumType.STRING)
+    private Color color;
+
+    @Enumerated(EnumType.STRING)
+    private Icon icon;
+
     @Column(nullable = false)
     private int progress = 0;
 
-    public static Roadmap from(RoadmapRequest request, String url, Directory directory, User user, Team team) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), url, directory, user, team);
+    public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), directory, user, team);
     }
 
-    Roadmap(String title, String description, List<String> categories, String url, Directory directory, User user, Team team) {
+    Roadmap(String title, String description, List<String> categories, Color color, Icon icon, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
         this.categories = categories;
-        this.imageUrl = url;
         this.isFavorite = false;
         this.lastAccessedAt = LocalDateTime.now();
         this.lastModifiedAt = LocalDate.now();
         this.directory = directory;
         this.user = user;
         this.team = team;
+        this.color = color;
+        this.icon = icon;
     }
 
     public void update(String title, String description, List<String> categories) {
@@ -125,6 +130,14 @@ public class Roadmap {
                 .sum();
 
         this.progress = (int)Math.round((resolvedProblems / (double) totalProblems) * 100);
+    }
+
+    public String getColorCode(){
+        return this.color.getDescription();
+    }
+
+    public String getIconCode(){
+        return this.icon.getDescription();
     }
 
 }
