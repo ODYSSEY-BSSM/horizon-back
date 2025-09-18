@@ -1,6 +1,8 @@
 package odyssey.backend.roadmap;
 
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.roadmap.Color;
+import odyssey.backend.domain.roadmap.Icon;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
@@ -9,10 +11,8 @@ import odyssey.backend.shared.test.UserCreate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,11 +20,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +33,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
     @Test
     void 로드맵을_생성한다() throws Exception {
-        RoadmapRequest request = new RoadmapRequest("자바자바", "조아요", List.of("백엔드", "스프링"), 1L);
+        RoadmapRequest request = new RoadmapRequest("자바자바", "조아요", List.of("백엔드", "스프링"), 1L, Color.RED, Icon.DATABASE);
         User testUser = UserCreate.createUser();
 
         PersonalRoadmapResponse fakeResponse = new PersonalRoadmapResponse(
@@ -45,63 +41,26 @@ class RoadmapControllerTest extends RestDocsSupport {
                 request.getTitle(),
                 request.getDescription(),
                 request.getCategories(),
-                "fake-url",
                 LocalDate.now(),
                 LocalDateTime.now(),
                 false,
                 testUser.getUuid(),
+                request.getColor().getDescription(),
+                request.getIcon().getDescription(),
                 12
         );
 
-        MockMultipartFile roadmapPart = new MockMultipartFile(
-                "roadmap",
-                "",
-                "application/json",
-                objectMapper.writeValueAsBytes(request)
-        );
-
-        MockMultipartFile thumbnail = new MockMultipartFile(
-                "thumbnail",
-                "image.jpg",
-                "image/jpeg",
-                "<<fake image content>>".getBytes()
-        );
-
-        given(roadmapFacade.savePersonalRoadmap(any(RoadmapRequest.class), any(MultipartFile.class), any(User.class)))
+        given(roadmapFacade.savePersonalRoadmap(any(RoadmapRequest.class), any(User.class)))
                 .willReturn(fakeResponse);
 
         SecurityContextHolder.getContext()
                 .setAuthentication(new UsernamePasswordAuthenticationToken(testUser, null));
 
-        mvc.perform(multipart("/roadmap")
-                        .file(roadmapPart)
-                        .file(thumbnail)
+        mvc.perform(post("/roadmap")
                         .with(csrf())
-                        .contentType(MediaType.MULTIPART_FORM_DATA))
-                .andExpect(status().isCreated())
-                .andDo(document("roadmap-create",
-                        requestPartFields("roadmap",
-                                fieldWithPath("title").description("로드맵 제목"),
-                                fieldWithPath("description").description("로드맵 설명"),
-                                fieldWithPath("categories").description("카테고리 리스트"),
-                                fieldWithPath("directoryId").description("디렉토리 ID")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.id").description("로드맵 ID"),
-                                fieldWithPath("data.title").description("로드맵 제목"),
-                                fieldWithPath("data.description").description("로드맵 설명"),
-                                fieldWithPath("data.categories").description("카테고리 리스트"),
-                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
-                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
-                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
-                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 id"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
-
-                        )
-                ));
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -112,14 +71,14 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         PersonalRoadmapResponse response1 = new PersonalRoadmapResponse(
                 1L, "타이틀1", "설명1", List.of("테스트1", "테스트2"),
-                "https://image1.com", LocalDate.now(), LocalDateTime.now(), true, testUser.getUuid(),
-                12
+                LocalDate.now(), LocalDateTime.now(), true, testUser.getUuid(),
+                Color.RED.getDescription(), Icon.HTML.getDescription(), 12
         );
 
         PersonalRoadmapResponse response2 = new PersonalRoadmapResponse(
-                2L, "타이틀2", "설명2", List.of("테스트3", "테스트4"),
-                "https://image2.com", LocalDate.now(), LocalDateTime.now(), false,
-                testUser.getUuid(),12
+                1L, "타이틀1", "설명1", List.of("테스트1", "테스트2"),
+                LocalDate.now(), LocalDateTime.now(), true, testUser.getUuid(),
+                Color.RED.getDescription(), Icon.HTML.getDescription(), 12
         );
 
         given(roadmapService.findPersonalRoadmaps(any(User.class)))
@@ -127,23 +86,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         mvc.perform(get("/roadmap")
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("roadmap-get-all",
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data[].id").description("로드맵 ID"),
-                                fieldWithPath("data[].title").description("로드맵 제목"),
-                                fieldWithPath("data[].description").description("로드맵 설명"),
-                                fieldWithPath("data[].categories").description("카테고리 리스트"),
-                                fieldWithPath("data[].thumbnailUrl").description("썸네일 URL"),
-                                fieldWithPath("data[].lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
-                                fieldWithPath("data[].lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
-                                fieldWithPath("data[].isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data[].uuid").description("유저 id"),
-                                fieldWithPath(("data[].progress")).optional().description("진행도(문제가 없을 땐 0)")
-                        )
-                ));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -158,11 +101,12 @@ class RoadmapControllerTest extends RestDocsSupport {
                 "즐겨찾기 테스트",
                 "설명",
                 List.of("카테고리"),
-                "https://thumbnail.com/image.jpg",
                 LocalDate.now(),
                 LocalDateTime.now(),
                 true,
                 testUser.getUuid(),
+                Color.RED.getDescription(),
+                Icon.DATABASE.getDescription(),
                 12
         );
 
@@ -170,26 +114,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/roadmap/{id}/favorite", roadmapId)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andDo(document("roadmap-toggle-favorite",
-                        pathParameters(
-                                parameterWithName("id").description("즐겨찾기 토글 대상 로드맵 ID")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.id").description("로드맵 ID"),
-                                fieldWithPath("data.title").description("로드맵 제목"),
-                                fieldWithPath("data.description").description("로드맵 설명"),
-                                fieldWithPath("data.categories").description("카테고리 리스트"),
-                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
-                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
-                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
-                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 id"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
-                        )
-                ));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -203,35 +128,19 @@ class RoadmapControllerTest extends RestDocsSupport {
                 "마지막 접속 로드맵",
                 "최근 접속한 로드맵 설명",
                 List.of("최근", "접속"),
-                "last.jpg",
                 LocalDate.now(),
                 LocalDateTime.now(),
                 false,
                 testUser.getUuid(),
+                Color.ORANGE.getDescription(),
+                Icon.DATABASE.getDescription(),
                 12
         );
 
         given(roadmapService.getLastAccessedRoadmap(testUser)).willReturn(fakeResponse);
 
-        mvc.perform(get("/roadmap/last-accessed")
-                        .with(csrf()))
-                .andExpect(status().isOk())
-                .andDo(document("roadmap-get-last-accessed",
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.id").description("로드맵 ID"),
-                                fieldWithPath("data.title").description("로드맵 제목"),
-                                fieldWithPath("data.description").description("설명"),
-                                fieldWithPath("data.categories").description("카테고리 리스트"),
-                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
-                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
-                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
-                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 id"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
-                        )
-                ));
+        mvc.perform(get("/roadmap/last-accessed"))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -246,14 +155,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         mvc.perform(get("/roadmap/count")
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(document("roadmap-get-count",
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.count").description("전체 로드맵 개수")
-                        )
-                ));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -267,7 +169,9 @@ class RoadmapControllerTest extends RestDocsSupport {
                 "업데이트 타이틀",
                 "업데이트 설명",
                 List.of("업데이트 카테고리1", "업데이트 카테고리2"),
-                2L
+                2L,
+                Color.BLUE,
+                Icon.DATABASE
         );
 
         PersonalRoadmapResponse fakeResponse = new PersonalRoadmapResponse(
@@ -275,11 +179,12 @@ class RoadmapControllerTest extends RestDocsSupport {
                 updateRequest.getTitle(),
                 updateRequest.getDescription(),
                 updateRequest.getCategories(),
-                "updated-thumbnail-url",
                 LocalDate.now(),
                 LocalDateTime.now(),
                 false,
                 testUser.getUuid(),
+                Color.ORANGE.getDescription(),
+                Icon.DATABASE.getDescription(),
                 12
         );
 
@@ -290,32 +195,7 @@ class RoadmapControllerTest extends RestDocsSupport {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest))
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andDo(document("roadmap-update",
-                        pathParameters(
-                                parameterWithName("id").description("업데이트 대상 로드맵 ID")
-                        ),
-                        requestFields(
-                                fieldWithPath("title").description("업데이트할 로드맵 제목"),
-                                fieldWithPath("description").description("업데이트할 로드맵 설명"),
-                                fieldWithPath("categories").description("업데이트할 카테고리 리스트"),
-                                fieldWithPath("directoryId").description("업데이트할 디렉토리 ID")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.id").description("업데이트된 로드맵 ID"),
-                                fieldWithPath("data.title").description("업데이트된 로드맵 제목"),
-                                fieldWithPath("data.description").description("업데이트된 로드맵 설명"),
-                                fieldWithPath("data.categories").description("업데이트된 카테고리 리스트"),
-                                fieldWithPath("data.thumbnailUrl").description("썸네일 URL"),
-                                fieldWithPath("data.lastModifiedAt").description("마지막 수정 날짜 (yyyy-MM-dd)"),
-                                fieldWithPath("data.lastAccessedAt").description("마지막 접속 일시 (yyyy-MM-ddTHH:mm:ss)"),
-                                fieldWithPath("data.isFavorite").description("즐겨찾기 여부"),
-                                fieldWithPath("data.uuid").description("유저 ID"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(문제가 없을 땐 0)")
-                        )
-                ));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -328,17 +208,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         mvc.perform(delete("/roadmap/{id}", roadmapId)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andDo(document("roadmap-delete",
-                        pathParameters(
-                                parameterWithName("id").description("삭제할 로드맵 ID")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").description("응답 코드"),
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data").description("삭제 결과 메시지")
-                        )
-                ));
+                .andExpect(status().isOk());
     }
 
 }

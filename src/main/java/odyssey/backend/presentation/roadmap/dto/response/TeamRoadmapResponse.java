@@ -11,11 +11,12 @@ public record TeamRoadmapResponse(
         String title,
         String description,
         List<String> categories,
-        String thumbnailUrl,
         LocalDate lastModifiedAt,
         LocalDateTime lastAccessedAt,
         boolean isFavorite,
         Long uuid,
+        String color,
+        String icon,
         Long teamId,
         String teamName,
         Integer progress
@@ -26,13 +27,14 @@ public record TeamRoadmapResponse(
                 roadmap.getTitle(),
                 roadmap.getDescription(),
                 roadmap.getCategories(),
-                roadmap.getImageUrl(),
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
                 uuid,
-                roadmap.getTeam().getId(),
-                roadmap.getTeam().getName(),
+                roadmap.getColorCode(),
+                roadmap.getIconCode(),
+                roadmap.getTeamId(),
+                roadmap.getTeamName(),
                 roadmap.getProgress()
         );
     }

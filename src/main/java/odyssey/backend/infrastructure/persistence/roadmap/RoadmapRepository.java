@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
     Optional<Roadmap> findTopByUserOrderByLastAccessedAtDesc(User user);
-    List<Roadmap> findByUserAndTeamIdIsNullOrderByLastAccessedAtDesc(User user);
-    List<Roadmap> findByTeamIdOrderByLastAccessedAtDesc(Long teamId);
+    List<Roadmap> findByUserAndTeamIsNullOrderByLastAccessedAtDesc(User user);
+    List<Roadmap> findByTeam_IdOrderByLastAccessedAtDesc(Long teamId);
     Long countByUser(User user);
 }

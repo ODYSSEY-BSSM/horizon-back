@@ -6,18 +6,15 @@ import odyssey.backend.application.roadmap.RoadmapFacade;
 import odyssey.backend.application.roadmap.RoadmapService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
-import odyssey.backend.presentation.roadmap.dto.response.ImageUrlResponse;
 import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
 import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,14 +36,13 @@ public class RoadmapController {
     }
 
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
     public SingleCommonResponse<PersonalRoadmapResponse> createRoadmap(
-            @RequestPart("roadmap") @Valid RoadmapRequest request,
-            @RequestPart("thumbnail") MultipartFile thumbnail,
+            @RequestBody @Valid RoadmapRequest request,
             @AuthenticationPrincipal User user){
-        return CommonResponse.ok(roadmapFacade.savePersonalRoadmap(request, thumbnail, user));
+        return CommonResponse.ok(roadmapFacade.savePersonalRoadmap(request, user));
     }
 
     @PutMapping("/{id}")
@@ -92,11 +88,4 @@ public class RoadmapController {
         return CommonResponse.ok(roadmapService.getRoadmapCount(user));
     }
 
-    @GetMapping("/{id}/url")
-    @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<ImageUrlResponse> getThumbnailUrl(
-            @PathVariable Long id,
-            @AuthenticationPrincipal User user) {
-        return CommonResponse.ok(roadmapService.getUrlByRoadmapId(id));
-    }
 }

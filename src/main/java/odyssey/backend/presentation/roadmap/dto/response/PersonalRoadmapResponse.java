@@ -11,11 +11,12 @@ public record PersonalRoadmapResponse(
         String title,
         String description,
         List<String> categories,
-        String thumbnailUrl,
         LocalDate lastModifiedAt,
         LocalDateTime lastAccessedAt,
         boolean isFavorite,
         Long uuid,
+        String color,
+        String icon,
         int progress
 ) {
     public static PersonalRoadmapResponse from(Roadmap roadmap, Long uuid) {
@@ -24,11 +25,12 @@ public record PersonalRoadmapResponse(
                 roadmap.getTitle(),
                 roadmap.getDescription(),
                 roadmap.getCategories(),
-                roadmap.getImageUrl(),
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
                 roadmap.getIsFavorite(),
                 uuid,
+                roadmap.getColorCode(),
+                roadmap.getIconCode(),
                 roadmap.getProgress()
         );
     }

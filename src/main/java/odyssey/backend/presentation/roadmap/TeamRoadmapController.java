@@ -10,10 +10,8 @@ import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/teams/{teamId}/roadmap")
@@ -23,14 +21,13 @@ public class TeamRoadmapController {
     private final RoadmapFacade roadmapFacade;
     private final RoadmapService roadmapService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping()
     public SingleCommonResponse<TeamRoadmapResponse> createTeamRoadmap(
             @PathVariable("teamId") Long teamId,
-            @RequestPart("roadmap") @Valid RoadmapRequest request,
-            @RequestPart("thumbnail") MultipartFile thumbnail,
+            @RequestBody @Valid RoadmapRequest request,
             @AuthenticationPrincipal User user
     ) {
-        return CommonResponse.ok(roadmapFacade.saveTeamRoadmap(request, thumbnail, user, teamId));
+        return CommonResponse.ok(roadmapFacade.saveTeamRoadmap(request, user, teamId));
     }
 
     @GetMapping
