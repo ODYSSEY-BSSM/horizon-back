@@ -1,8 +1,11 @@
 
-=== 생성
+=== 개인 로드맵 생성
 
-==== 요청 파라미터 & 필드
+==== 요청 메시지
 include::{snippets}/roadmap-create/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/roadmap-create/request-fields.adoc[]
 
 ==== 응답 메시지
 include::{snippets}/roadmap-create/http-response.adoc[]
@@ -10,6 +13,19 @@ include::{snippets}/roadmap-create/http-response.adoc[]
 ==== 응답 필드
 include::{snippets}/roadmap-create/response-fields.adoc[]
 
+
+=== 팀 로드맵 생성
+==== 요청 메시지
+include::{snippets}/roadmap-create-team/http-request.adoc[]
+
+==== 요청 필드
+include::{snippets}/roadmap-create-team/request-fields.adoc[]
+
+==== 응답 메시지
+include::{snippets}/roadmap-create-team/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/roadmap-create-team/response-fields.adoc[]
 
 
 === 개인로드맵 조회
