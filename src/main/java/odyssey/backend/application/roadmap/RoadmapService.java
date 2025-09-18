@@ -1,13 +1,10 @@
     package odyssey.backend.application.roadmap;
 
     import lombok.RequiredArgsConstructor;
-    import lombok.extern.slf4j.Slf4j;
     import odyssey.backend.domain.auth.User;
     import odyssey.backend.domain.roadmap.Roadmap;
     import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
-    import odyssey.backend.infrastructure.s3.S3Service;
-    import odyssey.backend.presentation.roadmap.dto.response.ImageUrlResponse;
     import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
     import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
     import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
@@ -20,17 +17,16 @@
     public class RoadmapService {
 
         private final RoadmapRepository roadmapRepository;
-        private final S3Service s3Service;
 
 
         public List<PersonalRoadmapResponse> findPersonalRoadmaps(User user) {
-            return roadmapRepository.findByUserAndTeamIdIsNullOrderByLastAccessedAtDesc(user).stream()
+            return roadmapRepository.findByUserAndTeamIsNullOrderByLastAccessedAtDesc(user).stream()
                     .map(roadmap -> PersonalRoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();
         }
 
         public List<TeamRoadmapResponse> findTeamRoadmaps(User user, Long teamId) {
-            return roadmapRepository.findByTeamIdOrderByLastAccessedAtDesc(teamId)
+            return roadmapRepository.findByTeam_IdOrderByLastAccessedAtDesc(teamId)
                     .stream()
                     .map(roadmap -> TeamRoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();
@@ -50,11 +46,5 @@
             return RoadmapCountResponse.from(count);
         }
 
-        public ImageUrlResponse getUrlByRoadmapId(Long id) {
-            Roadmap roadmap = roadmapRepository.findById(id)
-                    .orElseThrow(RoadmapNotFoundException::new);
-
-            return ImageUrlResponse.create(roadmap.getImageUrl());
-        }
 
     }
