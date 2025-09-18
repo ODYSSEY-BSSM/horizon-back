@@ -18,6 +18,9 @@ include::user.adoc[]
 == Roadmap API
 include::roadmap.adoc[]
 
+== Problem API
+include::problem.adoc[]
+
 == Node API
 
 include::node.adoc[]

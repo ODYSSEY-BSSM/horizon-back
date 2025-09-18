@@ -1,6 +1,7 @@
 package odyssey.backend.problem;
 
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.problem.Status;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.problem.dto.request.ProblemRequest;
 import odyssey.backend.presentation.problem.dto.request.SolveProblemRequest;
@@ -40,7 +41,7 @@ class ProblemControllerTest extends RestDocsSupport {
         ProblemResponse fakeResponse = new ProblemResponse(
                 1L,
                 "테스트 문제",
-                null
+                Status.UNRESOLVED
         );
 
         given(problemService.createProblem(any(ProblemRequest.class), any(Long.class)))
@@ -73,7 +74,7 @@ class ProblemControllerTest extends RestDocsSupport {
         ProblemResponse fakeResponse = new ProblemResponse(
                 1L,
                 "테스트 문제",
-                null
+                Status.RESOLVED
         );
 
         given(problemService.solveProblem(any(Long.class), any(SolveProblemRequest.class)))
