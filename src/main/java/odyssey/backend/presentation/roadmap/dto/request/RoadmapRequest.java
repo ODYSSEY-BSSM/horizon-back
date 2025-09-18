@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import odyssey.backend.domain.roadmap.Color;
+import odyssey.backend.domain.roadmap.Icon;
 
 import java.util.List;
 
@@ -26,5 +28,11 @@ public class RoadmapRequest {
 
     @NotNull(message = "필수값입니다.")
     private Long directoryId;
+
+    @NotNull(message = "필수값입니다.")
+    private Color color;
+
+    @NotNull(message = "필수값입니다.")
+    private Icon icon;
 
 }
